@@ -1,0 +1,324 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>pyramids.plot.PlotUtility &#8212; pyramids  documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="top" title="pyramids  documentation" href="../../../index.html" />
+    <link rel="up" title="Module code" href="../../index.html" />
+   
+  <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for pyramids.plot.PlotUtility</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Created on Fri Jan 22 18:16:20 2016</span>
+<span class="sd">The collection of the useful methods used in the TDAP results analysis</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="n">__author__</span> <span class="o">=</span> <span class="s2">&quot;Chao Lian &lt;charleslian@126.com&gt;&quot;</span>
+<span class="n">__date__</span> <span class="o">=</span> <span class="s2">&quot;Fri Jan 22 18:16:20 2016&quot;</span>
+
+<span class="n">__version__</span> <span class="o">=</span> <span class="s2">&quot;1.0&quot;</span>
+<span class="n">__credits__</span> <span class="o">=</span> <span class="s2">&quot;Chao Lian initial and maintain the codes&quot;</span>
+
+<span class="kn">import</span> <span class="nn">matplotlib</span>
+<span class="n">matplotlib</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s1">&#39;agg&#39;</span><span class="p">)</span>
+
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pyramids.process.struct</span> <span class="k">as</span> <span class="nn">tdp</span>
+<span class="kn">import</span> <span class="nn">pyramids.plot.setting</span> <span class="k">as</span> <span class="nn">tps</span>
+
+<span class="c1">#-------------------------------------------------------------------</span>
+<div class="viewcode-block" id="drawEnergy"><a class="viewcode-back" href="../../../pyramids.plot.html#pyramids.plot.PlotUtility.drawEnergy">[docs]</a><span class="k">def</span> <span class="nf">drawEnergy</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">relative</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">divided</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span> <span class="n">popFirstStep</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Draw the KS Energy and Total Energy in the ax</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="n">X</span><span class="p">,</span> <span class="n">temp</span><span class="p">,</span> <span class="n">E_KS</span><span class="p">,</span> <span class="n">Etot</span><span class="p">,</span> <span class="n">volume</span><span class="p">,</span> <span class="n">pressure</span>  <span class="o">=</span>  <span class="n">tdp</span><span class="o">.</span><span class="n">getEnergyTemperaturePressure</span><span class="p">()</span>
+  
+  <span class="n">refEnergy</span><span class="o">=</span><span class="n">E_KS</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+  <span class="k">if</span> <span class="n">relative</span><span class="p">:</span>
+    <span class="n">E_KS</span> <span class="o">=</span> <span class="n">E_KS</span> <span class="o">-</span> <span class="n">refEnergy</span>
+    <span class="n">Etot</span> <span class="o">=</span> <span class="n">Etot</span> <span class="o">-</span> <span class="n">refEnergy</span>
+  
+  <span class="k">if</span> <span class="n">popFirstStep</span><span class="p">:</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span><span class="n">E_KS</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span><span class="o">/</span><span class="n">divided</span><span class="p">,</span><span class="s1">&#39;-&#39;</span><span class="p">,</span><span class="n">linewidth</span><span class="o">=</span><span class="mf">3.0</span><span class="p">,</span><span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;KS&#39;</span><span class="o">+</span> <span class="n">label</span><span class="p">)</span><span class="c1">#,color=tps.colors[0]</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span><span class="n">Etot</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span><span class="o">/</span><span class="n">divided</span><span class="p">,</span><span class="s1">&#39;--&#39;</span><span class="p">,</span><span class="n">linewidth</span><span class="o">=</span><span class="mf">3.0</span><span class="p">,</span><span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;Total&#39;</span><span class="o">+</span> <span class="n">label</span><span class="p">)</span><span class="c1">#,color=tps.colors[2]</span>
+  <span class="k">else</span><span class="p">:</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">E_KS</span><span class="o">/</span><span class="n">divided</span><span class="p">,</span><span class="s1">&#39;-&#39;</span><span class="p">,</span><span class="n">linewidth</span><span class="o">=</span><span class="mf">3.0</span><span class="p">,</span><span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;KS&#39;</span> <span class="o">+</span> <span class="n">label</span><span class="p">)</span><span class="c1">#,color=tps.colors[0]</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">Etot</span><span class="o">/</span><span class="n">divided</span><span class="p">,</span><span class="s1">&#39;--&#39;</span><span class="p">,</span><span class="n">linewidth</span><span class="o">=</span><span class="mf">3.0</span><span class="p">,</span><span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;Total&#39;</span> <span class="o">+</span> <span class="n">label</span><span class="p">)</span><span class="c1">#,color=tps.colors[2]</span>
+  
+  <span class="n">kargs</span> <span class="o">=</span> <span class="n">tps</span><span class="o">.</span><span class="n">getPropertyFromPosition</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> 
+                                         <span class="n">xlabel</span><span class="o">=</span><span class="s1">r&#39;Time(fs)&#39;</span><span class="p">,</span><span class="n">ylabel</span><span class="o">=</span><span class="s1">r&#39;Energy(eV)&#39;</span><span class="p">,</span><span class="n">title</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> 
+                                         <span class="n">xticks</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">yticks</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> 
+                                         <span class="n">xticklabels</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">yticklabels</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                                         <span class="n">xlimits</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ylimits</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+                                 
+  <span class="n">tps</span><span class="o">.</span><span class="n">setProperty</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="o">**</span><span class="n">kargs</span><span class="p">)</span></div>
+  
+    
+<span class="c1">#-------------------------------------------------------------------</span>
+<div class="viewcode-block" id="drawTemperature"><a class="viewcode-back" href="../../../pyramids.plot.html#pyramids.plot.PlotUtility.drawTemperature">[docs]</a><span class="k">def</span> <span class="nf">drawTemperature</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Draw the KS Energy and Total Energy in the ax</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="n">X</span><span class="p">,</span> <span class="n">temp</span><span class="p">,</span> <span class="n">E_KS</span><span class="p">,</span> <span class="n">Etot</span><span class="p">,</span> <span class="n">volume</span><span class="p">,</span> <span class="n">pressure</span>  <span class="o">=</span>  <span class="n">tdp</span><span class="o">.</span><span class="n">getEnergyTemperaturePressure</span><span class="p">()</span>
+  <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">temp</span><span class="o">/</span><span class="mi">1</span><span class="n">E3</span><span class="p">,</span><span class="s1">&#39;-&#39;</span><span class="p">,</span><span class="n">linewidth</span><span class="o">=</span><span class="mf">3.0</span><span class="p">,</span><span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;T&#39;</span><span class="o">+</span> <span class="n">label</span><span class="p">)</span><span class="c1">#,color=tps.colors[0]</span>
+
+  <span class="n">kargs</span> <span class="o">=</span> <span class="n">tps</span><span class="o">.</span><span class="n">getPropertyFromPosition</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> 
+                                         <span class="n">xlabel</span><span class="o">=</span><span class="s1">r&#39;Time(fs)&#39;</span><span class="p">,</span><span class="n">ylabel</span><span class="o">=</span><span class="s1">r&#39;T($10^3$K)&#39;</span><span class="p">,</span><span class="n">title</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> 
+                                         <span class="n">xticks</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">yticks</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> 
+                                         <span class="n">xticklabels</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">yticklabels</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                                         <span class="n">xlimits</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ylimits</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>               
+  <span class="n">tps</span><span class="o">.</span><span class="n">setProperty</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="o">**</span><span class="n">kargs</span><span class="p">)</span>                  </div>
+  
+<span class="c1">#-------------------------------------------------------------------  </span>
+<div class="viewcode-block" id="drawPressure"><a class="viewcode-back" href="../../../pyramids.plot.html#pyramids.plot.PlotUtility.drawPressure">[docs]</a><span class="k">def</span> <span class="nf">drawPressure</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Draw the KS Energy and Total Energy in the ax</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="n">X</span><span class="p">,</span> <span class="n">temp</span><span class="p">,</span> <span class="n">E_KS</span><span class="p">,</span> <span class="n">Etot</span><span class="p">,</span> <span class="n">volume</span><span class="p">,</span> <span class="n">pressure</span>  <span class="o">=</span>  <span class="n">tdp</span><span class="o">.</span><span class="n">getEnergyTemperaturePressure</span><span class="p">()</span>
+  <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">pressure</span><span class="p">,</span><span class="s1">&#39;-&#39;</span><span class="p">,</span><span class="n">linewidth</span><span class="o">=</span><span class="mf">3.0</span><span class="p">,</span><span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;Pressure &#39;</span><span class="o">+</span> <span class="n">label</span><span class="p">)</span><span class="c1">#,color=tps.colors[0]</span>
+
+  <span class="n">kargs</span> <span class="o">=</span> <span class="n">tps</span><span class="o">.</span><span class="n">getPropertyFromPosition</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> 
+                                         <span class="n">xlabel</span><span class="o">=</span><span class="s1">r&#39;Time(fs)&#39;</span><span class="p">,</span><span class="n">ylabel</span><span class="o">=</span><span class="s1">r&#39;Pressure(KBar)&#39;</span><span class="p">,</span><span class="n">title</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> 
+                                         <span class="n">xticks</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">yticks</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> 
+                                         <span class="n">xticklabels</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">yticklabels</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                                         <span class="n">xlimits</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ylimits</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>               
+  <span class="n">tps</span><span class="o">.</span><span class="n">setProperty</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="o">**</span><span class="n">kargs</span><span class="p">)</span></div>
+
+<span class="c1">#-------------------------------------------------------------------</span>
+<div class="viewcode-block" id="drawEigenvalue"><a class="viewcode-back" href="../../../pyramids.plot.html#pyramids.plot.PlotUtility.drawEigenvalue">[docs]</a><span class="k">def</span> <span class="nf">drawEigenvalue</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Draw the KS Energy and Total Energy in the ax</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="n">X</span><span class="p">,</span><span class="n">eo</span>  <span class="o">=</span>  <span class="n">tdp</span><span class="o">.</span><span class="n">getEigenvalues</span><span class="p">()</span>
+  <span class="n">X</span><span class="p">,</span><span class="n">qo</span>  <span class="o">=</span>  <span class="n">tdp</span><span class="o">.</span><span class="n">getPartition</span><span class="p">()</span>
+
+  <span class="n">countEleState</span> <span class="o">=</span> <span class="mi">0</span> 
+  <span class="n">countHolState</span> <span class="o">=</span> <span class="mi">0</span> 
+  <span class="n">countNormalState</span> <span class="o">=</span> <span class="mi">0</span>
+  <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">eo</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
+    <span class="k">if</span> <span class="n">eo</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mf">0.03</span> <span class="ow">and</span> <span class="n">qo</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mf">0.2</span><span class="p">:</span>
+      <span class="k">if</span> <span class="n">countEleState</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>    
+        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">eo</span><span class="p">[:,</span><span class="n">i</span><span class="p">],</span><span class="s1">&#39;-&#39;</span><span class="p">,</span><span class="n">linewidth</span><span class="o">=</span><span class="mf">3.0</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="n">tps</span><span class="o">.</span><span class="n">colors</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;Electron&#39;</span><span class="o">+</span> <span class="n">label</span><span class="p">)</span>
+      <span class="k">else</span><span class="p">:</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">eo</span><span class="p">[:,</span><span class="n">i</span><span class="p">],</span><span class="s1">&#39;-&#39;</span><span class="p">,</span><span class="n">linewidth</span><span class="o">=</span><span class="mf">3.0</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="n">tps</span><span class="o">.</span><span class="n">colors</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+      <span class="n">countEleState</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="k">elif</span> <span class="n">eo</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;</span> <span class="o">-</span><span class="mf">0.03</span> <span class="ow">and</span> <span class="n">qo</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mf">1.8</span><span class="p">:</span>
+      <span class="k">if</span> <span class="n">countHolState</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>    
+        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">eo</span><span class="p">[:,</span><span class="n">i</span><span class="p">],</span><span class="s1">&#39;-&#39;</span><span class="p">,</span><span class="n">linewidth</span><span class="o">=</span><span class="mf">3.0</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="n">tps</span><span class="o">.</span><span class="n">colors</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;Hole&#39;</span><span class="o">+</span> <span class="n">label</span><span class="p">)</span>
+      <span class="k">else</span><span class="p">:</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">eo</span><span class="p">[:,</span><span class="n">i</span><span class="p">],</span><span class="s1">&#39;-&#39;</span><span class="p">,</span><span class="n">linewidth</span><span class="o">=</span><span class="mf">3.0</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="n">tps</span><span class="o">.</span><span class="n">colors</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+      <span class="n">countHolState</span> <span class="o">+=</span><span class="mi">1</span>
+    <span class="k">else</span><span class="p">:</span>
+      <span class="k">if</span> <span class="n">countNormalState</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>    
+        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">eo</span><span class="p">[:,</span><span class="n">i</span><span class="p">],</span><span class="s1">&#39;--&#39;</span><span class="p">,</span><span class="n">linewidth</span><span class="o">=</span><span class="mf">3.0</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;grey&#39;</span><span class="p">,</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;Normal&#39;</span><span class="o">+</span> <span class="n">label</span><span class="p">)</span>
+      <span class="k">else</span><span class="p">:</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">eo</span><span class="p">[:,</span><span class="n">i</span><span class="p">],</span><span class="s1">&#39;--&#39;</span><span class="p">,</span><span class="n">linewidth</span><span class="o">=</span><span class="mf">3.0</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;grey&#39;</span><span class="p">,</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span>
+      <span class="n">countNormalState</span> <span class="o">+=</span><span class="mi">1</span>
+
+  <span class="c1">#ax.plot(X,eo,&#39;-&#39;,linewidth=qo,label = &#39;Eigenvalues&#39;)#,color=tps.colors[0]</span>
+  <span class="n">kargs</span> <span class="o">=</span> <span class="n">tps</span><span class="o">.</span><span class="n">getPropertyFromPosition</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> 
+                                         <span class="n">xlabel</span><span class="o">=</span><span class="s1">r&#39;Time(fs)&#39;</span><span class="p">,</span><span class="n">ylabel</span><span class="o">=</span><span class="s1">r&#39;Eigenvalues(eV)&#39;</span><span class="p">,</span><span class="n">title</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> 
+                                         <span class="n">xticks</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">yticks</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> 
+                                         <span class="n">xticklabels</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">yticklabels</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                                         <span class="n">xlimits</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ylimits</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>               
+  <span class="n">tps</span><span class="o">.</span><span class="n">setProperty</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="o">**</span><span class="n">kargs</span><span class="p">)</span></div>
+  
+<span class="c1">#-------------------------------------------------------------------  </span>
+<div class="viewcode-block" id="drawPartition"><a class="viewcode-back" href="../../../pyramids.plot.html#pyramids.plot.PlotUtility.drawPartition">[docs]</a><span class="k">def</span> <span class="nf">drawPartition</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Draw the KS Energy and Total Energy in the ax</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="n">X</span><span class="p">,</span><span class="n">qo</span>  <span class="o">=</span>  <span class="n">tdp</span><span class="o">.</span><span class="n">getPartition</span><span class="p">()</span>
+  <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">qo</span><span class="p">,</span><span class="s1">&#39;-&#39;</span><span class="p">,</span><span class="n">linewidth</span><span class="o">=</span><span class="mf">3.0</span><span class="p">,</span><span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;Partitions &#39;</span><span class="o">+</span> <span class="n">label</span><span class="p">)</span><span class="c1">#,color=tps.colors[0]</span>
+  <span class="n">kargs</span> <span class="o">=</span> <span class="n">tps</span><span class="o">.</span><span class="n">getPropertyFromPosition</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> 
+                                         <span class="n">xlabel</span><span class="o">=</span><span class="s1">r&#39;Time(fs)&#39;</span><span class="p">,</span><span class="n">ylabel</span><span class="o">=</span><span class="s1">r&#39;Partition&#39;</span><span class="p">,</span><span class="n">title</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> 
+                                         <span class="n">xticks</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">yticks</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> 
+                                         <span class="n">xticklabels</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">yticklabels</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                                         <span class="n">xlimits</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ylimits</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>               
+  <span class="n">tps</span><span class="o">.</span><span class="n">setProperty</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="o">**</span><span class="n">kargs</span><span class="p">)</span> </div>
+  
+<span class="c1">#-------------------------------------------------------------------  </span>
+<div class="viewcode-block" id="drawRMSD"><a class="viewcode-back" href="../../../pyramids.plot.html#pyramids.plot.PlotUtility.drawRMSD">[docs]</a><span class="k">def</span> <span class="nf">drawRMSD</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span><span class="n">selected</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">init</span> <span class="o">=</span> <span class="mi">0</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Draw the KS Energy and Total Energy in the ax</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="n">systemLabel</span><span class="p">,</span><span class="n">timestep</span> <span class="o">=</span> <span class="n">tdp</span><span class="o">.</span><span class="n">getSystemLabelTimpstep</span><span class="p">()</span>
+  <span class="k">if</span> <span class="n">selected</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="n">selected</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">tdp</span><span class="o">.</span><span class="n">getNumStep</span><span class="p">(),</span><span class="nb">int</span><span class="p">(</span><span class="mf">1.0</span><span class="o">/</span><span class="n">timestep</span><span class="p">))</span>
+    
+  <span class="n">tdp</span><span class="o">.</span><span class="n">splitMDCAR</span><span class="p">()</span>
+  <span class="n">time</span><span class="p">,</span><span class="n">distance</span><span class="p">,</span><span class="n">velocity</span> <span class="o">=</span> <span class="n">tdp</span><span class="o">.</span><span class="n">calculateRMSD</span><span class="p">(</span><span class="n">selected</span><span class="p">,</span> <span class="n">init</span><span class="o">=</span><span class="n">init</span><span class="p">)</span>
+  
+  <span class="c1">#os.remove(&#39;POSCAR&#39;)</span>
+  <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">time</span><span class="p">,</span><span class="n">distance</span><span class="p">,</span><span class="n">linewidth</span><span class="o">=</span><span class="mf">3.0</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;RMSD&#39;</span><span class="o">+</span> <span class="n">label</span><span class="p">)</span><span class="c1">#,color=tps.colors[0])</span>
+  <span class="n">kargs</span> <span class="o">=</span> <span class="n">tps</span><span class="o">.</span><span class="n">getPropertyFromPosition</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> 
+                                         <span class="n">xlabel</span><span class="o">=</span><span class="s1">r&#39;Time(fs)&#39;</span><span class="p">,</span><span class="n">ylabel</span><span class="o">=</span><span class="s1">r&#39;RMSD($\AA$)&#39;</span><span class="p">,</span><span class="n">title</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> 
+                                         <span class="n">xticks</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">yticks</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> 
+                                         <span class="n">xticklabels</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">yticklabels</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                                         <span class="n">xlimits</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ylimits</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>           
+  <span class="n">tps</span><span class="o">.</span><span class="n">setProperty</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="o">**</span><span class="n">kargs</span><span class="p">)</span> </div>
+  
+<span class="c1">#-------------------------------------------------------------------  </span>
+<div class="viewcode-block" id="drawRDF"><a class="viewcode-back" href="../../../pyramids.plot.html#pyramids.plot.PlotUtility.drawRDF">[docs]</a><span class="k">def</span> <span class="nf">drawRDF</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span><span class="n">step</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Draw the KS Energy and Total Energy in the ax</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="k">if</span> <span class="n">step</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="n">step</span> <span class="o">=</span> <span class="n">tdp</span><span class="o">.</span><span class="n">getNumStep</span><span class="p">()</span>
+  
+  <span class="n">systemLabel</span><span class="p">,</span><span class="n">timestep</span> <span class="o">=</span> <span class="n">tdp</span><span class="o">.</span><span class="n">getSystemLabelTimpstep</span><span class="p">()</span>
+  <span class="n">tdp</span><span class="o">.</span><span class="n">splitMDCAR</span><span class="p">()</span>
+  <span class="n">hist</span><span class="p">,</span><span class="n">bin_edges</span> <span class="o">=</span> <span class="n">tdp</span><span class="o">.</span><span class="n">calculateRDF</span><span class="p">(</span><span class="n">step</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+  <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">bin_edges</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span><span class="n">hist</span><span class="p">,</span><span class="n">linewidth</span><span class="o">=</span><span class="mf">3.0</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;RDF &#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">((</span><span class="n">step</span><span class="p">)</span><span class="o">*</span><span class="n">timestep</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39; fs&#39;</span><span class="o">+</span> <span class="n">label</span><span class="p">)</span> <span class="c1">#,color=tps.colors[0]</span>
+  <span class="n">kargs</span> <span class="o">=</span> <span class="n">tps</span><span class="o">.</span><span class="n">getPropertyFromPosition</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> 
+                                         <span class="n">xlabel</span><span class="o">=</span><span class="s1">r&#39;Radius($\AA$)&#39;</span><span class="p">,</span><span class="n">ylabel</span><span class="o">=</span><span class="s1">r&#39;RDF(a.u.)&#39;</span><span class="p">,</span><span class="n">title</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> 
+                                         <span class="n">xticks</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">yticks</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> 
+                                         <span class="n">xticklabels</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">yticklabels</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                                         <span class="n">xlimits</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ylimits</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>           
+  <span class="n">tps</span><span class="o">.</span><span class="n">setProperty</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="o">**</span><span class="n">kargs</span><span class="p">)</span> </div>
+  
+<span class="c1">#-------------------------------------------------------------------  </span>
+<div class="viewcode-block" id="drawBands"><a class="viewcode-back" href="../../../pyramids.plot.html#pyramids.plot.PlotUtility.drawBands">[docs]</a><span class="k">def</span> <span class="nf">drawBands</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span><span class="n">bandType</span><span class="o">=</span><span class="s1">&#39;e&#39;</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Draw the KS Energy and Total Energy in the ax</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="n">X</span><span class="p">,</span> <span class="n">Ek</span><span class="p">,</span> <span class="n">xticks</span><span class="p">,</span> <span class="n">xticklabels</span> <span class="o">=</span> <span class="n">tdp</span><span class="o">.</span><span class="n">getBands</span><span class="p">()</span>
+  <span class="k">if</span> <span class="n">bandType</span> <span class="o">==</span> <span class="s1">&#39;e&#39;</span><span class="p">:</span>
+   <span class="n">eFermi</span> <span class="o">=</span> <span class="n">tdp</span><span class="o">.</span><span class="n">getFermiEnergy</span><span class="p">()</span>
+   <span class="n">Ek</span> <span class="o">=</span> <span class="n">Ek</span> <span class="o">-</span> <span class="n">eFermi</span>
+   <span class="n">ylabel</span> <span class="o">=</span> <span class="s1">&#39;Energy(eV)&#39;</span>
+  <span class="k">else</span><span class="p">:</span>
+   <span class="n">ylabel</span> <span class="o">=</span> <span class="s1">r&#39;$\omega$(cm$^{-1}$)&#39;</span>
+ 
+  <span class="n">alpha</span> <span class="o">=</span> <span class="mf">1.0</span>
+  <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;b&#39;</span>
+  <span class="k">for</span> <span class="n">ispin</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">Ek</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">]):</span>
+    <span class="k">for</span> <span class="n">iband</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">Ek</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
+      <span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">Ek</span><span class="p">[:,</span><span class="n">iband</span><span class="p">,</span><span class="n">ispin</span><span class="p">],</span><span class="n">lw</span><span class="o">=</span><span class="mf">3.0</span><span class="p">,</span><span class="n">ls</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span><span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">)</span>
+  
+  <span class="n">kargs</span> <span class="o">=</span> <span class="n">tps</span><span class="o">.</span><span class="n">getPropertyFromPosition</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> 
+                                         <span class="n">xlabel</span><span class="o">=</span><span class="s1">r&#39;&#39;</span><span class="p">,</span><span class="n">ylabel</span><span class="o">=</span><span class="n">ylabel</span><span class="p">,</span><span class="n">title</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> 
+                                         <span class="n">xticks</span><span class="o">=</span><span class="n">xticks</span><span class="p">,</span> <span class="n">yticks</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> 
+                                         <span class="n">xticklabels</span><span class="o">=</span><span class="n">xticklabels</span><span class="p">,</span> <span class="n">yticklabels</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                                         <span class="n">xlimits</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ylimits</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>           
+  <span class="n">tps</span><span class="o">.</span><span class="n">setProperty</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="o">**</span><span class="n">kargs</span><span class="p">)</span> </div>
+
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+  <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+  <span class="n">saveTypes</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;pdf&#39;</span><span class="p">,</span><span class="s1">&#39;png&#39;</span><span class="p">,</span><span class="s1">&#39;eps&#39;</span><span class="p">]</span>
+  <span class="n">fig</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="n">tps</span><span class="o">.</span><span class="n">A4_LANDSCAPE</span><span class="p">)</span><span class="c1">#_LANDSCAPE</span>
+  <span class="n">plt</span><span class="o">.</span><span class="n">subplots_adjust</span><span class="p">(</span><span class="n">left</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">bottom</span><span class="o">=</span><span class="mf">0.10</span><span class="p">,</span> <span class="n">right</span><span class="o">=</span><span class="mf">0.95</span><span class="p">,</span> <span class="n">top</span><span class="o">=</span><span class="mf">0.95</span><span class="p">,</span> <span class="n">wspace</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">hspace</span><span class="o">=</span><span class="mf">0.05</span><span class="p">)</span>
+  <span class="nb">print</span> <span class="s2">&quot;-----------------------------draw Energy------------------------------------&quot;</span>
+  <span class="n">drawEnergy</span><span class="p">(</span><span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">))</span>
+  <span class="k">for</span> <span class="n">save_type</span> <span class="ow">in</span> <span class="n">saveTypes</span><span class="p">:</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;Energy.&#39;</span><span class="o">+</span><span class="n">save_type</span><span class="p">,</span><span class="n">transparent</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">dpi</span><span class="o">=</span><span class="mi">600</span><span class="p">)</span>
+  
+  <span class="nb">print</span> <span class="s2">&quot;-----------------------------draw Temperature--------------------------------&quot;</span>
+  <span class="n">fig</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="n">tps</span><span class="o">.</span><span class="n">A4_LANDSCAPE</span><span class="p">)</span>
+  <span class="n">drawTemperature</span><span class="p">(</span><span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">))</span>
+  <span class="k">for</span> <span class="n">save_type</span> <span class="ow">in</span> <span class="n">saveTypes</span><span class="p">:</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;Temperature.&#39;</span><span class="o">+</span><span class="n">save_type</span><span class="p">,</span><span class="n">transparent</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">dpi</span><span class="o">=</span><span class="mi">600</span><span class="p">)</span>
+    
+  <span class="nb">print</span> <span class="s2">&quot;-----------------------------draw Pressure----------------------------------&quot;</span>
+  <span class="n">fig</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="n">tps</span><span class="o">.</span><span class="n">A4_LANDSCAPE</span><span class="p">)</span>
+  <span class="n">drawPressure</span><span class="p">(</span><span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">))</span>
+  <span class="k">for</span> <span class="n">save_type</span> <span class="ow">in</span> <span class="n">saveTypes</span><span class="p">:</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;Pressure.&#39;</span><span class="o">+</span><span class="n">save_type</span><span class="p">,</span><span class="n">transparent</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">dpi</span><span class="o">=</span><span class="mi">600</span><span class="p">)</span>    
+    
+  <span class="nb">print</span> <span class="s2">&quot;-----------------------------draw Eigenvalues----------------------------------&quot;</span>
+  <span class="n">fig</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="n">tps</span><span class="o">.</span><span class="n">A4_LANDSCAPE</span><span class="p">)</span>
+  <span class="n">drawEigenvalue</span><span class="p">(</span><span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">))</span>
+  <span class="k">for</span> <span class="n">save_type</span> <span class="ow">in</span> <span class="n">saveTypes</span><span class="p">:</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;Eigenvalues.&#39;</span><span class="o">+</span><span class="n">save_type</span><span class="p">,</span><span class="n">transparent</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">dpi</span><span class="o">=</span><span class="mi">600</span><span class="p">)</span>
+    
+  <span class="nb">print</span> <span class="s2">&quot;-----------------------------draw RMSD----------------------------------&quot;</span>
+  <span class="n">fig</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="n">tps</span><span class="o">.</span><span class="n">A4_LANDSCAPE</span><span class="p">)</span>
+  <span class="n">drawRMSD</span><span class="p">(</span><span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">))</span>
+  <span class="k">for</span> <span class="n">save_type</span> <span class="ow">in</span> <span class="n">saveTypes</span><span class="p">:</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;RMSD.&#39;</span><span class="o">+</span><span class="n">save_type</span><span class="p">,</span><span class="n">transparent</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">dpi</span><span class="o">=</span><span class="mi">600</span><span class="p">)</span>       
+
+  <span class="nb">print</span> <span class="s2">&quot;-----------------------------draw RDF----------------------------------&quot;</span>
+  <span class="n">fig</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="n">tps</span><span class="o">.</span><span class="n">A4_LANDSCAPE</span><span class="p">)</span>
+  <span class="n">drawRDF</span><span class="p">(</span><span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">),</span><span class="n">step</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+  <span class="n">drawRDF</span><span class="p">(</span><span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">))</span>
+  <span class="k">for</span> <span class="n">save_type</span> <span class="ow">in</span> <span class="n">saveTypes</span><span class="p">:</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;RDF.&#39;</span><span class="o">+</span><span class="n">save_type</span><span class="p">,</span><span class="n">transparent</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">dpi</span><span class="o">=</span><span class="mi">600</span><span class="p">)</span>           
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../../index.html">Documentation overview</a><ul>
+  <li><a href="../../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, Chao Lian.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.6</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -1,0 +1,285 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>pyramids.io package &#8212; pyramids  documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="pyramids  documentation" href="index.html" />
+    <link rel="up" title="pyramids package" href="pyramids.html" />
+    <link rel="next" title="pyramids.plot package" href="pyramids.plot.html" />
+    <link rel="prev" title="pyramids package" href="pyramids.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="pyramids-io-package">
+<h1>pyramids.io package<a class="headerlink" href="#pyramids-io-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-pyramids.io.fdf">
+<span id="pyramids-io-fdf-module"></span><h2>pyramids.io.fdf module<a class="headerlink" href="#module-pyramids.io.fdf" title="Permalink to this headline">¶</a></h2>
+<p>This module include the tdapOption class, 
+which is initializied by reading the input.fdf file,
+to get the useful setups, such as the system label, 
+time step of electronic and ionic motions, spin status,
+for the following data process.</p>
+<dl class="class">
+<dt id="pyramids.io.fdf.tdapOptions">
+<em class="property">class </em><code class="descclassname">pyramids.io.fdf.</code><code class="descname">tdapOptions</code><span class="sig-paren">(</span><em>inputFile='input.fdf'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyramids/io/fdf.html#tdapOptions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyramids.io.fdf.tdapOptions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<dl class="method">
+<dt id="pyramids.io.fdf.tdapOptions.output">
+<code class="descname">output</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyramids/io/fdf.html#tdapOptions.output"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyramids.io.fdf.tdapOptions.output" title="Permalink to this definition">¶</a></dt>
+<dd><p>Print the obtained values for check and test</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyramids.io.fdf.tdapOptions.readFdf">
+<code class="descname">readFdf</code><span class="sig-paren">(</span><em>inputFile='input.fdf'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyramids/io/fdf.html#tdapOptions.readFdf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyramids.io.fdf.tdapOptions.readFdf" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read the fdf file input.fdf.
+The tags, including both one-line tags and block tags, 
+are parsed by a dictonary, of which the keys are the tags 
+and the values are a string of the input value.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-pyramids.io.output">
+<span id="pyramids-io-output-module"></span><h2>pyramids.io.output module<a class="headerlink" href="#module-pyramids.io.output" title="Permalink to this headline">¶</a></h2>
+<p>Created on Wed Jul 27 00:10:57 2016</p>
+<p>&#64;author: clian</p>
+<dl class="function">
+<dt id="pyramids.io.output.writeGPAWdipole">
+<code class="descclassname">pyramids.io.output.</code><code class="descname">writeGPAWdipole</code><span class="sig-paren">(</span><em>filename</em>, <em>efield</em>, <em>time</em>, <em>dipole</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyramids/io/output.html#writeGPAWdipole"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyramids.io.output.writeGPAWdipole" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pyramids.io.output.writeSiesta">
+<code class="descclassname">pyramids.io.output.</code><code class="descname">writeSiesta</code><span class="sig-paren">(</span><em>filename</em>, <em>atoms</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyramids/io/output.html#writeSiesta"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyramids.io.output.writeSiesta" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-pyramids.io.result">
+<span id="pyramids-io-result-module"></span><h2>pyramids.io.result module<a class="headerlink" href="#module-pyramids.io.result" title="Permalink to this headline">¶</a></h2>
+<p>Created on Mon Jul 25 20:28:55 2016
+The collection of the useful methods used in the TDAP results analysis</p>
+<dl class="function">
+<dt id="pyramids.io.result.getBands">
+<code class="descclassname">pyramids.io.result.</code><code class="descname">getBands</code><span class="sig-paren">(</span><em>bandType='e'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyramids/io/result.html#getBands"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyramids.io.result.getBands" title="Permalink to this definition">¶</a></dt>
+<dd><p>return the bands read from systemLabel.bands as the dimension numKpoint x numBand x numSpin
+returns: X, Ek, xticks, xticklabels</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyramids.io.result.getBerry">
+<code class="descclassname">pyramids.io.result.</code><code class="descname">getBerry</code><span class="sig-paren">(</span><em>step=''</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyramids/io/result.html#getBerry"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyramids.io.result.getBerry" title="Permalink to this definition">¶</a></dt>
+<dd><p>return the Eigenvalues read from systemLabel.EIG</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyramids.io.result.getBerrySteps">
+<code class="descclassname">pyramids.io.result.</code><code class="descname">getBerrySteps</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyramids/io/result.html#getBerrySteps"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyramids.io.result.getBerrySteps" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pyramids.io.result.getDOS">
+<code class="descclassname">pyramids.io.result.</code><code class="descname">getDOS</code><span class="sig-paren">(</span><em>filename='siesta.dos'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyramids/io/result.html#getDOS"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyramids.io.result.getDOS" title="Permalink to this definition">¶</a></dt>
+<dd><p>return the dos read from filename as the dimension numEnergyPoint
+returns: energy, up, down, total</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyramids.io.result.getDipole">
+<code class="descclassname">pyramids.io.result.</code><code class="descname">getDipole</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyramids/io/result.html#getDipole"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyramids.io.result.getDipole" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pyramids.io.result.getEField">
+<code class="descclassname">pyramids.io.result.</code><code class="descname">getEField</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyramids/io/result.html#getEField"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyramids.io.result.getEField" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pyramids.io.result.getEIGSteps">
+<code class="descclassname">pyramids.io.result.</code><code class="descname">getEIGSteps</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyramids/io/result.html#getEIGSteps"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyramids.io.result.getEIGSteps" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pyramids.io.result.getEigAndPar">
+<code class="descclassname">pyramids.io.result.</code><code class="descname">getEigAndPar</code><span class="sig-paren">(</span><em>timeSteps=None</em>, <em>forceReread=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyramids/io/result.html#getEigAndPar"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyramids.io.result.getEigAndPar" title="Permalink to this definition">¶</a></dt>
+<dd><p>return the Times, Eigvalues and Partitions at selected timeSteps
+write two files EIG and PAR</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyramids.io.result.getElectronPolarization">
+<code class="descclassname">pyramids.io.result.</code><code class="descname">getElectronPolarization</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyramids/io/result.html#getElectronPolarization"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyramids.io.result.getElectronPolarization" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pyramids.io.result.getEnergyTemperaturePressure">
+<code class="descclassname">pyramids.io.result.</code><code class="descname">getEnergyTemperaturePressure</code><span class="sig-paren">(</span><em>timeType=1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyramids/io/result.html#getEnergyTemperaturePressure"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyramids.io.result.getEnergyTemperaturePressure" title="Permalink to this definition">¶</a></dt>
+<dd><p>return the Temperature, KS Energy and Total Energy as the dimension of Nstep
+read from systemLabel.MDE
+returns the Temperature, KS Energy, Total Energy, Volume, Pressure</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyramids.io.result.getExcitedElectrons">
+<code class="descclassname">pyramids.io.result.</code><code class="descname">getExcitedElectrons</code><span class="sig-paren">(</span><em>selectK=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyramids/io/result.html#getExcitedElectrons"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyramids.io.result.getExcitedElectrons" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pyramids.io.result.getFermiEnergy">
+<code class="descclassname">pyramids.io.result.</code><code class="descname">getFermiEnergy</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyramids/io/result.html#getFermiEnergy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyramids.io.result.getFermiEnergy" title="Permalink to this definition">¶</a></dt>
+<dd><p>return the Fermi Energy read from systemLabel.EIG
+if failed, return 0 rather than raise an exception</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyramids.io.result.getGaugeFreePolarization">
+<code class="descclassname">pyramids.io.result.</code><code class="descname">getGaugeFreePolarization</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyramids/io/result.html#getGaugeFreePolarization"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyramids.io.result.getGaugeFreePolarization" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pyramids.io.result.getHomo">
+<code class="descclassname">pyramids.io.result.</code><code class="descname">getHomo</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyramids/io/result.html#getHomo"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyramids.io.result.getHomo" title="Permalink to this definition">¶</a></dt>
+<dd><p>return the index of the highest occupied molecular orbital (HOMO)</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyramids.io.result.getIonicPolarization">
+<code class="descclassname">pyramids.io.result.</code><code class="descname">getIonicPolarization</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyramids/io/result.html#getIonicPolarization"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyramids.io.result.getIonicPolarization" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pyramids.io.result.getTDEig">
+<code class="descclassname">pyramids.io.result.</code><code class="descname">getTDEig</code><span class="sig-paren">(</span><em>timeSteps=None</em>, <em>forceReread=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyramids/io/result.html#getTDEig"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyramids.io.result.getTDEig" title="Permalink to this definition">¶</a></dt>
+<dd><p>return the Times, Eigvalues and Partitions at selected timeSteps
+write two files EIG and PAR</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyramids.io.result.getTrajactory">
+<code class="descclassname">pyramids.io.result.</code><code class="descname">getTrajactory</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyramids/io/result.html#getTrajactory"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyramids.io.result.getTrajactory" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pyramids.io.result.loadSaved">
+<code class="descclassname">pyramids.io.result.</code><code class="descname">loadSaved</code><span class="sig-paren">(</span><em>filename</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyramids/io/result.html#loadSaved"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyramids.io.result.loadSaved" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pyramids.io.result.readEigFile">
+<code class="descclassname">pyramids.io.result.</code><code class="descname">readEigFile</code><span class="sig-paren">(</span><em>filename=''</em>, <em>sep=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyramids/io/result.html#readEigFile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyramids.io.result.readEigFile" title="Permalink to this definition">¶</a></dt>
+<dd><p>return the Eigenvalues read from systemLabel.EIG</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyramids.io.result.readKpoints">
+<code class="descclassname">pyramids.io.result.</code><code class="descname">readKpoints</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyramids/io/result.html#readKpoints"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyramids.io.result.readKpoints" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-pyramids.io">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-pyramids.io" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">pyramids.io package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-pyramids.io.fdf">pyramids.io.fdf module</a></li>
+<li><a class="reference internal" href="#module-pyramids.io.output">pyramids.io.output module</a></li>
+<li><a class="reference internal" href="#module-pyramids.io.result">pyramids.io.result module</a></li>
+<li><a class="reference internal" href="#module-pyramids.io">Module contents</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  <li><a href="pyramids.html">pyramids package</a><ul>
+      <li>Previous: <a href="pyramids.html" title="previous chapter">pyramids package</a></li>
+      <li>Next: <a href="pyramids.plot.html" title="next chapter">pyramids.plot package</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/pyramids.io.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, Chao Lian.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.6</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
+      
+      |
+      <a href="_sources/pyramids.io.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

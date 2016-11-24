@@ -1,0 +1,216 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>pyramids.io.fdf &#8212; pyramids  documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="top" title="pyramids  documentation" href="../../../index.html" />
+    <link rel="up" title="Module code" href="../../index.html" />
+   
+  <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for pyramids.io.fdf</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This module include the tdapOption class, </span>
+<span class="sd">which is initializied by reading the input.fdf file,</span>
+<span class="sd">to get the useful setups, such as the system label, </span>
+<span class="sd">time step of electronic and ionic motions, spin status,</span>
+<span class="sd">for the following data process. </span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="n">__author__</span> <span class="o">=</span> <span class="s2">&quot;Chao Lian &lt;charleslian@126.com&gt;&quot;</span>
+<span class="n">__date__</span> <span class="o">=</span> <span class="s2">&quot;Fri July 22 18:16:20 2016&quot;</span>
+
+<span class="n">__version__</span> <span class="o">=</span> <span class="s2">&quot;2.0&quot;</span>
+<span class="n">__credits__</span> <span class="o">=</span> <span class="s2">&quot;Chao Lian initial and maintain the codes&quot;</span>
+
+<div class="viewcode-block" id="tdapOptions"><a class="viewcode-back" href="../../../pyramids.io.html#pyramids.io.fdf.tdapOptions">[docs]</a><span class="k">class</span> <span class="nc">tdapOptions</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">inputFile</span><span class="o">=</span><span class="s1">&#39;input.fdf&#39;</span><span class="p">):</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">inputFile</span>  <span class="o">=</span> <span class="n">inputFile</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">options</span>    <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">readFdf</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">inputFile</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">label</span>      <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__getString</span><span class="p">(</span><span class="s1">&#39;systemlabel&#39;</span><span class="p">,</span><span class="s1">&#39;siesta&#39;</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">mdTimeStep</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__getFloatWithUnit</span><span class="p">(</span><span class="s1">&#39;mdlengthtimestep&#39;</span><span class="p">,(</span><span class="mf">1.0</span><span class="p">,</span><span class="s1">&#39;fs&#39;</span><span class="p">))</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">tdTimeStep</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__getFloatWithUnit</span><span class="p">(</span><span class="s1">&#39;tdlengthtimestep&#39;</span><span class="p">,(</span><span class="mf">0.025</span><span class="p">,</span><span class="s1">&#39;fs&#39;</span><span class="p">))</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">mdFinalStep</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__getInteger</span><span class="p">(</span><span class="s1">&#39;mdfinaltimestep&#39;</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">tdFinalStep</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__getInteger</span><span class="p">(</span><span class="s1">&#39;tdfinaltimestep&#39;</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">mdFinalStep</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">spinPolarized</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__getLogical</span><span class="p">(</span><span class="s1">&#39;spinpolarized&#39;</span><span class="p">,</span><span class="kc">False</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">eigStartStep</span> <span class="o">=</span> <span class="mi">3</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">eigLengthStep</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__getInteger</span><span class="p">(</span><span class="s1">&#39;tdwriteeigpairstep&#39;</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">mdFinalStep</span><span class="p">)</span>
+    
+    
+<div class="viewcode-block" id="tdapOptions.output"><a class="viewcode-back" href="../../../pyramids.io.html#pyramids.io.fdf.tdapOptions.output">[docs]</a>  <span class="k">def</span> <span class="nf">output</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Print the obtained values for check and test</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="nb">print</span> <span class="s2">&quot;The system label is &quot;</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">label</span>    
+    <span class="nb">print</span> <span class="s2">&quot;The lenght of MD time step &quot;</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">mdTimeStep</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="bp">self</span><span class="o">.</span><span class="n">mdTimeStep</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="nb">print</span> <span class="s2">&quot;The lenght of TD time step &quot;</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">tdTimeStep</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="bp">self</span><span class="o">.</span><span class="n">tdTimeStep</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    
+    <span class="nb">print</span> <span class="s2">&quot;The final MD time step &quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">mdFinalStep</span>
+    <span class="nb">print</span> <span class="s2">&quot;The final TD time step &quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">tdFinalStep</span>
+    
+    <span class="nb">print</span> <span class="s2">&quot;The system is spin&quot;</span><span class="p">,</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">spinPolarized</span><span class="p">:</span>
+      <span class="nb">print</span> <span class="s2">&quot;polarized&quot;</span>
+    <span class="k">else</span><span class="p">:</span>
+      <span class="nb">print</span> <span class="s2">&quot;unpolarized&quot;</span></div>
+    
+<div class="viewcode-block" id="tdapOptions.readFdf"><a class="viewcode-back" href="../../../pyramids.io.html#pyramids.io.fdf.tdapOptions.readFdf">[docs]</a>  <span class="k">def</span> <span class="nf">readFdf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">inputFile</span><span class="o">=</span><span class="s1">&#39;input.fdf&#39;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Read the fdf file input.fdf.</span>
+<span class="sd">    The tags, including both one-line tags and block tags, </span>
+<span class="sd">    are parsed by a dictonary, of which the keys are the tags </span>
+<span class="sd">    and the values are a string of the input value.  </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">fdfFile</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">inputFile</span><span class="p">)</span>
+    <span class="n">inBlock</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">options</span> <span class="o">=</span> <span class="p">{}</span>
+    
+    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">fdfFile</span><span class="o">.</span><span class="n">readlines</span><span class="p">():</span>
+      <span class="c1"># skip blank lines, containing only the &#39;\n&#39;      </span>
+      <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">line</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">continue</span>
+      <span class="k">if</span> <span class="n">line</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;#&#39;</span><span class="p">:</span>
+        <span class="k">continue</span>
+      <span class="n">line</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">,</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+      <span class="n">line</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;#&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+      <span class="n">lineList</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+      
+      <span class="c1"># Read the Blocks</span>
+      <span class="k">if</span> <span class="n">lineList</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;%block&#39;</span><span class="p">:</span>
+        <span class="n">inBlock</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="n">blockName</span> <span class="o">=</span> <span class="n">lineList</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">blockValues</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">continue</span>
+      <span class="k">elif</span> <span class="n">lineList</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;</span><span class="si">%e</span><span class="s1">ndblock&#39;</span><span class="p">:</span>
+        <span class="n">inBlock</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="n">options</span><span class="p">[</span><span class="n">blockName</span><span class="p">]</span> <span class="o">=</span> <span class="n">blockValues</span>
+        <span class="k">continue</span>
+      <span class="k">if</span> <span class="n">inBlock</span><span class="p">:</span>
+        <span class="n">blockValues</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">lineList</span><span class="p">)</span>
+        
+      <span class="c1"># Read the line mode parameters </span>
+      <span class="k">else</span><span class="p">:</span>
+        <span class="n">tag</span> <span class="o">=</span> <span class="n">lineList</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">,</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">lineList</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+          <span class="n">options</span><span class="p">[</span><span class="n">tag</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;True&#39;</span>
+        <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">lineList</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+          <span class="n">options</span><span class="p">[</span><span class="n">tag</span><span class="p">]</span> <span class="o">=</span> <span class="n">lineList</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">lineList</span><span class="p">)</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+          <span class="n">options</span><span class="p">[</span><span class="n">tag</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">lineList</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">lineList</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">options</span></div>
+  
+  <span class="k">def</span> <span class="nf">__getLogical</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">label</span><span class="p">,</span><span class="n">default</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">label</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+      <span class="n">value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="n">label</span><span class="p">]</span>
+      <span class="k">if</span> <span class="s1">&#39;t&#39;</span> <span class="ow">in</span> <span class="n">value</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span>
+        <span class="k">return</span> <span class="kc">True</span>
+      <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    <span class="k">else</span><span class="p">:</span>
+      <span class="k">return</span> <span class="n">default</span>
+ 
+  <span class="k">def</span> <span class="nf">__getString</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">label</span><span class="p">,</span><span class="n">default</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">label</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+      <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="n">label</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+      <span class="k">return</span> <span class="n">default</span>
+      
+  <span class="k">def</span> <span class="nf">__getInteger</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">label</span><span class="p">,</span><span class="n">default</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">label</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+      <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="n">label</span><span class="p">])</span>
+    <span class="k">else</span><span class="p">:</span>
+      <span class="k">return</span> <span class="n">default</span>
+
+  <span class="k">def</span> <span class="nf">__getFloat</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">label</span><span class="p">,</span><span class="n">default</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">label</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+      <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="n">label</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;f&#39;</span><span class="p">,</span><span class="s1">&#39;e&#39;</span><span class="p">))</span>
+    <span class="k">else</span><span class="p">:</span>
+      <span class="k">return</span> <span class="n">default</span>
+
+  <span class="k">def</span> <span class="nf">__getFloatWithUnit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">label</span><span class="p">,</span><span class="n">default</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">label</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+      <span class="n">value</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="n">label</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;f&#39;</span><span class="p">,</span><span class="s1">&#39;e&#39;</span><span class="p">))</span>
+      <span class="n">unit</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="n">label</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+      <span class="k">return</span> <span class="p">(</span><span class="n">value</span><span class="p">,</span><span class="n">unit</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+      <span class="k">return</span> <span class="n">default</span></div>
+
+<span class="c1">#-------------------------------------------------------------------</span>
+<span class="k">if</span> <span class="n">__name__</span><span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+  <span class="n">options</span> <span class="o">=</span> <span class="n">tdapOptions</span><span class="p">()</span>
+  <span class="n">options</span><span class="o">.</span><span class="n">output</span><span class="p">()</span>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../../index.html">Documentation overview</a><ul>
+  <li><a href="../../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, Chao Lian.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.6</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>
