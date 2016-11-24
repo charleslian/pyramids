@@ -291,9 +291,9 @@ def getExcitedElectrons(selectK=None):
       for i in range(partition.shape[0]):
         partition[i,:] *= kweight[i]
       if selectK is not None: 
-        exe[index] = np.sum(partition[selectK,homo:]*kweight[selectK])
+        exe[index] = np.sum(partition[selectK,homo:])
       else:
-        exe[index] = np.sum(partition[:,homo:])
+        exe[index] = np.sum(2 - partition[:,:homo])
     np.save(SaveName,exe)
   
   return selectTime, exe
