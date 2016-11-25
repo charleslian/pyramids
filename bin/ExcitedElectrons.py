@@ -3,7 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import pyramids.io.result as dP
 import pyramids.plot.setting as ma
-
+plt.style.use('ggplot')
 #------------------------------------------------------------------------------
 fig, axs = plt.subplots(3,1,sharex=True,sharey=False,figsize=(6,8))
 SaveName = __file__.split('/')[-1].split('.')[0]
@@ -16,8 +16,7 @@ for direct in range(3):
   ax.plot(time,Efield[:,direct] ,c=c[direct],
           label=directions[direct],lw=2,alpha=0.8) 
 kargs=ma.getPropertyFromPosition(ylabel=r'$\varepsilon$(a.u.)',xlabel='Time(fs)',
-                                 title='Electric Field')         
-          
+                                 title='Electric Field')
 ma.setProperty(ax,**kargs)
 ax.ticklabel_format(style='sci',axis='y',scilimits=[0,0])
 #------------------------------------------------------------------------------
