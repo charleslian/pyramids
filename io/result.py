@@ -115,7 +115,7 @@ def loadSaved(filename):
   else:
     return []
 #-------------------------------------------------------------------     
-def getBerry(step = ''):
+def readBerryFile(step = ''):
   """
   return the Eigenvalues read from systemLabel.EIG
   """
@@ -124,7 +124,24 @@ def getBerry(step = ''):
   BerryFile = open(systemLabel+step+'.Berry')
   Berry = [[float(value) for value in line.split()] for line in BerryFile.readlines()]
   return np.array(Berry)
+  
+def getBerry():
+  options = tdapOptions()
+  selectStep = getBerrySteps()
+  #print selectStep
+  timestep = options.tdTimeStep[0]
+  selectTime = selectStep*timestep
+  berry = np.array([readBerryFile(str(step)) for step in selectStep])
+  return selectTime, berry
 #
+
+#-------------------------------------------------------------------  
+def getBerrySteps():
+  options = tdapOptions()
+  stepLines = os.popen('ls '+options.label+'*.Berry').readlines()
+  steps = [int(step.split('.')[0].replace(options.label,'')) for step in stepLines]
+  return np.sort(steps)
+  
 def findBandPath(atoms, points, kLine):
   reciprocal_vectors = 2*np.pi*atoms.get_reciprocal_cell()
   if os.path.exists('input.fdf'):
@@ -264,12 +281,7 @@ def getEIGSteps():
   a = np.array(np.sort(steps),dtype=int)
   #print a  
   return a
- #-------------------------------------------------------------------  
-def getBerrySteps():
-  options = tdapOptions()
-  stepLines = os.popen('ls '+options.label+'*.Berry').readlines()
-  steps = [int(step.split('.')[0].replace(options.label,'')) for step in stepLines]
-  return np.sort(steps)
+
 #-------------------------------------------------------------------
 def getExcitedElectrons(selectK=None):
   """

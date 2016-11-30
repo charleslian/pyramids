@@ -21,7 +21,7 @@ def action(index, folder):
 #------------------------------------------------------------------------------
 
 fig, axs = plt.subplots(3,1,sharex=True,sharey=False,figsize=(8,5))
-SaveName = __file__.split('/')[-1].split('.')[0]
+
 
 
 data = scanFolder(action)
@@ -78,6 +78,7 @@ kargs=ma.getPropertyFromPosition(efield, ylabel=r'$\varepsilon$',
 ma.setProperty(axs[efield],**kargs)
 
 plt.tight_layout()
+SaveName = __file__.split('/')[-1].split('.')[0]
 for save_type in ['.pdf','.png']:
   filename = SaveName + save_type
   plt.savefig(filename,dpi=800)
