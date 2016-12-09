@@ -8,7 +8,7 @@ plt.style.use('ggplot')
 #plt.xkcd()
 def action(index, folder):
   #fig, axs = plt.subplots(1,3,sharex=True,sharey=False,figsize=(8,6))
-  berry = dp.getBerry(str(dp.getBerrySteps()[-1]))
+  berry = dp.readBerryFile(str(dp.getBerrySteps()[-1]))
   #rint berry
   return index, folder, np.array([np.sum(berry[:,direct]) for direct in range(6)])
   

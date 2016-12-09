@@ -10,9 +10,6 @@ from pyramids.io.fdf import tdapOptions
 from pyramids.io.result import getTrajactory
 from pyramids.io.result import loadSaved
 #-------------------------------------------------------------------
-
-
-#-------------------------------------------------------------------
 def calculateRMSD(selectedStep=None,atomsOrigin=None,init=0, selectedAtoms=None):
   """ 
   return the radius mean square displacements of the selected steps 
