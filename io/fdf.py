@@ -18,7 +18,7 @@ class tdapOptions(object):
     self.inputFile  = inputFile
     self.options    = self.readFdf(self.inputFile)
     self.label      = self.__getString('systemlabel','siesta')
-    self.mdTimeStep = self.__getFloatWithUnit('mdlengthtimestep',(1.0,'fs'))
+    self.mdTimeStep = self.__getFloatWithUnit('mdlengthtimestep',(0.0,'fs'))
     self.tdTimeStep = self.__getFloatWithUnit('tdlengthtimestep',(0.025,'fs'))
     self.mdFinalStep = self.__getInteger('mdfinaltimestep',1)
     self.tdFinalStep = self.__getInteger('tdfinaltimestep',self.mdFinalStep)

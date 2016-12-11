@@ -1,15 +1,12 @@
+#!/usr/bin/python
 import numpy as np
 from matplotlib import pyplot as plt
 import pyramids.io.result as dp
 from pyramids.plot.PlotUtility import scanFolder
 import pyramids.plot.setting as ma
-#import matplotlib
 plt.style.use('ggplot')
-#plt.xkcd()
 def action(index, folder):
-  #fig, axs = plt.subplots(1,3,sharex=True,sharey=False,figsize=(8,6))
   berry = dp.readBerryFile(str(dp.getBerrySteps()[-1]))
-  #rint berry
   return index, folder, np.array([np.sum(berry[:,direct]) for direct in range(6)])
   
 
@@ -17,7 +14,6 @@ data = scanFolder(action)
 
 x = []
 y = []
-#fig, axs = plt.subplots(1,1,sharex=True,sharey=False)#,figsize=(6,8)
 ax = plt.subplot(111) #, projection='polar'
 for index, folder, berry in data:
   x.append(float(folder))

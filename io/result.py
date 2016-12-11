@@ -242,14 +242,18 @@ def getFermiEnergy():
   
 #-------------------------------------------------------------------       
 def getEField():
-  Efield = [[float(i) for i in line.split()] for line in open('TDEFIELD')]
-  Efield = np.array(Efield)/1E5
-  options = tdapOptions()
-  timestep = options.tdTimeStep[0]
-  time = np.arange(len(Efield))*timestep
+  if os.path.exists('TDEFIELD'):
+    Efield = [[float(i) for i in line.split()] for line in open('TDEFIELD')]
+    Efield = np.array(Efield)/1E5
+    options = tdapOptions()
+    timestep = options.tdTimeStep[0]
+    time = np.arange(len(Efield))*timestep
+  else:
+    time = np.zeros(2)
+    Efield = np.zeros([2,3])
   return time, Efield 
 #-------------------------------------------------------------------
-def getEnergyTemperaturePressure(timeType=1):    
+def getEnergyTemperaturePressure():    
   """
   return the Temperature, KS Energy and Total Energy as the dimension of Nstep
   read from systemLabel.MDE
@@ -257,9 +261,11 @@ def getEnergyTemperaturePressure(timeType=1):
   """
   options = tdapOptions()
   systemLabel = options.label
-  if timeType == 1:
+  if options.mdTimeStep[0] < 1E-10:
     timestep = options.tdTimeStep[0]
+    start = 2
   else:
+    start = 0
     timestep = options.mdTimeStep[0]
   energy_file = open(systemLabel+'.MDE')
   data = []
@@ -269,7 +275,7 @@ def getEnergyTemperaturePressure(timeType=1):
 
   data=np.array(data) 
   X=data[:,0]*timestep
-  return X, data[:,1], data[:,2], data[:,3], data[:,4], data[:,5]
+  return X[start:], data[start:,1], data[start:,2], data[start:,3], data[start:,4], data[start:,5]
 #-------------------------------------------------------------------  
 def getEIGSteps():
   options = tdapOptions()
