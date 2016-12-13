@@ -32,6 +32,13 @@ def plotTotalEnergy(ax, label=''):
   kargs=ma.getPropertyFromPosition(ylabel=r'E(eV)',xlabel='T (fs)', title='Excitation Energy')
   ma.setProperty(ax,**kargs)
   
+def plotAllEnergies(ax, label=''):
+  time, T, E_ks, E_tot, Vol, P  = dp.getEnergyTemperaturePressure()
+  ax.plot(time, E_tot - E_tot[0],'-', lw=2, alpha=1, label=label)
+  ax.plot(time, E_ks - E_ks[0],'-', lw=2, alpha=1, label=label)
+  kargs=ma.getPropertyFromPosition(ylabel=r'E(eV)',xlabel='T (fs)', title='Excitation Energy')
+  ma.setProperty(ax,**kargs)
+  
 def plotTemperature(ax, label=''):
   time, T, E_ks, E_tot, Vol, P  = dp.getEnergyTemperaturePressure()
   ax.plot(time, T, lw=3, label=label)
