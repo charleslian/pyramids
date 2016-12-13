@@ -271,10 +271,11 @@ def getEnergyTemperaturePressure():
   data = []
   for i in energy_file.readlines():
     if i.split()[0]=='#': continue
-    data.append([float(j) for j in i.split()])
+    data.append([float(j.replace('*','0')) for j in i.split()])
 
   data=np.array(data) 
-  X=data[:,0]*timestep
+  #print data
+  X = data[:,0]*timestep
   return X[start:], data[start:,1], data[start:,2], data[start:,3], data[start:,4], data[start:,5]
 #-------------------------------------------------------------------  
 def getEIGSteps():

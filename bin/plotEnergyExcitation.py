@@ -7,14 +7,12 @@ import pyramids.plot.PlotUtility as pu
 #-----------------------------------------------------------------------------
 def action(index,folder):
   ls = ['-','--','-.','-:']
-  pu.plotEField(axs[0][0])
-  pu.plotTotalEnergy(axs[1][0])
-  pu.plotRMSD(axs[0][1])
-  pu.plotTemperature(axs[1][1])
+  pu.plotExcitation(axs[0])
+  pu.plotTotalEnergy(axs[1])
   #------------------------------------------------------------------------------
   
 if __name__ == '__main__':
-  fig, axs = plt.subplots(2,2,sharex=True,sharey=False,figsize=(10,6))
+  fig, axs = plt.subplots(1,2,sharex=True,sharey=False,figsize=(10,6))
   #axs = axs.flatten()
   SaveName = __file__.split('/')[-1].split('.')[0]
   c = ['b','r','g','y']

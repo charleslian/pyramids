@@ -20,8 +20,8 @@ kargs=ma.getPropertyFromPosition(ylabel=r'$\varepsilon$(a.u.)',xlabel='Time(fs)'
 ma.setProperty(ax,**kargs)
 ax.ticklabel_format(style='sci',axis='y',scilimits=[0,0])
 #------------------------------------------------------------------------------
-Time, exe = dP.getExcitedElectrons()  
 ax = axs[0]
+Time, exe = dP.getExcitedElectrons()  
 ax.plot(Time,exe - exe[0],'-',alpha=0.8,c=c[0],markerfacecolor='w',lw=2)
 kargs=ma.getPropertyFromPosition(ylabel=r'n(e)',
                                  title='Excited Electrons', 
@@ -32,13 +32,14 @@ ma.setProperty(ax,**kargs)
 #------------------------------------------------------------------------------
 ax = axs[1]
 time, T, E_ks, E_tot, Vol, P  = dP.getEnergyTemperaturePressure()
-deltaE =  (E_ks[2:,] - E_ks[2])
-ax.plot(time[2:], deltaE,'-',c=c[-1], lw=2, alpha=1, label=r'$E_{total}$')
+deltaE =  (E_ks - E_ks[0])
+ax.plot(time, deltaE,'-',c=c[-1], lw=2, alpha=1, label=r'$E_{total}$')
 kargs=ma.getPropertyFromPosition(ylabel=r'E(eV)',title='Excitation Energy')
 ma.setProperty(ax,**kargs)
 #------------------------------------------------------------------------------
 
 plt.tight_layout()
-for save_type in ['.pdf','.png']:
-  filename = SaveName + save_type
-  plt.savefig(filename,dpi=800)
+if False:
+  for save_type in ['.pdf','.png']:
+    filename = SaveName + save_type
+    plt.savefig(filename,dpi=600)
