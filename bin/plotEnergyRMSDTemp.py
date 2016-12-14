@@ -7,10 +7,10 @@ import pyramids.plot.PlotUtility as pu
 #-----------------------------------------------------------------------------
 def action(index,folder):
   ls = ['-','--','-.','-:']
-  pu.plotEField(axs[0][0])
-  pu.plotTotalEnergy(axs[1][0])
-  pu.plotRMSD(axs[0][1])
-  pu.plotTemperature(axs[1][1])
+  pu.plotEField(axs[0][0],label=folder)
+  pu.plotTotalEnergy(axs[1][0],label=folder)
+  pu.plotRMSD(axs[0][1],label=folder)
+  pu.plotTemperature(axs[1][1],label=folder)
   #------------------------------------------------------------------------------
   
 if __name__ == '__main__':
