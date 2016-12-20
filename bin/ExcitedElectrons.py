@@ -21,8 +21,11 @@ ma.setProperty(ax,**kargs)
 ax.ticklabel_format(style='sci',axis='y',scilimits=[0,0])
 #------------------------------------------------------------------------------
 ax = axs[0]
-Time, exe = dP.getExcitedElectrons()  
-ax.plot(Time,exe - exe[0],'-',alpha=0.8,c=c[0],markerfacecolor='w',lw=2)
+Time, exe, exe1 = dP.getExcitedElectrons(comp=True)  
+print exe1
+print exe
+ax.plot(Time, exe - exe[0],'--',alpha=0.8,markerfacecolor='w',lw=2)
+ax.plot(Time, exe1 - exe1[0],'-',alpha=0.8,markerfacecolor='w',lw=2)
 kargs=ma.getPropertyFromPosition(ylabel=r'n(e)',
                                  title='Excited Electrons', 
                                  xlimits=None,)

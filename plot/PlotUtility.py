@@ -16,7 +16,16 @@ import numpy as np
 import pyramids.process.struct as tdp
 import pyramids.plot.setting as ma
 import pyramids.io.result as dp
-
+def plot2DBZ(ax, atoms):
+  reciprocal_vectors = 2*np.pi*atoms.get_reciprocal_cell()
+  points=np.array([(reciprocal_vectors[0,0:2]*i+
+                    reciprocal_vectors[1,0:2]*j) 
+                    for i in range(-1,2) 
+                    for j in range(-1,2)])
+  from scipy.spatial import Voronoi, voronoi_plot_2d
+  vor = Voronoi(points)
+  voronoi_plot_2d(vor,ax)
+  
 def plotExcitation(ax, label=''):
   time, exe = dp.getExcitedElectrons()  
   ax.plot(time, exe - exe[0],'-', lw=2)

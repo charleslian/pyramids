@@ -37,10 +37,9 @@ for [(index, folder), (timeEf, eField), (timeEl, exe), (timeEn,deltaE)] in data:
   #ax = axs[efield]
   #ax.plot(timeEf,eField[:,2], c=c[index],
   #      label=folder,lw=2,alpha=0.8) 
-  eField = float(folder) * 13.6/0.529
   ax = axs[exElectron]
   ax.plot(timeEl,exe,'-',alpha=0.8,
-          label=r'%5.2f $V/\AA$' % eField,c=c[index],
+          label=folder,c=c[index],
           markerfacecolor='w',lw=2)
   #------------------------------------------------------------------------------
   ax = axs[exEnergy]
@@ -68,4 +67,4 @@ ma.setProperty(axs[exEnergy],**kargs)
 plt.tight_layout()
 for save_type in ['.pdf','.png']:
   filename = SaveName + save_type
-  plt.savefig(filename,dpi=800)
+  #plt.savefig(filename,dpi=800)

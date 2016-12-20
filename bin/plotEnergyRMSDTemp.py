@@ -7,6 +7,7 @@ import pyramids.plot.PlotUtility as pu
 #-----------------------------------------------------------------------------
 def action(index,folder):
   ls = ['-','--','-.','-:']
+  import pyramids.plot.PlotUtility as pu
   pu.plotEField(axs[0][0],label=folder)
   pu.plotTotalEnergy(axs[1][0],label=folder)
   pu.plotRMSD(axs[0][1],label=folder)

@@ -9,12 +9,12 @@ X, Ek, xticks, xticklabels = getBands()
 
 import numpy as np
 for ispin in range(Ek.shape[2]):
-  for iband in range(Ek.shape[1]):
+  for iband in range(1,Ek.shape[1]):
     #for ik in range(Ek.shape[0]):
-    if -4 < np.mean(Ek[:,iband,ispin]) <= 0:
-      ax.plot(X[:],Ek[:,iband,ispin],'-b',lw=2)
-    elif -0 < np.mean(Ek[:,iband,ispin]) < 4:
-      ax.plot(X[:],Ek[:,iband,ispin],'-r',lw=2)
+    if np.mean(Ek[:,iband,ispin]) <= 0:
+      ax.plot(X[:],Ek[:,iband,ispin],'.-b',lw=2)
+    elif -0 < np.mean(Ek[:,iband,ispin]):
+      ax.plot(X[:],Ek[:,iband,ispin],'.-r',lw=2)
     
 xticklabels = [label.replace('Gamma','\Gamma') for label in xticklabels]
 kargs=getPropertyFromPosition(ylabel='Eigenvalues(eV)') #$\omega$(cm$^{-1}$)

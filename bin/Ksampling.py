@@ -22,7 +22,7 @@ atoms = ase.atoms.Atoms(symbols=atom_temp.get_chemical_symbols(),
 reciprocal_vectors = 2*np.pi*atoms.get_reciprocal_cell()
 
 kcoor, kweight = dp.readKpoints()
-                            
+       
 import matplotlib.pyplot as plt
 cut = 1
 fig, axs = plt.subplots(cut,1,figsize=(8,8*cut))
@@ -70,5 +70,5 @@ ims = []
 #                  comment='Movie support!')
 #  writer = FFMpegWriter(fps=15, metadata=metadata)
 saveTypes = ['pdf']
-for save_type in saveTypes:
-  plt.savefig('Ksampling.'+save_type,transparent=True,dpi=600)
+#for save_type in saveTypes:
+  #plt.savefig('Ksampling.'+save_type,transparent=True,dpi=600)

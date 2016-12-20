@@ -57,23 +57,22 @@ def pythonGrep(string,filename):
  import re
  return [line for line in open(filename, "r") if re.search(string, line)]
 
-def recoverAllKPoints(kcoor, reciprocal_vectors, plane = 'xy'):
-  if plane == 'xy':
-    repeat = [1,1,0]  
-    kall = []
-    klist = []
-    indexKList = np.arange(kcoor.shape[0])
-    points = np.array([(reciprocal_vectors[0,:]*i+
-                        reciprocal_vectors[1,:]*j+
-                        reciprocal_vectors[2,:]*k) 
-                        for i in range(-repeat[0],repeat[0]+1) 
-                        for j in range(-repeat[1],repeat[1]+1)
-                        for k in range(-repeat[2],repeat[2]+1)])
-    for point in points:
-      kall.extend(kcoor + point)
-      kall.extend(-kcoor + point)
-      klist.extend(indexKList)
-      klist.extend(indexKList)
+def recoverAllKPoints(kcoor, reciprocal_vectors, repeat = [1,1,1]):
+  #if plane == 'xy': 
+  kall = []
+  klist = []
+  indexKList = np.arange(kcoor.shape[0])
+  points = np.array([(reciprocal_vectors[0,:]*i+
+                      reciprocal_vectors[1,:]*j+
+                      reciprocal_vectors[2,:]*k) 
+                      for i in range(-repeat[0],repeat[0]+1) 
+                      for j in range(-repeat[1],repeat[1]+1)
+                      for k in range(-repeat[2],repeat[2]+1)])
+  for point in points:
+    kall.extend(kcoor + point)
+    kall.extend(-kcoor + point)
+    klist.extend(indexKList)
+    klist.extend(indexKList)
   return np.array(kall), np.array(klist)
  
 def getImagElectricFunction(direction, dumping=0.00):
@@ -142,7 +141,7 @@ def getBerrySteps():
   steps = [int(step.split('.')[0].replace(options.label,'')) for step in stepLines]
   return np.sort(steps)
   
-def findBandPath(atoms, points, kLine):
+def findBandPath(atoms, points, kLine, toleAngle = 0.001):
   reciprocal_vectors = 2*np.pi*atoms.get_reciprocal_cell()
   if os.path.exists('input.fdf'):
     kcoor, kweight = readKpoints()
@@ -167,15 +166,18 @@ def findBandPath(atoms, points, kLine):
     #ax.plot(coorA[0], coorA[1],'or',ms=20)
     reVect =  coorB - coorA
     kpath_alongAB = []
-    
+    normReVect = np.linalg.norm(reVect) #AB
     for index, (k, ucellK) in enumerate(zip(kall, klist)):
-      vect = k - coorA
-      normVect = np.linalg.norm(vect)
-      normReVect = np.linalg.norm(reVect)
+      vect = k - coorA # AK
+      normVect = np.linalg.norm(vect) 
       normProd = np.linalg.norm(vect)*np.linalg.norm(reVect)
       dotProd = np.dot(reVect, vect)
-      if np.abs(dotProd - normProd) < 0.001 and normVect < normReVect:
-        kpath_alongAB.append((index, ucellK, normVect + last))
+      #outProd = np.outer(reVect, vect)
+      
+      angleContained = (np.abs(dotProd - normProd) < toleAngle)
+      if angleContained and normVect <= normReVect:
+        #print np.linalg.det(outProd), ucellK
+        kpath_alongAB.append((index, ucellK, dotProd/np.linalg.norm(reVect) + last))
     last += normReVect
     xticks.append(last)
     kpath.extend(kpath_alongAB)
@@ -290,7 +292,7 @@ def getEIGSteps():
   return a
 
 #-------------------------------------------------------------------
-def getExcitedElectrons(selectK=None):
+def getExcitedElectrons(selectK=None, comp = False):
   """
   """
   homo = getHomo()
@@ -302,9 +304,12 @@ def getExcitedElectrons(selectK=None):
   selectTime = selectStep*timestep
   
   SaveName = 'ExcitedElectrons'
+  SaveName1 = 'ExcitedElectrons1'
   exe = loadSaved(SaveName)
+  exe1 = loadSaved(SaveName)
   if len(exe) != len(selectStep):
     exe = np.zeros([len(selectStep)])
+    exe1 = np.zeros([len(selectStep)])
     for index,step in enumerate(selectStep):
       partition = readEigFile(options.label+str(step)+'q.EIG')
       for i in range(partition.shape[0]):
@@ -312,10 +317,15 @@ def getExcitedElectrons(selectK=None):
       if selectK is not None: 
         exe[index] = np.sum(partition[selectK,homo:])
       else:
-        exe[index] = np.sum(2 - partition[:,:homo])
+        exe[index] = homo*2 - np.sum(partition[:,:homo])
+        exe1[index] = np.sum(partition[:,homo:])
     np.save(SaveName,exe)
-  
-  return selectTime, exe
+    np.save(SaveName1,exe1)
+
+  if comp:
+    return selectTime, exe, exe1
+  else:
+    return selectTime, exe
 #-------------------------------------------------------------------
 def getAdiabaticEigenvalue(selectK=None):
   """

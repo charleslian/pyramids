@@ -11,7 +11,7 @@ import numpy as np
 #ase.build.niggli_reduce(atoms)
 tdio.writeSiesta('structure.fdf',atoms)
 tdio.writeQE('structure.in',atoms)
-write('struture.pdb',atoms,format='pdb')
+#write('struture.pdb',atoms,format='pdb')
 write('POSCAR',atoms)
 
 view(atoms)
