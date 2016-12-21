@@ -18,8 +18,8 @@ fig, axs = plt.subplots(1,2,sharex=False,sharey=False,figsize=(12,6))
 SaveName = __file__.split('/')[-1].split('.')[0]
 data = scanFolder(action)
 
-selectedProcesses = ['siesta','TDzevolk','TDbuildD', 'DHSCF','PostSCF']
-explainations = ['Total','Solve TDKS equation','Build DM', 'Build H', 'Postprocess']
+selectedProcesses = ['siesta','evolve','setup_H','PostSCF'] #,'TDbuildD'
+explainations = ['Total','Solve TDKS equation', 'Build H', 'Postprocess'] #,'Build DM'
 image = data[-1][-1]['Prg.tot']
 pieData = image[selectedProcesses[1:]]
 other = image[selectedProcesses[0]] - np.sum(pieData.values)

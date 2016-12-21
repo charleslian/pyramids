@@ -30,31 +30,22 @@ exElectron = 0
 exEnergy = 1
 exAverage = 2
 
-#option = tdapOptions()
-#freq, pulseTime, pulseWidth = option.laserParam[0][:3]
-
-#int((pulseTime + 1.5*pulseWidth)/option.tdTimeStep[0])
-#photonEnergy = freq*4.1356
-
-
 for [(index, folder), (timeEf, eField), (timeEl, exe), (timeEn,deltaE)] in data:
-  #waveLength = 300/float(folder)
   #------------------------------------------------------------------------------
   ax = axs[exElectron]
-  ax.plot(timeEl,exe,'-',alpha=1.0, c=c[index], 
+  ax.plot(timeEl,exe,'-',alpha=1.0,
           label = folder,
           markerfacecolor='w', lw=2,)
   #------------------------------------------------------------------------------
   ax = axs[exEnergy]   
   #------------------------------------------------------------------------------
   print timeEn.shape, deltaE.shape
-  ax.plot(timeEn[start:], deltaE,'-',alpha=1.0, c=c[index], 
+  ax.plot(timeEn[start:], deltaE,'-',alpha=1.0, 
           markerfacecolor='w', lw=2)
   
   ax = axs[exAverage]
-  ax.plot(timeEf[start:], eField[start:,:]*13.6/0.529, '-', 
+  ax.plot(timeEf[start:], eField[start:,:], '-', 
           alpha=1.0, 
-          #c=c[index],
           markerfacecolor='w', lw=2,)
           
 #------------------------------------------------------------------

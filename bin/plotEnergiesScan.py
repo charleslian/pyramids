@@ -11,7 +11,7 @@ def action(index,folder):
   #directions = ['x', 'y', 'z']
   for direct in range(3):
     if max(Efield[:,direct]) > 1E-10:
-      ax.plot(time,Efield[:,direct],ls=ls[index],
+      ax.plot(time,Efield[:,direct],
               label=folder,lw=2,alpha=0.5) 
   kargs=ma.getPropertyFromPosition(ylabel=r'$\varepsilon$(a.u.)',xlabel='Time(fs)',
                                    title='Electric Field')
@@ -19,7 +19,7 @@ def action(index,folder):
   ax.ticklabel_format(style='sci',axis='y',scilimits=[0,0])
   #------------------------------------------------------------------------------
   ax = axs[1]
-  time, T, E_ks, E_tot, Vol, P  = dP.getEnergyTemperaturePressure()
+  time, T, E_ks, E_tot, Vol, P  = dP.getEnergyTemperaturePressure(ave=True)
 #  for i in range(2,E_ks.shape[0]-1):
 #    if E_ks[i+1] - (E_ks[i] + E_ks[i-1])*0.5 > 2.0:
 #      E_ks[i+1] = (E_ks[i] + E_ks[i-1])*0.5

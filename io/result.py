@@ -57,7 +57,7 @@ def pythonGrep(string,filename):
  import re
  return [line for line in open(filename, "r") if re.search(string, line)]
 
-def recoverAllKPoints(kcoor, reciprocal_vectors, repeat = [1,1,1]):
+def recoverAllKPoints(kcoor, reciprocal_vectors, repeat = [1,1,1], flatten=True):
   #if plane == 'xy': 
   kall = []
   klist = []
@@ -69,12 +69,19 @@ def recoverAllKPoints(kcoor, reciprocal_vectors, repeat = [1,1,1]):
                       for j in range(-repeat[1],repeat[1]+1)
                       for k in range(-repeat[2],repeat[2]+1)])
   for point in points:
-    kall.extend(kcoor + point)
-    kall.extend(-kcoor + point)
-    klist.extend(indexKList)
-    klist.extend(indexKList)
+    if flatten:  
+      kall.extend(kcoor + point)
+      kall.extend(-kcoor + point)
+      klist.extend(indexKList)
+      klist.extend(indexKList)
+    else:
+      kall.append(kcoor + point)
+      kall.append(-kcoor + point)
+      klist.append(indexKList)
+      klist.append(indexKList)    
   return np.array(kall), np.array(klist)
- 
+
+  
 def getImagElectricFunction(direction, dumping=0.00):
   from scipy.fftpack import fft
   timeArray, efield = getEField()  
@@ -255,7 +262,14 @@ def getEField():
     Efield = np.zeros([2,3])
   return time, Efield 
 #-------------------------------------------------------------------
-def getEnergyTemperaturePressure():    
+
+def getNumOfAtoms():
+  import os
+  f = os.popen('grep "Number of atoms" result')
+  numAtom  = int(f.readline().split()[-3])
+  return numAtom
+
+def getEnergyTemperaturePressure(ave=False):    
   """
   return the Temperature, KS Energy and Total Energy as the dimension of Nstep
   read from systemLabel.MDE
@@ -276,6 +290,10 @@ def getEnergyTemperaturePressure():
     data.append([float(j.replace('*','0')) for j in i.split()])
 
   data=np.array(data) 
+  if ave:
+    numAtom = getNumOfAtoms()
+    #print numAtom
+    data[start:,2:3] /= numAtom
   #print data
   X = data[:,0]*timestep
   return X[start:], data[start:,1], data[start:,2], data[start:,3], data[start:,4], data[start:,5]
