@@ -265,8 +265,9 @@ def getEField():
 
 def getNumOfAtoms():
   import os
-  f = os.popen('grep "Number of atoms" result')
+  f = os.popen('grep "Number of atoms" -m 1 result')
   numAtom  = int(f.readline().split()[-3])
+  f.close()
   return numAtom
 
 def getEnergyTemperaturePressure(ave=False):    
