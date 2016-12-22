@@ -132,10 +132,10 @@ def setProperty(ax, **kargs):
   if kargs['grid']:
     ax.grid()
     
-  if('xlabel' in kargs):
+  if('xlabel' in kargs) and len(ax.get_xticklabels()) > 0 :
     if ax.get_xticklabels()[0].get_visible():  
       ax.set_xlabel(kargs['xlabel'],fontsize=labelsize) 
-  if('ylabel' in kargs):
+  if('ylabel' in kargs) and len(ax.get_yticklabels()) > 0:
     if ax.get_yticklabels()[0].get_visible():    
       ax.set_ylabel(kargs['ylabel'],fontsize=labelsize) 
   #ax.get_yaxis().get_major_formatter().set_useOffset(False)

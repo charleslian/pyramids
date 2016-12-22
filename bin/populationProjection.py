@@ -4,12 +4,6 @@ import matplotlib.pyplot as plt
 import pyramids.io.result as dP
 import pyramids.plot.setting as ma
 import pyramids.plot.PlotUtility as pu
-import matplotlib
-
-matplotlib.style.use('ggplot')
-
-
-
 #------------------------------------------------------------------------------
 time, exe = dP.getProjectedPartition()
 time, eigen = dP.getAdiabaticEigenvalue()
