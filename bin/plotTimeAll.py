@@ -13,6 +13,12 @@ def getTime(index, folder):
 def getEnergy(index,folder):
   time, T, E_ks, E_tot, Vol, P  = dP.getEnergyTemperaturePressure(ave=True)
   return index, folder, E_ks
+  
+def errorFunc(x, A,B):
+  return A*x**6
+
+  
+colors = ['b','r','g','y']
 #------------------------------------------------------------------------------
 def case(indexCase, folderCase):
   data = scanFolder(getTime)
@@ -35,16 +41,21 @@ def case(indexCase, folderCase):
   ma.setProperty(ax,**kargs) 
   
   for key,label in zip(selectedProcesses,explainations):
-    totalTimes = np.array([time['Prg.tot'][key] for index, folder, time in data])/3600.0
-    situations = [int(folder) for index, folder, time in data]
+    totalTimes = np.array([time['Prg.tot'][key] for index, folder, time in data])/60.0
+    situations = np.array([int(folder) for index, folder, time in data])
     ax = axsall[0][indexCase]
-    ax.semilogy(situations, totalTimes,'-o', ms=12, label = label)
-  
-  ax.grid(which='Both',axis=u'y')
-  kargs=ma.getPropertyFromPosition(indexCase, ylabel=r'Clock Time (hour)',title=folderCase)
+    ax.semilogy(situations, totalTimes,'-o', mew = 3, alpha=0.8 ,ms=12, label = label)
+#    from scipy.optimize import curve_fit  
+#    popt, pcov = curve_fit(errorFunc, situations, totalTimes)    
+#    xfit = np.linspace(2,25,1000)
+#    ax.semilogy(xfit, errorFunc(xfit,*popt),'--',lw=3, )
+  ax.grid(which='major',axis=u'both')
+  kargs=ma.getPropertyFromPosition(indexCase, ylabel=r'Clock Time (Mimute)',title=folderCase,
+                                   #xlimits = [0,10]
+                                   )
   ma.setProperty(ax,**kargs)
   
-fig, axsall = plt.subplots(2,3,sharex=False,sharey='row',figsize=(15,10))
+fig, axsall = plt.subplots(2,3,sharex='row',sharey='row',figsize=(15,10))
 print axsall
 SaveName = __file__.split('/')[-1].split('.')[0]
 

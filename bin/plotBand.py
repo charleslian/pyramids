@@ -20,8 +20,8 @@ xticklabels = [label.replace('Gamma','\Gamma') for label in xticklabels]
 kargs=getPropertyFromPosition(ylabel='Eigenvalues(eV)') #$\omega$(cm$^{-1}$)
 kargs['xlimits'] = [X.min(),X.max()]
 kargs['ylimits'] = [-4, 4]
-kargs['xticks'] = xticks
-kargs['xticklabels'] = xticklabels
+#kargs['xticks'] = xticks
+#kargs['xticklabels'] = xticklabels
 kargs['vline'] = xticks[1:-1]
 kargs['hline'] = [0.0]
 setProperty(ax,**kargs)
