@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?taskcoach release="1.4.3" tskversion="37"?>
+
+<tasks>
+<task actualstartdate="2016-12-29 10:25:35.227448" creationDateTime="2016-12-29 10:25:10.566142" id="059d325c-cd6e-11e6-b0a9-989096dbd06b" modificationDateTime="2016-12-29 10:39:01.045844" percentageComplete="70" shouldMarkCompletedWhenAllChildrenCompleted="True" status="1" subject="计算Silicon在Vector Field下的melting">
+<description>
+对比Fermi Golden Rule的结果, 未发现melting
+</description>
+<effort id="145032c2-cd6e-11e6-b0a9-989096dbd06b" start="2016-12-29 10:25:35" status="1" stop="2016-12-29 10:25:37" />
+<effort id="2096494a-cd6e-11e6-b0a9-989096dbd06b" start="2016-12-29 10:25:55" status="1" stop="2016-12-29 10:26:07" />
+<effort id="ea1e9ce4-cd6f-11e6-b0a9-989096dbd06b" start="2016-12-29 10:38:43" status="1" stop="2016-12-29 10:38:45" />
+<effort id="ee510888-cd6f-11e6-b0a9-989096dbd06b" start="2016-12-29 10:38:50" status="1" stop="2016-12-29 10:38:51" />
+<effort id="f49e5b14-cd6f-11e6-b0a9-989096dbd06b" start="2016-12-29 10:39:01" status="1" stop="2016-12-29 10:40:25" />
+</task>
+<task actualstartdate="2016-12-29 10:32:44.397655" creationDateTime="2016-12-29 10:32:36.013991" id="0f1f20c8-cd6f-11e6-b0a9-989096dbd06b" modificationDateTime="2016-12-29 10:32:44.397530" status="1" subject="确认A 单位 Bohr−1 到 Ry/Bohr/eRy/Bohr/e 的关系" />
+<task actualstartdate="2016-12-29 10:33:51.512357" completiondate="2016-12-29 10:34:07.218676" creationDateTime="2016-12-29 10:32:50.365810" expandedContexts="('taskviewer',)" id="17ad0b56-cd6f-11e6-b0a9-989096dbd06b" modificationDateTime="2016-12-29 10:34:07.218507" percentageComplete="100" status="1" subject="2016年终总结">
+<task completiondate="2016-12-29 10:33:54.584435" creationDateTime="2016-12-29 10:33:08.158792" id="224809bc-cd6f-11e6-b0a9-989096dbd06b" modificationDateTime="2016-12-29 10:33:54.584265" percentageComplete="100" status="1" subject="个人总结" />
+<task completiondate="2016-12-29 10:34:07.218676" creationDateTime="2016-12-29 10:33:57.641034" id="3fc66c0e-cd6f-11e6-b0a9-989096dbd06b" modificationDateTime="2016-12-29 10:34:04.582776" percentageComplete="100" status="1" subject="poster" />
+</task>
+<task actualstartdate="2016-12-29 09:51:49.571393" creationDateTime="2016-12-29 09:15:14.012709" expandedContexts="('taskviewer',)" id="4045f1c8-cd64-11e6-b0a9-989096dbd06b" modificationDateTime="2016-12-29 09:53:44.940229" plannedstartdate="2016-12-01 09:15:00" status="1" subject="周期体系电场下固体的响应">
+<task actualstartdate="2016-12-29 10:31:56.550600" creationDateTime="2016-12-29 09:53:25.654555" expandedContexts="('taskviewer',)" id="9632bc74-cd69-11e6-b0a9-989096dbd06b" modificationDateTime="2016-12-29 10:31:56.550183" status="1" subject="Debug Berry Phase 计算" />
+<task actualstartdate="2016-12-29 10:31:56.560455" creationDateTime="2016-12-29 09:53:41.875681" id="9fdde244-cd69-11e6-b0a9-989096dbd06b" modificationDateTime="2016-12-29 10:31:56.550183" status="1" subject="计算固体吸收谱" />
+<task actualstartdate="2016-12-29 10:31:56.570729" creationDateTime="2016-12-29 09:53:44.939832" id="a1b16f82-cd69-11e6-b0a9-989096dbd06b" modificationDateTime="2016-12-29 10:31:56.550183" status="1" subject="计算固体材料的HHG" />
+</task>
+<task completiondate="2016-12-29 10:34:52.843317" creationDateTime="2016-12-29 10:34:22.236813" expandedContexts="('taskviewer',)" id="4e6f7282-cd6f-11e6-b0a9-989096dbd06b" modificationDateTime="2016-12-29 10:34:52.843103" percentageComplete="100" status="1" subject="Multi-K论文">
+<task completiondate="2016-12-29 10:34:52.843317" creationDateTime="2016-12-29 10:34:31.318038" id="53d92312-cd6f-11e6-b0a9-989096dbd06b" modificationDateTime="2016-12-29 10:34:36.993335" percentageComplete="100" status="1" subject="完成第一稿" />
+<task completiondate="2016-12-29 10:34:52.843317" creationDateTime="2016-12-29 10:34:41.047777" id="59a5c700-cd6f-11e6-b0a9-989096dbd06b" modificationDateTime="2016-12-29 10:34:48.733083" percentageComplete="100" status="1" subject="完成multi-k论文第二稿，增加算法效率部分。" />
+</task>
+<task actualstartdate="2016-12-29 10:31:56.597969" completiondate="2016-12-29 10:31:59.326380" creationDateTime="2016-12-29 10:27:20.095008" expandedContexts="('taskviewer',)" id="52d1b980-cd6e-11e6-b0a9-989096dbd06b" modificationDateTime="2016-12-29 10:31:59.326147" percentageComplete="100" status="1" subject="计算Graphene双带模型的TDSE方程">
+<task actualstartdate="2016-12-29 10:31:56.621798" completiondate="2016-12-29 10:31:59.326380" creationDateTime="2016-12-29 10:27:36.673108" expandedContexts="('taskviewer',)" id="5cb354a4-cd6e-11e6-b0a9-989096dbd06b" modificationDateTime="2016-12-29 10:31:56.550183" percentageComplete="100" status="1" subject="计算不同场强的激发" />
+<task actualstartdate="2016-12-29 10:31:56.636917" completiondate="2016-12-29 10:31:59.326380" creationDateTime="2016-12-29 10:29:14.302348" id="96e45ee8-cd6e-11e6-b0a9-989096dbd06b" modificationDateTime="2016-12-29 10:31:56.550183" percentageComplete="100" status="1" subject="计算不同距离的k点激发" />
+<task actualstartdate="2016-12-29 10:31:56.652514" completiondate="2016-12-29 10:31:59.326380" creationDateTime="2016-12-29 10:29:17.598599" id="98db567a-cd6e-11e6-b0a9-989096dbd06b" modificationDateTime="2016-12-29 10:31:56.550183" percentageComplete="100" status="1" subject="计算同距离不同角度K的激发" />
+<task actualstartdate="2016-12-29 10:31:56.607451" completiondate="2016-12-29 10:31:59.326380" creationDateTime="2016-12-29 10:29:30.823285" id="a0bd45f6-cd6e-11e6-b0a9-989096dbd06b" modificationDateTime="2016-12-29 10:31:56.550183" percentageComplete="100" status="1" subject="TDSE方程参数抽离，做成wheel" />
+</task>
+<task actualstartdate="2016-12-29 10:36:26.862086" completiondate="2016-12-29 10:36:28.653791" creationDateTime="2016-12-29 10:35:21.909134" expandedContexts="('prerequisiteviewerintaskeditor', 'taskviewer')" id="7200b738-cd6f-11e6-b0a9-989096dbd06b" modificationDateTime="2016-12-29 10:36:28.653546" percentageComplete="100" status="1" subject="解决TDAP计算中某些点能量跳变的问题">
+<task completiondate="2016-12-29 10:36:28.653791" creationDateTime="2016-12-29 10:35:32.206869" id="7824061a-cd6f-11e6-b0a9-989096dbd06b" modificationDateTime="2016-12-29 10:35:42.124620" percentageComplete="100" status="1" subject="测试不同mix对能量跳变的影响">
+<description>
+设置为小值后可以消除
+</description>
+</task>
+<task completiondate="2016-12-29 10:36:28.653791" creationDateTime="2016-12-29 10:35:48.564021" id="81e3ed50-cd6f-11e6-b0a9-989096dbd06b" modificationDateTime="2016-12-29 10:35:55.230870" percentageComplete="100" status="1" subject="测试结合不同收敛判据对跳变的影响 ">
+<description>
+ 无意义，无法消除，只使用密度矩阵判据即可
+</description>
+</task>
+<task completiondate="2016-12-29 10:36:28.653791" creationDateTime="2016-12-29 10:35:58.362187" id="87bb025e-cd6f-11e6-b0a9-989096dbd06b" modificationDateTime="2016-12-29 10:36:23.577509" percentageComplete="100" status="1" subject="实现每隔N步重新对角化波函数并投影占据">
+<description>
+结果奇怪，需继续分析，似乎与dephase有关
+</description>
+</task>
+</task>
+<task actualstartdate="2016-12-29 10:31:56.580683" creationDateTime="2016-12-29 10:29:56.627179" id="b01ea15c-cd6e-11e6-b0a9-989096dbd06b" modificationDateTime="2016-12-29 10:31:56.550183" status="1" subject="思考一个普适直观的展示动态激发方式" />
+<task actualstartdate="2016-12-29 10:31:44.741985" creationDateTime="2016-12-29 10:30:07.537732" expandedContexts="('taskviewer',)" id="b69f73da-cd6e-11e6-b0a9-989096dbd06b" modificationDateTime="2016-12-29 10:31:44.741507" status="1" subject="TDAP 文档">
+<task actualstartdate="2016-12-29 10:31:54.258722" completiondate="2016-12-29 10:32:23.582102" creationDateTime="2016-12-29 10:30:14.222498" id="ba9b768c-cd6e-11e6-b0a9-989096dbd06b" modificationDateTime="2016-12-29 10:32:23.581906" percentageComplete="100" status="1" subject="完成code的注释" />
+<task actualstartdate="2016-12-29 10:31:54.268220" completiondate="2017-01-03 10:57:53.782903" creationDateTime="2016-12-29 10:30:28.648590" id="c334b68c-cd6e-11e6-b0a9-989096dbd06b" modificationDateTime="2017-01-03 10:57:53.782690" percentageComplete="100" status="1" subject="完成manual" />
+<task actualstartdate="2016-12-29 10:31:54.238116" creationDateTime="2016-12-29 10:30:38.006596" id="c8c8a0cc-cd6e-11e6-b0a9-989096dbd06b" modificationDateTime="2017-01-04 12:21:03.340544" percentageComplete="80" status="1" subject="做一个introductive ppt" />
+<task actualstartdate="2016-12-29 10:31:54.249457" creationDateTime="2016-12-29 10:30:50.086249" id="cffbd5da-cd6e-11e6-b0a9-989096dbd06b" modificationDateTime="2017-01-04 12:21:20.163643" percentageComplete="10" status="1" subject="增加Example" />
+<task actualstartdate="2016-12-29 10:31:54.277306" creationDateTime="2016-12-29 10:31:10.822228" id="dc57e49a-cd6e-11e6-b0a9-989096dbd06b" modificationDateTime="2016-12-29 10:31:54.237843" status="1" subject="建立tutorial" />
+</task>
+<task completiondate="2016-12-29 10:32:16.607447" creationDateTime="2016-12-29 09:49:07.253553" id="fc2de0cc-cd68-11e6-b0a9-989096dbd06b" modificationDateTime="2016-12-29 10:32:16.607237" percentageComplete="100" plannedstartdate="2016-12-01 09:52:00" prerequisites="4045f1c8-cd64-11e6-b0a9-989096dbd06b" status="1" subject="解决投影占据数只看到流出未看到流入的情况">
+<description>
+只有满带的占据数减少，未发现空带的占据数增多。已解决。
+</description>
+</task>
+<task creationDateTime="2016-12-29 10:39:19.447414" id="ff962df8-cd6f-11e6-b0a9-989096dbd06b" modificationDateTime="2016-12-29 10:40:21.605284" prerequisites="87bb025e-cd6f-11e6-b0a9-989096dbd06b" status="1" subject="考虑dephasing问题">
+<description>
+根据现有计算结果，每步投影会导致激发量大幅增加，似乎与dephase有关。
+</description>
+</task>
+<syncmlconfig>
+<TaskCoach-000001594824c5dc63f7b2e6007f000000010001>
+<spds>
+<sources>
+<TaskCoach-000001594824c5dc63f7b2e6007f000000010001.Tasks />
+<TaskCoach-000001594824c5dc63f7b2e6007f000000010001.Notes />
+</sources>
+<syncml>
+<Auth />
+<Conn />
+</syncml>
+</spds>
+</TaskCoach-000001594824c5dc63f7b2e6007f000000010001>
+</syncmlconfig>
+<guid>
+000001594824c5dc63f7b2e6007f000000010001
+</guid>
+</tasks>
