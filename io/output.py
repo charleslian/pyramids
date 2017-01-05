@@ -73,7 +73,24 @@ def writeSiesta(filename,atoms):
   f.write(lines)
   f.write("%endblock AtomicCoordinatesAndAtomicSpecies\n\n")
   
-  
+def splitMDCAR():
+  """
+  split the siesta.MD_CAR file to POSCAR file per step
+  """
+  import os
+  systemLabel = 'siesta'
+  NumBlocks=int(os.popen('grep -i '+systemLabel+' '+systemLabel+'.MD_CAR | wc -l').readline().split()[0])
+  position_file = open('siesta'+'.MD_CAR')
+  atomNumList = [int(i) for i in os.popen('head -6 siesta.MD_CAR |tail -1').readline().split()]
+  numAtomPositionLine = sum(atomNumList)
+  totalNumLine = numAtomPositionLine + 7
+  context = position_file.readlines()
+  for index in range(NumBlocks):
+    output=context[index*totalNumLine:(index+1)*totalNumLine]
+    poscarFileName = "POSCAR"+str(index)
+    poscarFile=open(poscarFileName,'w')
+    poscarFile.writelines(output)
+    
 def writeQE(filename,atoms):
   NumberOfAtoms=atoms.get_number_of_atoms()
   elements=set(zip(atoms.get_chemical_symbols(), 
