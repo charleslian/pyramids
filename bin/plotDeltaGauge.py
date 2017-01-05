@@ -26,7 +26,7 @@ axin.plot(time,ref,'-',lw=3,)
 axin.fill_between(time,E_ks,ref, color = 'r', alpha=0.8, label=r'$\Delta$')
 #axin.text(10.0,-0.10,r'$\Delta$',transform=axin.transAxes,fontsize=100)
 #ax.annotate('eqweqweqeqw$\Delta$',(0,0.0),(0,0),fontsize=50,arrowprops={ 'arrowstyle': '->'}) #()
-kargs=ma.getPropertyFromPosition(ylabel=r'Total enegy',xlabel='Time', 
+kargs=ma.getPropertyFromPosition(ylabel=r'Excitation enegy',xlabel='Time', 
                                  xticklabels=[], yticklabels=[]
                                  )
 ma.setProperty(axin,**kargs)
@@ -39,6 +39,7 @@ def errorFunc(x, A,B):
   return A*np.exp(B/x)
   
 os.chdir('../../Data/')
+print os.listdir('.')
 for ufolder in os.listdir('.'):
   if os.path.isdir(ufolder):
     os.chdir(ufolder)

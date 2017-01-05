@@ -10,7 +10,9 @@ ax = axs
 
 # print Efield
 # Plot Block #
-ax.plot(time,Efield[:,0],label='x')
+for i in range(3):
+  if np.max(np.abs(Efield[:,i])) > 1E-7:  
+    ax.plot(time,Efield[:,i],label='x')
 #ax.plot(time,Efield[:,1],label='y')
 #ax.plot(time,Efield[:,2],label='z')
 #ax.plot(Efield)

@@ -33,7 +33,7 @@ plt.style.use('ggplot')
 #plt.ticklabel_format(style='sci',scilimits=(-2,2))
 plt.tight_layout()
 SaveName = __file__.split('/')[-1].split('.')[0]
-if False:
+if True:
   for save_type in ['.pdf','.png']:
     filename = SaveName + save_type
     plt.savefig(filename,dpi=600)

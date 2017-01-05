@@ -5,31 +5,31 @@ import pyramids.io.result as dP
 import pyramids.plot.setting as ma
 
 def timeEvol(t,omega,phi,t0,delta):
-  return np.sin(omega*t+phi)*np.exp(-((t-t0)/delta)**2)
+  return np.sin(2.0*np.pi*omega*t+phi)*np.exp(-((t-t0)/delta)**2)
   
 
 
 m  = 0    # Propagation direction
-N  = 1000  # Total steps
-ts = 0.05 # Lenght of time step, unit in fs 
+N  = 800  # Total steps
+ts = 0.05 # length of time step, unit in fs 
 
-# Omega of the first and second direction, unit in eV
-w = 4.0, 4.0 
+# Omega of the first and second direction, unit in fs-1
+w = 0.5, 0.5, 0.5
 # Phi of the first direction and second direction, unit in pi
-p = 0.0, 0.5 
+p = 0.0, 0.5, 0.0
 # Amplitude of the first direction and second direction, unit in Ry/Bohr/e
-A = 0.05, 0.05     
+A = 0.02, 0.02, 0.00
 
-t0 = N/2
-delta = N/5
+t0 = 20.0/ts
+delta = 5.0/ts
 
 
 field = np.zeros([N,3])
-for i in range(2):
-  direction = (m+i+1)%3
+for i in range(3):
+  direction = i
   steps = np.arange(N)*ts
-  T = 1245.0/(w[i]*300.0)
-  omega = 1/T
+  #T = 1245.0/(w[i]*300.0)
+  omega = w[i]
   field[:,direction] = A[i]*timeEvol(steps,omega,p[i]*np.pi,t0*ts,delta*ts)
 
 
@@ -41,6 +41,17 @@ for values in field:
   
 f.close()
 
+fig, ax = plt.subplots(1,1,sharex=True,sharey=True)
+for i in range(3):
+  if np.max(np.abs(field[:,i])) > 1E-7:  
+    ax.plot(np.arange(N)*ts,field[:,i],label=str(i))
+    
+kargs=ma.getPropertyFromPosition(ylabel=r'E(a.u.)',xlabel='',title='', 
+                               xticks=None, yticks=None, 
+                               xticklabels=None, yticklabels=None,
+                               xlimits=None, ylimits=None)
+
+ma.setProperty(ax,**kargs)  
 #from mpl_toolkits.mplot3d import Axes3D
 #fig = plt.figure(figsize=(10,6))
 #ax = fig.add_subplot(111, projection='3d')
