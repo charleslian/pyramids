@@ -26,7 +26,7 @@ kargs=ma.getPropertyFromPosition(xlabel='Time (fs)', ylabel='T (K)',
 ma.setProperty(ax,**kargs)
 #ax.ticklabel_format(style='sci',axis='y',scilimits=[0,0])
 #--------------------------------------------------------------------------------------------
-plt.style.use('ggplot')
+#plt.style.use('ggplot')
 plt.tight_layout()
 SaveName = __file__.split('/')[-1].split('.')[0]
 for save_type in ['.pdf','.png']:

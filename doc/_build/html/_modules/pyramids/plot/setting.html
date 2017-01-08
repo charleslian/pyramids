@@ -23,6 +23,8 @@
     <script type="text/javascript" src="../../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
     <link rel="top" title="pyramids  documentation" href="../../../index.html" />
     <link rel="up" title="Module code" href="../../index.html" />
    
@@ -70,7 +72,7 @@
   <span class="kn">import</span> <span class="nn">matplotlib.cm</span>
   <span class="n">sc</span> <span class="o">=</span> <span class="n">matplotlib</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">ScalarMappable</span><span class="p">(</span><span class="n">cmap</span><span class="o">=</span><span class="n">cmap</span><span class="p">)</span>
   <span class="n">colors</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="n">to_rgba</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">,</span><span class="n">colorList</span><span class="p">))</span>
-  <span class="n">colors</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="n">to_rgba</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.1</span><span class="p">,</span><span class="mf">0.9</span><span class="p">,</span><span class="n">colorList</span><span class="p">))</span>
+  <span class="c1">#colors = sc.to_rgba(np.linspace(0.1,0.9,colorList))</span>
   <span class="k">return</span> <span class="n">colors</span></div>
   
 <span class="c1">#------------------------------------------------------------------- </span>
@@ -93,7 +95,7 @@
   <span class="k">if</span><span class="p">(</span><span class="s1">&#39;loc&#39;</span> <span class="ow">in</span> <span class="n">kargs</span><span class="p">):</span>
     <span class="n">loc</span> <span class="o">=</span> <span class="n">kargs</span><span class="p">[</span><span class="s1">&#39;loc&#39;</span><span class="p">]</span>
   <span class="k">else</span><span class="p">:</span>
-    <span class="n">loc</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">loc</span> <span class="o">=</span> <span class="mi">0</span>
             
   <span class="c1">#if(&#39;figurelabel&#39; in kargs):</span>
     <span class="c1">#from mpl_toolkits.axes_grid.anchored_artists import AnchoredText</span>
@@ -132,7 +134,7 @@
   
   <span class="k">if</span><span class="p">(</span><span class="s1">&#39;xticklabels&#39;</span> <span class="ow">in</span> <span class="n">kargs</span><span class="p">):</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">set_xticklabels</span><span class="p">(</span><span class="n">kargs</span><span class="p">[</span><span class="s1">&#39;xticklabels&#39;</span><span class="p">],</span><span class="n">fontsize</span><span class="o">=</span><span class="n">ticksize</span><span class="p">)</span>
-  <span class="k">else</span><span class="p">:</span>
+  <span class="k">elif</span> <span class="kc">False</span><span class="p">:</span>
     <span class="n">orginlabels</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">index</span><span class="p">,</span><span class="n">ticks</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">ax</span><span class="o">.</span><span class="n">get_xticks</span><span class="p">()):</span>
       <span class="k">if</span> <span class="n">ticks</span> <span class="o">&gt;=</span> <span class="n">ax</span><span class="o">.</span><span class="n">get_xlim</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">and</span> <span class="n">ticks</span> <span class="o">&lt;=</span> <span class="n">ax</span><span class="o">.</span><span class="n">get_xlim</span><span class="p">()[</span><span class="mi">1</span><span class="p">]:</span>
@@ -152,7 +154,7 @@
 
   <span class="k">if</span><span class="p">(</span><span class="s1">&#39;yticklabels&#39;</span> <span class="ow">in</span> <span class="n">kargs</span><span class="p">):</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">set_yticklabels</span><span class="p">(</span><span class="n">kargs</span><span class="p">[</span><span class="s1">&#39;yticklabels&#39;</span><span class="p">],</span><span class="n">fontsize</span><span class="o">=</span><span class="n">ticksize</span><span class="p">)</span>
-  <span class="k">else</span><span class="p">:</span>
+  <span class="k">elif</span> <span class="kc">False</span><span class="p">:</span>
     <span class="n">orginlabels</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">index</span><span class="p">,</span><span class="n">ticks</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">ax</span><span class="o">.</span><span class="n">get_yticks</span><span class="p">()):</span>
       <span class="k">if</span> <span class="n">ticks</span> <span class="o">&gt;=</span> <span class="n">ax</span><span class="o">.</span><span class="n">get_ylim</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">and</span> <span class="n">ticks</span> <span class="o">&lt;=</span> <span class="n">ax</span><span class="o">.</span><span class="n">get_ylim</span><span class="p">()[</span><span class="mi">1</span><span class="p">]:</span>
@@ -172,59 +174,69 @@
   <span class="k">if</span><span class="p">(</span><span class="s1">&#39;title&#39;</span> <span class="ow">in</span> <span class="n">kargs</span><span class="p">):</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">kargs</span><span class="p">[</span><span class="s1">&#39;title&#39;</span><span class="p">],</span><span class="n">fontsize</span><span class="o">=</span><span class="n">labelsize</span><span class="p">)</span> 
   
-  <span class="k">if</span> <span class="s1">&#39;grid&#39;</span> <span class="ow">in</span> <span class="n">kargs</span><span class="p">:</span>
+  <span class="k">if</span> <span class="n">kargs</span><span class="p">[</span><span class="s1">&#39;grid&#39;</span><span class="p">]:</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
     
-  <span class="k">if</span><span class="p">(</span><span class="s1">&#39;xlabel&#39;</span> <span class="ow">in</span> <span class="n">kargs</span><span class="p">):</span>
+  <span class="k">if</span><span class="p">(</span><span class="s1">&#39;xlabel&#39;</span> <span class="ow">in</span> <span class="n">kargs</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">ax</span><span class="o">.</span><span class="n">get_xticklabels</span><span class="p">())</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="p">:</span>
     <span class="k">if</span> <span class="n">ax</span><span class="o">.</span><span class="n">get_xticklabels</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">get_visible</span><span class="p">():</span>  
       <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="n">kargs</span><span class="p">[</span><span class="s1">&#39;xlabel&#39;</span><span class="p">],</span><span class="n">fontsize</span><span class="o">=</span><span class="n">labelsize</span><span class="p">)</span> 
-  <span class="k">if</span><span class="p">(</span><span class="s1">&#39;ylabel&#39;</span> <span class="ow">in</span> <span class="n">kargs</span><span class="p">):</span>
+  <span class="k">if</span><span class="p">(</span><span class="s1">&#39;ylabel&#39;</span> <span class="ow">in</span> <span class="n">kargs</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">ax</span><span class="o">.</span><span class="n">get_yticklabels</span><span class="p">())</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
     <span class="k">if</span> <span class="n">ax</span><span class="o">.</span><span class="n">get_yticklabels</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">get_visible</span><span class="p">():</span>    
       <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="n">kargs</span><span class="p">[</span><span class="s1">&#39;ylabel&#39;</span><span class="p">],</span><span class="n">fontsize</span><span class="o">=</span><span class="n">labelsize</span><span class="p">)</span> 
   <span class="c1">#ax.get_yaxis().get_major_formatter().set_useOffset(False)</span>
 
-  <span class="n">ax</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">labelsize</span><span class="o">=</span><span class="n">ticksize</span><span class="p">)</span>    
-  <span class="n">ax</span><span class="o">.</span><span class="n">minorticks_on</span><span class="p">()</span>
+  <span class="n">ax</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">labelsize</span><span class="o">=</span><span class="n">ticksize</span><span class="p">)</span>
+  <span class="k">if</span> <span class="n">kargs</span><span class="p">[</span><span class="s1">&#39;minortick&#39;</span><span class="p">]:</span>
+      <span class="n">ax</span><span class="o">.</span><span class="n">minorticks_on</span><span class="p">()</span>
   <span class="c1">#print ax.get_xlim(),ax.get_ylim()</span>
-  <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">fontsize</span><span class="o">=</span><span class="s1">&#39;large&#39;</span><span class="p">,</span><span class="n">loc</span><span class="o">=</span><span class="s1">&#39;best&#39;</span><span class="p">,</span><span class="n">frameon</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">ncol</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">fancybox</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">framealpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span></div>
+  <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">fontsize</span><span class="o">=</span><span class="s1">&#39;large&#39;</span><span class="p">,</span><span class="n">loc</span><span class="o">=</span><span class="n">loc</span><span class="p">,</span><span class="n">frameon</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">ncol</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">fancybox</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">framealpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="getPropertyFromPosition"><a class="viewcode-back" href="../../../pyramids.plot.html#pyramids.plot.setting.getPropertyFromPosition">[docs]</a><span class="k">def</span> <span class="nf">getPropertyFromPosition</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">xlabel</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span><span class="n">ylabel</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span><span class="n">title</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> 
-                            <span class="n">grid</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+                            <span class="n">grid</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">minortick</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">legendLoc</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
                             <span class="n">xticks</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">yticks</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> 
                             <span class="n">xticklabels</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">yticklabels</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                             <span class="n">xlimits</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ylimits</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                            <span class="n">hline</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">vline</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+                            <span class="n">hline</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">vline</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                            <span class="n">ticksize</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
   <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">  a utility function to set the property of the figure axe</span>
 <span class="sd">  &quot;&quot;&quot;</span>
   <span class="n">args</span><span class="o">=</span><span class="p">{}</span>
-  <span class="k">if</span> <span class="n">index</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
+  <span class="k">if</span> <span class="n">index</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
     <span class="n">args</span><span class="p">[</span><span class="s1">&#39;figurelabel&#39;</span><span class="p">]</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">ALPHABET</span><span class="p">[</span><span class="n">index</span><span class="p">])</span>
     <span class="n">args</span><span class="p">[</span><span class="s1">&#39;title&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">ALPHABET</span><span class="p">[</span><span class="n">index</span><span class="p">])</span><span class="o">+</span><span class="s1">&#39; &#39;</span><span class="o">+</span><span class="n">title</span>
   <span class="k">else</span><span class="p">:</span>
     <span class="n">args</span><span class="p">[</span><span class="s1">&#39;title&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">title</span>
+    
+  <span class="k">if</span> <span class="n">legendLoc</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="n">args</span><span class="p">[</span><span class="s1">&#39;loc&#39;</span><span class="p">]</span><span class="o">=</span> <span class="n">legendLoc</span>
+  <span class="k">else</span><span class="p">:</span>
+    <span class="n">args</span><span class="p">[</span><span class="s1">&#39;loc&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>  
+    
   <span class="n">args</span><span class="p">[</span><span class="s1">&#39;ylabel&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ylabel</span>
   <span class="n">args</span><span class="p">[</span><span class="s1">&#39;xlabel&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xlabel</span>
   <span class="n">args</span><span class="p">[</span><span class="s1">&#39;grid&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">grid</span>
-  
-  
-  <span class="k">if</span> <span class="n">xticks</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
+  <span class="n">args</span><span class="p">[</span><span class="s1">&#39;minortick&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">minortick</span>
+
+  <span class="k">if</span> <span class="n">xticks</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
     <span class="n">args</span><span class="p">[</span><span class="s1">&#39;xticks&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xticks</span>
-  <span class="k">if</span> <span class="n">yticks</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
+  <span class="k">if</span> <span class="n">yticks</span> <span class="ow">is</span> <span class="ow">not</span>  <span class="kc">None</span><span class="p">:</span>
     <span class="n">args</span><span class="p">[</span><span class="s1">&#39;yticks&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">yticks</span>
-  <span class="k">if</span> <span class="n">vline</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
+  <span class="k">if</span> <span class="n">vline</span> <span class="ow">is</span> <span class="ow">not</span>  <span class="kc">None</span><span class="p">:</span>
     <span class="n">args</span><span class="p">[</span><span class="s1">&#39;vline&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">vline</span>  
-  <span class="k">if</span> <span class="n">hline</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
+  <span class="k">if</span> <span class="n">hline</span> <span class="ow">is</span> <span class="ow">not</span>  <span class="kc">None</span><span class="p">:</span>
     <span class="n">args</span><span class="p">[</span><span class="s1">&#39;hline&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">hline</span>  
 
-  <span class="k">if</span> <span class="n">xticklabels</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
+  <span class="k">if</span> <span class="n">xticklabels</span> <span class="ow">is</span> <span class="ow">not</span>  <span class="kc">None</span><span class="p">:</span>
     <span class="n">args</span><span class="p">[</span><span class="s1">&#39;xticklabels&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xticklabels</span>
-  <span class="k">if</span> <span class="n">yticklabels</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
+  <span class="k">if</span> <span class="n">yticklabels</span> <span class="ow">is</span> <span class="ow">not</span>  <span class="kc">None</span><span class="p">:</span>
     <span class="n">args</span><span class="p">[</span><span class="s1">&#39;yticklabels&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">yticklabels</span> 
-  <span class="k">if</span> <span class="n">xlimits</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
+  <span class="k">if</span> <span class="n">xlimits</span> <span class="ow">is</span> <span class="ow">not</span>  <span class="kc">None</span><span class="p">:</span>
     <span class="n">args</span><span class="p">[</span><span class="s1">&#39;xlimits&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xlimits</span>
-  <span class="k">if</span> <span class="n">ylimits</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
-    <span class="n">args</span><span class="p">[</span><span class="s1">&#39;ylimits&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ylimits</span>    
+  <span class="k">if</span> <span class="n">ylimits</span> <span class="ow">is</span> <span class="ow">not</span>  <span class="kc">None</span><span class="p">:</span>
+    <span class="n">args</span><span class="p">[</span><span class="s1">&#39;ylimits&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ylimits</span>
+  <span class="k">if</span> <span class="n">ticksize</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="n">args</span><span class="p">[</span><span class="s1">&#39;ticksize&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ticksize</span>    
   
   <span class="k">return</span> <span class="n">args</span></div>
 
@@ -276,7 +288,7 @@
       &copy;2016, Chao Lian.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.6</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.9</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
       
     </div>

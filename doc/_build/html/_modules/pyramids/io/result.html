@@ -23,6 +23,8 @@
     <script type="text/javascript" src="../../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
     <link rel="top" title="pyramids  documentation" href="../../../index.html" />
     <link rel="up" title="Module code" href="../../index.html" />
    
@@ -56,6 +58,106 @@
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">from</span> <span class="nn">pyramids.io.fdf</span> <span class="k">import</span> <span class="n">tdapOptions</span>
 
+<div class="viewcode-block" id="getEELS"><a class="viewcode-back" href="../../../pyramids.io.html#pyramids.io.result.getEELS">[docs]</a><span class="k">def</span> <span class="nf">getEELS</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39;q_list&#39;</span><span class="p">,</span><span class="n">prefix</span><span class="o">=</span><span class="s1">&#39;EELS_&#39;</span><span class="p">):</span>
+  <span class="n">Q</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span> 
+  <span class="n">Z</span> <span class="o">=</span> <span class="p">[]</span>
+  <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">q</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">Q</span><span class="p">):</span>
+    <span class="n">filename</span> <span class="o">=</span> <span class="n">prefix</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> 
+    <span class="n">d</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s1">&#39;,&#39;</span><span class="p">)</span>
+    <span class="n">E</span> <span class="o">=</span> <span class="n">d</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span>
+    <span class="n">C</span> <span class="o">=</span> <span class="n">d</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">]</span>
+    <span class="n">Z</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">C</span><span class="p">)</span>
+  <span class="c1"># to plot contour, transpose Z is needed (exchange x and y)</span>
+  <span class="n">contour</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">Z</span><span class="p">))</span>
+  <span class="n">X</span><span class="p">,</span> <span class="n">Y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">Q</span><span class="p">,</span> <span class="n">E</span><span class="p">)</span>
+  
+  <span class="k">return</span> <span class="n">Q</span><span class="p">,</span> <span class="n">E</span><span class="p">,</span> <span class="n">Z</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">contour</span> </div>
+
+<span class="c1">#------------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="getTime"><a class="viewcode-back" href="../../../pyramids.io.html#pyramids.io.result.getTime">[docs]</a><span class="k">def</span> <span class="nf">getTime</span><span class="p">():</span>
+  <span class="n">context</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;siesta.times&#39;</span><span class="p">,</span><span class="s1">&#39;r&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
+  <span class="n">labels</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Calls&#39;</span><span class="p">,</span> <span class="s1">&#39;Prg.com&#39;</span><span class="p">,</span> <span class="s1">&#39;Prg.com/Tot.com&#39;</span><span class="p">,</span> <span class="s1">&#39;Prg.tot&#39;</span><span class="p">,</span> <span class="s1">&#39;Prg.tot/Tot.tot&#39;</span><span class="p">,</span> <span class="s1">&#39;Nod.avg/Nod.max&#39;</span><span class="p">]</span>
+  <span class="c1">#print labels</span>
+
+  <span class="n">data</span> <span class="o">=</span> <span class="p">[[</span><span class="nb">float</span><span class="p">(</span><span class="n">num</span><span class="p">)</span> <span class="k">for</span> <span class="n">num</span> <span class="ow">in</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="mi">1</span><span class="p">:]]</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">context</span><span class="p">[</span><span class="mi">13</span><span class="p">:</span><span class="o">-</span><span class="mi">13</span><span class="p">]]</span>
+  <span class="n">index</span> <span class="o">=</span> <span class="p">[</span><span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">context</span><span class="p">[</span><span class="mi">13</span><span class="p">:</span><span class="o">-</span><span class="mi">13</span><span class="p">]]</span>
+  <span class="c1">#print index</span>
+  <span class="c1">#print data</span>
+  <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+  <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="p">,</span> <span class="n">index</span> <span class="o">=</span> <span class="n">index</span><span class="p">,</span> <span class="n">columns</span> <span class="o">=</span> <span class="n">labels</span><span class="p">)</span></div>
+<span class="c1">#------------------------------------------------------------------------------</span>
+
+<div class="viewcode-block" id="getStructrue"><a class="viewcode-back" href="../../../pyramids.io.html#pyramids.io.result.getStructrue">[docs]</a><span class="k">def</span> <span class="nf">getStructrue</span><span class="p">():</span>
+  <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="s1">&#39;structure.vasp&#39;</span><span class="p">):</span>
+    <span class="kn">from</span> <span class="nn">ase.io</span> <span class="k">import</span> <span class="n">read</span>
+    <span class="n">atoms</span> <span class="o">=</span> <span class="n">read</span><span class="p">(</span><span class="s1">&#39;structure.vasp&#39;</span><span class="p">,</span><span class="nb">format</span><span class="o">=</span><span class="s1">&#39;vasp&#39;</span><span class="p">)</span>
+    <span class="c1">#import ase.build</span>
+    <span class="c1">#ase.build.niggli_reduce(atoms)</span>
+  <span class="k">elif</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="s1">&#39;siesta.XV&#39;</span><span class="p">):</span>
+    <span class="kn">from</span> <span class="nn">ase.calculators.siesta.import_functions</span> <span class="k">import</span> <span class="n">xv_to_atoms</span>
+    <span class="n">atoms</span> <span class="o">=</span> <span class="n">xv_to_atoms</span><span class="p">(</span><span class="s1">&#39;siesta.XV&#39;</span><span class="p">)</span>
+  <span class="k">return</span> <span class="n">atoms</span></div>
+
+<div class="viewcode-block" id="pythonGrep"><a class="viewcode-back" href="../../../pyramids.io.html#pyramids.io.result.pythonGrep">[docs]</a><span class="k">def</span> <span class="nf">pythonGrep</span><span class="p">(</span><span class="n">string</span><span class="p">,</span><span class="n">filename</span><span class="p">):</span>
+ <span class="kn">import</span> <span class="nn">re</span>
+ <span class="k">return</span> <span class="p">[</span><span class="n">line</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">if</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">string</span><span class="p">,</span> <span class="n">line</span><span class="p">)]</span></div>
+
+<div class="viewcode-block" id="recoverAllKPoints"><a class="viewcode-back" href="../../../pyramids.io.html#pyramids.io.result.recoverAllKPoints">[docs]</a><span class="k">def</span> <span class="nf">recoverAllKPoints</span><span class="p">(</span><span class="n">kcoor</span><span class="p">,</span> <span class="n">reciprocal_vectors</span><span class="p">,</span> <span class="n">repeat</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="n">flatten</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+  <span class="c1">#if plane == &#39;xy&#39;: </span>
+  <span class="n">kall</span> <span class="o">=</span> <span class="p">[]</span>
+  <span class="n">klist</span> <span class="o">=</span> <span class="p">[]</span>
+  <span class="n">indexKList</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">kcoor</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+  <span class="n">points</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([(</span><span class="n">reciprocal_vectors</span><span class="p">[</span><span class="mi">0</span><span class="p">,:]</span><span class="o">*</span><span class="n">i</span><span class="o">+</span>
+                      <span class="n">reciprocal_vectors</span><span class="p">[</span><span class="mi">1</span><span class="p">,:]</span><span class="o">*</span><span class="n">j</span><span class="o">+</span>
+                      <span class="n">reciprocal_vectors</span><span class="p">[</span><span class="mi">2</span><span class="p">,:]</span><span class="o">*</span><span class="n">k</span><span class="p">)</span> 
+                      <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="o">-</span><span class="n">repeat</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">repeat</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> 
+                      <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="o">-</span><span class="n">repeat</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">repeat</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+                      <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="o">-</span><span class="n">repeat</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span><span class="n">repeat</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span><span class="p">)])</span>
+  <span class="k">for</span> <span class="n">point</span> <span class="ow">in</span> <span class="n">points</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">flatten</span><span class="p">:</span>  
+      <span class="n">kall</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">kcoor</span> <span class="o">+</span> <span class="n">point</span><span class="p">)</span>
+      <span class="n">kall</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="o">-</span><span class="n">kcoor</span> <span class="o">+</span> <span class="n">point</span><span class="p">)</span>
+      <span class="n">klist</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">indexKList</span><span class="p">)</span>
+      <span class="n">klist</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">indexKList</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+      <span class="n">kall</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">kcoor</span> <span class="o">+</span> <span class="n">point</span><span class="p">)</span>
+      <span class="n">kall</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="o">-</span><span class="n">kcoor</span> <span class="o">+</span> <span class="n">point</span><span class="p">)</span>
+      <span class="n">klist</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">indexKList</span><span class="p">)</span>
+      <span class="n">klist</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">indexKList</span><span class="p">)</span>    
+  <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">kall</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">klist</span><span class="p">)</span></div>
+
+  
+<div class="viewcode-block" id="getImagElectricFunction"><a class="viewcode-back" href="../../../pyramids.io.html#pyramids.io.result.getImagElectricFunction">[docs]</a><span class="k">def</span> <span class="nf">getImagElectricFunction</span><span class="p">(</span><span class="n">direction</span><span class="p">,</span> <span class="n">dumping</span><span class="o">=</span><span class="mf">0.00</span><span class="p">):</span>
+  <span class="kn">from</span> <span class="nn">scipy.fftpack</span> <span class="k">import</span> <span class="n">fft</span>
+  <span class="n">timeArray</span><span class="p">,</span> <span class="n">efield</span> <span class="o">=</span> <span class="n">getEField</span><span class="p">()</span>  
+  <span class="n">timeArray</span><span class="p">,</span> <span class="n">dipole</span> <span class="o">=</span> <span class="n">getDipolePython</span><span class="p">()</span>
+  
+  <span class="n">option</span> <span class="o">=</span> <span class="n">tdapOptions</span><span class="p">()</span>
+  <span class="n">lengthTime</span> <span class="o">=</span> <span class="n">option</span><span class="o">.</span><span class="n">tdTimeStep</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+  
+  
+  <span class="n">timeArray</span> <span class="o">=</span> <span class="n">timeArray</span><span class="p">[</span><span class="mi">2</span><span class="p">:]</span><span class="o">/</span><span class="n">option</span><span class="o">.</span><span class="n">tdTimeStep</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+  <span class="n">numStep</span> <span class="o">=</span>  <span class="nb">len</span><span class="p">(</span><span class="n">timeArray</span><span class="p">)</span>
+  
+  <span class="n">dipole</span> <span class="o">=</span> <span class="n">dipole</span><span class="p">[</span><span class="mi">2</span><span class="p">:,</span><span class="n">direction</span><span class="p">]</span>
+  <span class="n">dipole</span> <span class="o">*=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">dumping</span><span class="o">*</span><span class="n">timeArray</span><span class="p">)</span>
+                            
+  <span class="n">freqResolution</span> <span class="o">=</span> <span class="mf">1.0</span><span class="o">/</span><span class="p">(</span><span class="n">lengthTime</span><span class="o">*</span><span class="n">numStep</span><span class="p">)</span>
+  <span class="n">freqArray</span> <span class="o">=</span> <span class="p">(</span><span class="n">timeArray</span><span class="o">-</span><span class="p">(</span><span class="n">numStep</span><span class="o">/</span><span class="mf">2.0</span><span class="p">))</span><span class="o">*</span><span class="n">freqResolution</span>
+  
+  <span class="n">energyArray</span> <span class="o">=</span> <span class="n">freqArray</span><span class="o">*</span><span class="mf">4.1356</span>
+  <span class="n">energyArray</span> <span class="o">=</span> <span class="n">energyArray</span><span class="p">[</span><span class="n">numStep</span><span class="o">/</span><span class="mi">2</span><span class="p">:]</span>
+  
+  <span class="n">epsilon</span> <span class="o">=</span> <span class="n">fft</span><span class="p">(</span><span class="n">dipole</span><span class="p">)[:</span><span class="n">numStep</span><span class="o">/</span><span class="mi">2</span><span class="p">]</span> 
+  <span class="n">epsilon</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">real</span><span class="p">(</span><span class="n">epsilon</span><span class="p">),</span><span class="n">np</span><span class="o">.</span><span class="n">imag</span><span class="p">(</span><span class="n">epsilon</span><span class="p">))</span>
+  <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+  <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;x-energy&#39;</span><span class="p">:</span><span class="n">energyArray</span><span class="p">,</span> 
+                    <span class="s1">&#39;y1-Im(alpha)&#39;</span><span class="p">:</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">epsilon</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">energyArray</span><span class="o">/</span><span class="mf">4.1356</span><span class="p">),</span> 
+                    <span class="s1">&#39;y2-Re(alpha)&#39;</span><span class="p">:</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">epsilon</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">energyArray</span><span class="o">/</span><span class="mf">4.1356</span><span class="p">)})</span>
+  <span class="c1">#print df</span>
+  <span class="n">df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s1">&#39;DielectricFunction.csv&#39;</span><span class="p">,</span><span class="n">sep</span><span class="o">=</span><span class="s1">&#39;,&#39;</span><span class="p">)</span>
+  <span class="k">return</span> <span class="n">energyArray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">epsilon</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">energyArray</span><span class="o">/</span><span class="mf">4.1356</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">epsilon</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">energyArray</span><span class="o">/</span><span class="mf">4.1356</span><span class="p">)</span></div>
+  
 <span class="c1">#-------------------------------------------------------------------</span>
 <div class="viewcode-block" id="loadSaved"><a class="viewcode-back" href="../../../pyramids.io.html#pyramids.io.result.loadSaved">[docs]</a><span class="k">def</span> <span class="nf">loadSaved</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
   <span class="n">filename</span> <span class="o">=</span> <span class="n">filename</span> <span class="o">+</span> <span class="s1">&#39;.npy&#39;</span>
@@ -64,7 +166,7 @@
   <span class="k">else</span><span class="p">:</span>
     <span class="k">return</span> <span class="p">[]</span></div>
 <span class="c1">#-------------------------------------------------------------------     </span>
-<div class="viewcode-block" id="getBerry"><a class="viewcode-back" href="../../../pyramids.io.html#pyramids.io.result.getBerry">[docs]</a><span class="k">def</span> <span class="nf">getBerry</span><span class="p">(</span><span class="n">step</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">):</span>
+<div class="viewcode-block" id="readBerryFile"><a class="viewcode-back" href="../../../pyramids.io.html#pyramids.io.result.readBerryFile">[docs]</a><span class="k">def</span> <span class="nf">readBerryFile</span><span class="p">(</span><span class="n">step</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">):</span>
   <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">  return the Eigenvalues read from systemLabel.EIG</span>
 <span class="sd">  &quot;&quot;&quot;</span>
@@ -73,9 +175,77 @@
   <span class="n">BerryFile</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">systemLabel</span><span class="o">+</span><span class="n">step</span><span class="o">+</span><span class="s1">&#39;.Berry&#39;</span><span class="p">)</span>
   <span class="n">Berry</span> <span class="o">=</span> <span class="p">[[</span><span class="nb">float</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="k">for</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">()]</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">BerryFile</span><span class="o">.</span><span class="n">readlines</span><span class="p">()]</span>
   <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">Berry</span><span class="p">)</span></div>
+  
+<div class="viewcode-block" id="getBerry"><a class="viewcode-back" href="../../../pyramids.io.html#pyramids.io.result.getBerry">[docs]</a><span class="k">def</span> <span class="nf">getBerry</span><span class="p">():</span>
+  <span class="n">options</span> <span class="o">=</span> <span class="n">tdapOptions</span><span class="p">()</span>
+  <span class="n">selectStep</span> <span class="o">=</span> <span class="n">getBerrySteps</span><span class="p">()</span>
+  <span class="c1">#print selectStep</span>
+  <span class="n">timestep</span> <span class="o">=</span> <span class="n">options</span><span class="o">.</span><span class="n">tdTimeStep</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+  <span class="n">selectTime</span> <span class="o">=</span> <span class="n">selectStep</span><span class="o">*</span><span class="n">timestep</span>
+  <span class="n">berry</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">readBerryFile</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">step</span><span class="p">))</span> <span class="k">for</span> <span class="n">step</span> <span class="ow">in</span> <span class="n">selectStep</span><span class="p">])</span>
+  <span class="k">return</span> <span class="n">selectTime</span><span class="p">,</span> <span class="n">berry</span></div>
+<span class="c1">#</span>
+
+<span class="c1">#-------------------------------------------------------------------  </span>
+<div class="viewcode-block" id="getBerrySteps"><a class="viewcode-back" href="../../../pyramids.io.html#pyramids.io.result.getBerrySteps">[docs]</a><span class="k">def</span> <span class="nf">getBerrySteps</span><span class="p">():</span>
+  <span class="n">options</span> <span class="o">=</span> <span class="n">tdapOptions</span><span class="p">()</span>
+  <span class="n">stepLines</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">popen</span><span class="p">(</span><span class="s1">&#39;ls &#39;</span><span class="o">+</span><span class="n">options</span><span class="o">.</span><span class="n">label</span><span class="o">+</span><span class="s1">&#39;*.Berry&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
+  <span class="n">steps</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">step</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">options</span><span class="o">.</span><span class="n">label</span><span class="p">,</span><span class="s1">&#39;&#39;</span><span class="p">))</span> <span class="k">for</span> <span class="n">step</span> <span class="ow">in</span> <span class="n">stepLines</span><span class="p">]</span>
+  <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">steps</span><span class="p">)</span></div>
+  
+<div class="viewcode-block" id="findBandPath"><a class="viewcode-back" href="../../../pyramids.io.html#pyramids.io.result.findBandPath">[docs]</a><span class="k">def</span> <span class="nf">findBandPath</span><span class="p">(</span><span class="n">atoms</span><span class="p">,</span> <span class="n">points</span><span class="p">,</span> <span class="n">kLine</span><span class="p">,</span> <span class="n">toleAngle</span> <span class="o">=</span> <span class="mf">0.001</span><span class="p">):</span>
+  <span class="n">reciprocal_vectors</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="n">atoms</span><span class="o">.</span><span class="n">get_reciprocal_cell</span><span class="p">()</span>
+  <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="s1">&#39;input.fdf&#39;</span><span class="p">):</span>
+    <span class="n">kcoor</span><span class="p">,</span> <span class="n">kweight</span> <span class="o">=</span> <span class="n">readKpoints</span><span class="p">()</span>
+    <span class="n">kall</span><span class="p">,</span> <span class="n">klist</span> <span class="o">=</span> <span class="n">recoverAllKPoints</span><span class="p">(</span><span class="n">kcoor</span><span class="p">,</span> <span class="n">reciprocal_vectors</span><span class="p">)</span>
+    <span class="c1">#ax.plot(kcoor[:,0], kcoor[:,1],&#39;o&#39;)</span>
+    <span class="c1">#ax.plot(kall[:,0], kall[:,1],&#39;.&#39;)</span>
     
+  <span class="n">selectedPoints</span> <span class="o">=</span> <span class="p">[(</span><span class="n">points</span><span class="p">[</span><span class="n">name</span><span class="p">],</span> <span class="n">name</span><span class="p">)</span> <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">kLine</span><span class="p">]</span>
+  
+  <span class="n">lines</span> <span class="o">=</span> <span class="p">[(</span><span class="n">selectedPoints</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="n">selectedPoints</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">])</span> 
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">selectedPoints</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)]</span> 
+  <span class="n">kpath</span> <span class="o">=</span> <span class="p">[]</span>     
+  <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+  
+  <span class="n">last</span> <span class="o">=</span> <span class="mf">0.0</span>
+  <span class="n">xticks</span> <span class="o">=</span> <span class="p">[]</span>
+  <span class="n">xticks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">last</span><span class="p">)</span>
+  <span class="k">for</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">:</span>
+    <span class="n">coorA</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">reciprocal_vectors</span><span class="p">)</span>
+    <span class="n">coorB</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">b</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">reciprocal_vectors</span><span class="p">)</span>
+    <span class="c1">#ax.plot(coorB[0], coorB[1],&#39;or&#39;,ms=20)</span>
+    <span class="c1">#ax.plot(coorA[0], coorA[1],&#39;or&#39;,ms=20)</span>
+    <span class="n">reVect</span> <span class="o">=</span>  <span class="n">coorB</span> <span class="o">-</span> <span class="n">coorA</span>
+    <span class="n">kpath_alongAB</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">normReVect</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">reVect</span><span class="p">)</span> <span class="c1">#AB</span>
+    <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">ucellK</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">kall</span><span class="p">,</span> <span class="n">klist</span><span class="p">)):</span>
+      <span class="n">vect</span> <span class="o">=</span> <span class="n">k</span> <span class="o">-</span> <span class="n">coorA</span> <span class="c1"># AK</span>
+      <span class="n">normVect</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">vect</span><span class="p">)</span> 
+      <span class="n">normProd</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">vect</span><span class="p">)</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">reVect</span><span class="p">)</span>
+      <span class="n">dotProd</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">reVect</span><span class="p">,</span> <span class="n">vect</span><span class="p">)</span>
+      <span class="c1">#outProd = np.outer(reVect, vect)</span>
+      
+      <span class="n">angleContained</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">dotProd</span> <span class="o">-</span> <span class="n">normProd</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">toleAngle</span><span class="p">)</span>
+      <span class="k">if</span> <span class="n">angleContained</span> <span class="ow">and</span> <span class="n">normVect</span> <span class="o">&lt;=</span> <span class="n">normReVect</span><span class="p">:</span>
+        <span class="c1">#print np.linalg.det(outProd), ucellK</span>
+        <span class="n">kpath_alongAB</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">index</span><span class="p">,</span> <span class="n">ucellK</span><span class="p">,</span> <span class="n">dotProd</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">reVect</span><span class="p">)</span> <span class="o">+</span> <span class="n">last</span><span class="p">))</span>
+    <span class="n">last</span> <span class="o">+=</span> <span class="n">normReVect</span>
+    <span class="n">xticks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">last</span><span class="p">)</span>
+    <span class="n">kpath</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">kpath_alongAB</span><span class="p">)</span>
+   
+  <span class="n">kpath</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">kpath</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;sc-index&#39;</span><span class="p">,</span><span class="s1">&#39;uc-index&#39;</span><span class="p">,</span><span class="s1">&#39;distance&#39;</span><span class="p">])</span>
+  <span class="n">kpath</span> <span class="o">=</span> <span class="n">kpath</span><span class="o">.</span><span class="n">sort_values</span><span class="p">([</span><span class="s1">&#39;distance&#39;</span><span class="p">])</span>
+  <span class="c1">#kpts = np.array(kpath.values[:,0],dtype=int)</span>
+
+  <span class="c1">#kpath.to_csv(&#39;selectedKPath.csv&#39;)</span>
+  
+  <span class="k">return</span> <span class="n">xticks</span><span class="p">,</span> <span class="n">kpath</span></div>
+<span class="c1">#  fig, ax = plt.subplots(1,1,figsize=(5,8))</span>
+<span class="c1">#  ax.plot(kall[kpts,0], kall[kpts,1],&#39;-o&#39;,label=str(i))</span>
+
 <span class="c1">#-------------------------------------------------------------------    </span>
-<div class="viewcode-block" id="readEigFile"><a class="viewcode-back" href="../../../pyramids.io.html#pyramids.io.result.readEigFile">[docs]</a><span class="k">def</span> <span class="nf">readEigFile</span><span class="p">(</span><span class="n">filename</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">sep</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="readEigFile"><a class="viewcode-back" href="../../../pyramids.io.html#pyramids.io.result.readEigFile">[docs]</a><span class="k">def</span> <span class="nf">readEigFile</span><span class="p">(</span><span class="n">filename</span> <span class="o">=</span> <span class="s1">&#39;siesta.EIG&#39;</span><span class="p">,</span> <span class="n">sep</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
   <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">  return the Eigenvalues read from systemLabel.EIG</span>
 <span class="sd">  &quot;&quot;&quot;</span>
@@ -101,6 +271,15 @@
     <span class="k">return</span> <span class="n">eigenvalues</span><span class="p">,</span> <span class="n">EFermi</span>
   <span class="k">else</span><span class="p">:</span>
     <span class="k">return</span> <span class="n">eigenvalues</span> <span class="o">-</span> <span class="n">EFermi</span></div>
+<span class="c1">#-------------------------------------------------------------------</span>
+<div class="viewcode-block" id="readEpsilonImaginary"><a class="viewcode-back" href="../../../pyramids.io.html#pyramids.io.result.readEpsilonImaginary">[docs]</a><span class="k">def</span> <span class="nf">readEpsilonImaginary</span><span class="p">(</span><span class="n">filename</span> <span class="o">=</span> <span class="s1">&#39;siesta.EPSIMG&#39;</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  return the imaginary of epsilon</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="n">epsimgFile</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+  <span class="n">epsimg</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="nb">float</span><span class="p">(</span><span class="n">num</span><span class="p">)</span> <span class="k">for</span> <span class="n">num</span> <span class="ow">in</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">()]</span> 
+  <span class="k">for</span> <span class="n">il</span><span class="p">,</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">epsimgFile</span><span class="o">.</span><span class="n">readlines</span><span class="p">())</span> <span class="k">if</span> <span class="n">il</span> <span class="o">&gt;</span> <span class="mi">7</span><span class="p">])</span>
+  <span class="k">return</span> <span class="n">epsimg</span></div>
 <span class="c1">#-------------------------------------------------------------------     </span>
 <div class="viewcode-block" id="getFermiEnergy"><a class="viewcode-back" href="../../../pyramids.io.html#pyramids.io.result.getFermiEnergy">[docs]</a><span class="k">def</span> <span class="nf">getFermiEnergy</span><span class="p">():</span>
   <span class="sd">&quot;&quot;&quot;</span>
@@ -117,14 +296,26 @@
   
 <span class="c1">#-------------------------------------------------------------------       </span>
 <div class="viewcode-block" id="getEField"><a class="viewcode-back" href="../../../pyramids.io.html#pyramids.io.result.getEField">[docs]</a><span class="k">def</span> <span class="nf">getEField</span><span class="p">():</span>
-  <span class="n">Efield</span> <span class="o">=</span> <span class="p">[[</span><span class="nb">float</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">()]</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;TDEFIELD&#39;</span><span class="p">)]</span>
-  <span class="n">Efield</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">Efield</span><span class="p">)</span><span class="o">/</span><span class="mi">1</span><span class="n">E5</span>
-  <span class="n">options</span> <span class="o">=</span> <span class="n">tdapOptions</span><span class="p">()</span>
-  <span class="n">timestep</span> <span class="o">=</span> <span class="n">options</span><span class="o">.</span><span class="n">tdTimeStep</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-  <span class="n">time</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">Efield</span><span class="p">))</span><span class="o">*</span><span class="n">timestep</span>
+  <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="s1">&#39;TDEFIELD&#39;</span><span class="p">):</span>
+    <span class="n">Efield</span> <span class="o">=</span> <span class="p">[[</span><span class="nb">float</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">()]</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;TDEFIELD&#39;</span><span class="p">)]</span>
+    <span class="n">Efield</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">Efield</span><span class="p">)</span><span class="o">/</span><span class="mi">1</span><span class="n">E5</span>
+    <span class="n">options</span> <span class="o">=</span> <span class="n">tdapOptions</span><span class="p">()</span>
+    <span class="n">timestep</span> <span class="o">=</span> <span class="n">options</span><span class="o">.</span><span class="n">tdTimeStep</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">time</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">Efield</span><span class="p">))</span><span class="o">*</span><span class="n">timestep</span>
+  <span class="k">else</span><span class="p">:</span>
+    <span class="n">time</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">Efield</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">])</span>
   <span class="k">return</span> <span class="n">time</span><span class="p">,</span> <span class="n">Efield</span> </div>
 <span class="c1">#-------------------------------------------------------------------</span>
-<div class="viewcode-block" id="getEnergyTemperaturePressure"><a class="viewcode-back" href="../../../pyramids.io.html#pyramids.io.result.getEnergyTemperaturePressure">[docs]</a><span class="k">def</span> <span class="nf">getEnergyTemperaturePressure</span><span class="p">(</span><span class="n">timeType</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>    
+
+<div class="viewcode-block" id="getNumOfAtoms"><a class="viewcode-back" href="../../../pyramids.io.html#pyramids.io.result.getNumOfAtoms">[docs]</a><span class="k">def</span> <span class="nf">getNumOfAtoms</span><span class="p">():</span>
+  <span class="kn">import</span> <span class="nn">os</span>
+  <span class="n">f</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">popen</span><span class="p">(</span><span class="s1">&#39;grep &quot;Number of atoms&quot; -m 1 result&#39;</span><span class="p">)</span>
+  <span class="n">numAtom</span>  <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="o">-</span><span class="mi">3</span><span class="p">])</span>
+  <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+  <span class="k">return</span> <span class="n">numAtom</span></div>
+
+<div class="viewcode-block" id="getEnergyTemperaturePressure"><a class="viewcode-back" href="../../../pyramids.io.html#pyramids.io.result.getEnergyTemperaturePressure">[docs]</a><span class="k">def</span> <span class="nf">getEnergyTemperaturePressure</span><span class="p">(</span><span class="n">ave</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>    
   <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">  return the Temperature, KS Energy and Total Energy as the dimension of Nstep</span>
 <span class="sd">  read from systemLabel.MDE</span>
@@ -132,40 +323,44 @@
 <span class="sd">  &quot;&quot;&quot;</span>
   <span class="n">options</span> <span class="o">=</span> <span class="n">tdapOptions</span><span class="p">()</span>
   <span class="n">systemLabel</span> <span class="o">=</span> <span class="n">options</span><span class="o">.</span><span class="n">label</span>
-  <span class="k">if</span> <span class="n">timeType</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+  <span class="k">if</span> <span class="n">options</span><span class="o">.</span><span class="n">mdTimeStep</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="n">E</span><span class="o">-</span><span class="mi">10</span><span class="p">:</span>
     <span class="n">timestep</span> <span class="o">=</span> <span class="n">options</span><span class="o">.</span><span class="n">tdTimeStep</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">start</span> <span class="o">=</span> <span class="mi">2</span>
   <span class="k">else</span><span class="p">:</span>
+    <span class="n">start</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="n">timestep</span> <span class="o">=</span> <span class="n">options</span><span class="o">.</span><span class="n">mdTimeStep</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
   <span class="n">energy_file</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">systemLabel</span><span class="o">+</span><span class="s1">&#39;.MDE&#39;</span><span class="p">)</span>
   <span class="n">data</span> <span class="o">=</span> <span class="p">[]</span>
   <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">energy_file</span><span class="o">.</span><span class="n">readlines</span><span class="p">():</span>
     <span class="k">if</span> <span class="n">i</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span><span class="o">==</span><span class="s1">&#39;#&#39;</span><span class="p">:</span> <span class="k">continue</span>
-    <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="nb">float</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">i</span><span class="o">.</span><span class="n">split</span><span class="p">()])</span>
+    <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="nb">float</span><span class="p">(</span><span class="n">j</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;*&#39;</span><span class="p">,</span><span class="s1">&#39;0&#39;</span><span class="p">))</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">i</span><span class="o">.</span><span class="n">split</span><span class="p">()])</span>
 
   <span class="n">data</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> 
-  <span class="n">X</span><span class="o">=</span><span class="n">data</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">timestep</span>
-  <span class="k">return</span> <span class="n">X</span><span class="p">,</span> <span class="n">data</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span> <span class="n">data</span><span class="p">[:,</span><span class="mi">2</span><span class="p">],</span> <span class="n">data</span><span class="p">[:,</span><span class="mi">3</span><span class="p">],</span> <span class="n">data</span><span class="p">[:,</span><span class="mi">4</span><span class="p">],</span> <span class="n">data</span><span class="p">[:,</span><span class="mi">5</span><span class="p">]</span></div>
+  <span class="k">if</span> <span class="n">ave</span><span class="p">:</span>
+    <span class="n">numAtom</span> <span class="o">=</span> <span class="n">getNumOfAtoms</span><span class="p">()</span>
+    <span class="c1">#print numAtom</span>
+    <span class="n">data</span><span class="p">[</span><span class="n">start</span><span class="p">:,</span><span class="mi">2</span><span class="p">:</span><span class="mi">3</span><span class="p">]</span> <span class="o">/=</span> <span class="n">numAtom</span>
+  <span class="c1">#print data</span>
+  <span class="n">X</span> <span class="o">=</span> <span class="n">data</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">timestep</span>
+  <span class="k">return</span> <span class="n">X</span><span class="p">[</span><span class="n">start</span><span class="p">:],</span> <span class="n">data</span><span class="p">[</span><span class="n">start</span><span class="p">:,</span><span class="mi">1</span><span class="p">],</span> <span class="n">data</span><span class="p">[</span><span class="n">start</span><span class="p">:,</span><span class="mi">2</span><span class="p">],</span> <span class="n">data</span><span class="p">[</span><span class="n">start</span><span class="p">:,</span><span class="mi">3</span><span class="p">],</span> <span class="n">data</span><span class="p">[</span><span class="n">start</span><span class="p">:,</span><span class="mi">4</span><span class="p">],</span> <span class="n">data</span><span class="p">[</span><span class="n">start</span><span class="p">:,</span><span class="mi">5</span><span class="p">]</span></div>
 <span class="c1">#-------------------------------------------------------------------  </span>
 <div class="viewcode-block" id="getEIGSteps"><a class="viewcode-back" href="../../../pyramids.io.html#pyramids.io.result.getEIGSteps">[docs]</a><span class="k">def</span> <span class="nf">getEIGSteps</span><span class="p">():</span>
   <span class="n">options</span> <span class="o">=</span> <span class="n">tdapOptions</span><span class="p">()</span>
-  <span class="n">stepLines</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">popen</span><span class="p">(</span><span class="s1">&#39;ls &#39;</span><span class="o">+</span><span class="n">options</span><span class="o">.</span><span class="n">label</span><span class="o">+</span><span class="s1">&#39;[1-9]*q.EIG&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
-  <span class="c1">#print stepLines</span>
-  <span class="c1">#print [(step.split(&#39;q.&#39;)[0].replace(options.label,&#39;&#39;)) for step in stepLines]</span>
-  <span class="n">steps</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">step</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;q.&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">options</span><span class="o">.</span><span class="n">label</span><span class="p">,</span><span class="s1">&#39;&#39;</span><span class="p">))</span> <span class="k">for</span> <span class="n">step</span> <span class="ow">in</span> <span class="n">stepLines</span><span class="p">]</span>
+  <span class="n">steps</span> <span class="o">=</span> <span class="p">[]</span>
+  <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">):</span>
+      <span class="k">if</span> <span class="n">i</span><span class="p">[:</span><span class="mi">6</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;siesta&#39;</span> <span class="ow">and</span> <span class="n">i</span><span class="p">[</span><span class="o">-</span><span class="mi">5</span><span class="p">:]</span> <span class="o">==</span> <span class="s1">&#39;q.EIG&#39;</span><span class="p">:</span>
+          <span class="n">steps</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">i</span><span class="p">[</span><span class="mi">6</span><span class="p">:</span><span class="o">-</span><span class="mi">5</span><span class="p">]))</span>
+
   <span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">steps</span><span class="p">),</span><span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
-  <span class="nb">print</span> <span class="n">a</span>  
+  <span class="c1">#print a  </span>
   <span class="k">return</span> <span class="n">a</span></div>
- <span class="c1">#-------------------------------------------------------------------  </span>
-<div class="viewcode-block" id="getBerrySteps"><a class="viewcode-back" href="../../../pyramids.io.html#pyramids.io.result.getBerrySteps">[docs]</a><span class="k">def</span> <span class="nf">getBerrySteps</span><span class="p">():</span>
-  <span class="n">options</span> <span class="o">=</span> <span class="n">tdapOptions</span><span class="p">()</span>
-  <span class="n">stepLines</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">popen</span><span class="p">(</span><span class="s1">&#39;ls &#39;</span><span class="o">+</span><span class="n">options</span><span class="o">.</span><span class="n">label</span><span class="o">+</span><span class="s1">&#39;*.Berry&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
-  <span class="n">steps</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">step</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">options</span><span class="o">.</span><span class="n">label</span><span class="p">,</span><span class="s1">&#39;&#39;</span><span class="p">))</span> <span class="k">for</span> <span class="n">step</span> <span class="ow">in</span> <span class="n">stepLines</span><span class="p">]</span>
-  <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">steps</span><span class="p">)</span></div>
+
 <span class="c1">#-------------------------------------------------------------------</span>
-<div class="viewcode-block" id="getExcitedElectrons"><a class="viewcode-back" href="../../../pyramids.io.html#pyramids.io.result.getExcitedElectrons">[docs]</a><span class="k">def</span> <span class="nf">getExcitedElectrons</span><span class="p">(</span><span class="n">selectK</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="getExcitedElectrons"><a class="viewcode-back" href="../../../pyramids.io.html#pyramids.io.result.getExcitedElectrons">[docs]</a><span class="k">def</span> <span class="nf">getExcitedElectrons</span><span class="p">(</span><span class="n">selectK</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">comp</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
   <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">  &quot;&quot;&quot;</span>
   <span class="n">homo</span> <span class="o">=</span> <span class="n">getHomo</span><span class="p">()</span>
+  <span class="n">kpoint</span><span class="p">,</span><span class="n">kweight</span> <span class="o">=</span> <span class="n">readKpoints</span><span class="p">()</span>
   <span class="n">options</span> <span class="o">=</span> <span class="n">tdapOptions</span><span class="p">()</span>
   <span class="n">selectStep</span> <span class="o">=</span> <span class="n">getEIGSteps</span><span class="p">()</span>
   <span class="c1">#print selectStep</span>
@@ -173,26 +368,79 @@
   <span class="n">selectTime</span> <span class="o">=</span> <span class="n">selectStep</span><span class="o">*</span><span class="n">timestep</span>
   
   <span class="n">SaveName</span> <span class="o">=</span> <span class="s1">&#39;ExcitedElectrons&#39;</span>
+  <span class="n">SaveName1</span> <span class="o">=</span> <span class="s1">&#39;ExcitedElectrons1&#39;</span>
   <span class="n">exe</span> <span class="o">=</span> <span class="n">loadSaved</span><span class="p">(</span><span class="n">SaveName</span><span class="p">)</span>
+  <span class="n">exe1</span> <span class="o">=</span> <span class="n">loadSaved</span><span class="p">(</span><span class="n">SaveName</span><span class="p">)</span>
   <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">exe</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">selectStep</span><span class="p">):</span>
     <span class="n">exe</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="nb">len</span><span class="p">(</span><span class="n">selectStep</span><span class="p">)])</span>
+    <span class="n">exe1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="nb">len</span><span class="p">(</span><span class="n">selectStep</span><span class="p">)])</span>
     <span class="k">for</span> <span class="n">index</span><span class="p">,</span><span class="n">step</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">selectStep</span><span class="p">):</span>
-      <span class="n">Bands</span> <span class="o">=</span> <span class="n">readEigFile</span><span class="p">(</span><span class="n">options</span><span class="o">.</span><span class="n">label</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">step</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;q.EIG&#39;</span><span class="p">)</span>
+      <span class="n">partition</span> <span class="o">=</span> <span class="n">readEigFile</span><span class="p">(</span><span class="n">options</span><span class="o">.</span><span class="n">label</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">step</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;q.EIG&#39;</span><span class="p">)</span>
+      <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">partition</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+        <span class="n">partition</span><span class="p">[</span><span class="n">i</span><span class="p">,:]</span> <span class="o">*=</span> <span class="n">kweight</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
       <span class="k">if</span> <span class="n">selectK</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span> 
-        <span class="n">exe</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="o">=</span> <span class="n">homo</span><span class="o">*</span><span class="mf">2.0</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">Bands</span><span class="p">[</span><span class="n">selectK</span><span class="p">,:</span><span class="n">homo</span><span class="p">])</span><span class="o">/</span><span class="n">Bands</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">exe</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">partition</span><span class="p">[</span><span class="n">selectK</span><span class="p">,</span><span class="n">homo</span><span class="p">:])</span>
       <span class="k">else</span><span class="p">:</span>
-        <span class="n">exe</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="o">=</span> <span class="n">homo</span><span class="o">*</span><span class="mf">2.0</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">Bands</span><span class="p">[:,:])</span><span class="o">/</span><span class="n">Bands</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">exe</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="o">=</span> <span class="n">homo</span><span class="o">*</span><span class="mi">2</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">partition</span><span class="p">[:,:</span><span class="n">homo</span><span class="p">])</span>
+        <span class="n">exe1</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">partition</span><span class="p">[:,</span><span class="n">homo</span><span class="p">:])</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">SaveName</span><span class="p">,</span><span class="n">exe</span><span class="p">)</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">SaveName1</span><span class="p">,</span><span class="n">exe1</span><span class="p">)</span>
+
+  <span class="k">if</span> <span class="n">comp</span><span class="p">:</span>
+    <span class="k">return</span> <span class="n">selectTime</span><span class="p">,</span> <span class="n">exe</span><span class="p">,</span> <span class="n">exe1</span>
+  <span class="k">else</span><span class="p">:</span>
+    <span class="k">return</span> <span class="n">selectTime</span><span class="p">,</span> <span class="n">exe</span></div>
+<span class="c1">#-------------------------------------------------------------------</span>
+<div class="viewcode-block" id="getAdiabaticEigenvalue"><a class="viewcode-back" href="../../../pyramids.io.html#pyramids.io.result.getAdiabaticEigenvalue">[docs]</a><span class="k">def</span> <span class="nf">getAdiabaticEigenvalue</span><span class="p">(</span><span class="n">selectK</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="n">options</span> <span class="o">=</span> <span class="n">tdapOptions</span><span class="p">()</span>
+  <span class="n">selectStep</span> <span class="o">=</span> <span class="n">getEIGSteps</span><span class="p">()</span>
+  <span class="c1">#print selectStep</span>
+  <span class="n">timestep</span> <span class="o">=</span> <span class="n">options</span><span class="o">.</span><span class="n">tdTimeStep</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+  <span class="n">selectTime</span> <span class="o">=</span> <span class="n">selectStep</span><span class="o">*</span><span class="n">timestep</span>
+  
+  <span class="n">SaveName</span> <span class="o">=</span> <span class="s1">&#39;AdiabaticEigenvalue&#39;</span>
+  <span class="n">exe</span> <span class="o">=</span> <span class="n">loadSaved</span><span class="p">(</span><span class="n">SaveName</span><span class="p">)</span>
+  <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">exe</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">selectStep</span><span class="p">):</span>
+    <span class="n">exe</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">index</span><span class="p">,</span><span class="n">step</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">selectStep</span><span class="p">):</span>
+      <span class="n">partition</span> <span class="o">=</span> <span class="n">readEigFile</span><span class="p">(</span><span class="n">options</span><span class="o">.</span><span class="n">label</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">step</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;.EIG&#39;</span><span class="p">)</span>
+      <span class="n">exe</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">partition</span><span class="p">)</span>
+    <span class="n">exe</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">exe</span><span class="p">)</span>
     <span class="n">np</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">SaveName</span><span class="p">,</span><span class="n">exe</span><span class="p">)</span>
   
   <span class="k">return</span> <span class="n">selectTime</span><span class="p">,</span> <span class="n">exe</span></div>
 
+<span class="c1">#-------------------------------------------------------------------</span>
+<div class="viewcode-block" id="getProjectedPartition"><a class="viewcode-back" href="../../../pyramids.io.html#pyramids.io.result.getProjectedPartition">[docs]</a><span class="k">def</span> <span class="nf">getProjectedPartition</span><span class="p">(</span><span class="n">selectK</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="n">options</span> <span class="o">=</span> <span class="n">tdapOptions</span><span class="p">()</span>
+  <span class="n">selectStep</span> <span class="o">=</span> <span class="n">getEIGSteps</span><span class="p">()</span>
+  <span class="c1">#print selectStep</span>
+  <span class="n">timestep</span> <span class="o">=</span> <span class="n">options</span><span class="o">.</span><span class="n">tdTimeStep</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+  <span class="n">selectTime</span> <span class="o">=</span> <span class="n">selectStep</span><span class="o">*</span><span class="n">timestep</span>
+  
+  <span class="n">SaveName</span> <span class="o">=</span> <span class="s1">&#39;ProjectedPartition&#39;</span>
+  <span class="n">exe</span> <span class="o">=</span> <span class="p">[]</span>
+  <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">exe</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">selectStep</span><span class="p">):</span>
+    <span class="n">exe</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">index</span><span class="p">,</span><span class="n">step</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">selectStep</span><span class="p">):</span>
+      <span class="n">partition</span> <span class="o">=</span> <span class="n">readEigFile</span><span class="p">(</span><span class="n">options</span><span class="o">.</span><span class="n">label</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">step</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;q.EIG&#39;</span><span class="p">)</span>
+      <span class="n">exe</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">partition</span><span class="p">)</span>
+    <span class="n">exe</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">exe</span><span class="p">)</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">SaveName</span><span class="p">,</span><span class="n">exe</span><span class="p">)</span>
+  
+  <span class="k">return</span> <span class="n">selectTime</span><span class="p">,</span> <span class="n">exe</span></div>
 <span class="c1">#-------------------------------------------------------------------</span>
 <div class="viewcode-block" id="getHomo"><a class="viewcode-back" href="../../../pyramids.io.html#pyramids.io.result.getHomo">[docs]</a><span class="k">def</span> <span class="nf">getHomo</span><span class="p">():</span>
   <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">  return the index of the highest occupied molecular orbital (HOMO)</span>
 <span class="sd">  &quot;&quot;&quot;</span>
   <span class="n">options</span> <span class="o">=</span> <span class="n">tdapOptions</span><span class="p">()</span>
-  <span class="n">NumElectron</span><span class="o">=</span><span class="nb">float</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">popen</span><span class="p">(</span><span class="s1">&#39;grep &quot;Total number of electrons:&quot; result&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> 
+  <span class="c1">#NumElectron=float(os.popen(&#39;grep &quot;Total number of electrons:&quot; result&#39;).readline().split()[-1]) </span>
+  <span class="n">NumElectron</span><span class="o">=</span><span class="nb">float</span><span class="p">(</span><span class="n">pythonGrep</span><span class="p">(</span><span class="s2">&quot;Total number of electrons:&quot;</span><span class="p">,</span><span class="s1">&#39;result&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> 
   <span class="n">readFile</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">popen</span><span class="p">(</span><span class="s1">&#39;grep -i &quot;SpinPolarized&quot; &#39;</span><span class="o">+</span> <span class="n">options</span><span class="o">.</span><span class="n">inputFile</span><span class="p">)</span>
   <span class="n">line</span> <span class="o">=</span> <span class="n">readFile</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span>
   <span class="k">if</span> <span class="n">line</span> <span class="o">==</span> <span class="s1">&#39;&#39;</span><span class="p">:</span>
@@ -201,7 +449,11 @@
     <span class="n">nspin</span> <span class="o">=</span> <span class="mi">1</span>
   <span class="n">homo</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">NumElectron</span><span class="p">)</span> <span class="o">/</span> <span class="n">nspin</span>
   <span class="k">return</span> <span class="n">homo</span></div>
-  
+<span class="c1">#-------------------------------------------------------------------</span>
+<div class="viewcode-block" id="getDipoleFromFile"><a class="viewcode-back" href="../../../pyramids.io.html#pyramids.io.result.getDipoleFromFile">[docs]</a><span class="k">def</span> <span class="nf">getDipoleFromFile</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+  <span class="n">lines</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
+  <span class="n">dipole</span> <span class="o">=</span> <span class="p">[(</span><span class="nb">float</span><span class="p">(</span><span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="o">-</span><span class="mi">3</span><span class="p">]),</span><span class="nb">float</span><span class="p">(</span><span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="o">-</span><span class="mi">2</span><span class="p">]),</span><span class="nb">float</span><span class="p">(</span><span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">]</span>
+  <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">dipole</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span></div>
 <span class="c1">#-------------------------------------------------------------------</span>
 <div class="viewcode-block" id="getDipole"><a class="viewcode-back" href="../../../pyramids.io.html#pyramids.io.result.getDipole">[docs]</a><span class="k">def</span> <span class="nf">getDipole</span><span class="p">():</span>
   <span class="n">options</span> <span class="o">=</span> <span class="n">tdapOptions</span><span class="p">()</span>
@@ -211,6 +463,28 @@
   <span class="n">dipole</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">dipole</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
   <span class="n">time</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">dipole</span><span class="p">))</span><span class="o">*</span><span class="n">timestep</span>
   <span class="k">return</span> <span class="n">time</span><span class="p">,</span> <span class="n">dipole</span></div>
+  
+<span class="c1">#-------------------------------------------------------------------</span>
+<div class="viewcode-block" id="getDipolePython"><a class="viewcode-back" href="../../../pyramids.io.html#pyramids.io.result.getDipolePython">[docs]</a><span class="k">def</span> <span class="nf">getDipolePython</span><span class="p">():</span>
+  <span class="n">options</span> <span class="o">=</span> <span class="n">tdapOptions</span><span class="p">()</span>
+  <span class="n">context</span> <span class="o">=</span> <span class="p">[]</span>
+  <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;result&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">readlines</span><span class="p">():</span>
+      <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">line</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+          <span class="k">continue</span>
+      <span class="c1">#print line,</span>
+      <span class="k">if</span> <span class="s1">&#39;Electric&#39;</span> <span class="ow">in</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">()</span> <span class="ow">and</span> <span class="s1">&#39;TDAP&#39;</span> <span class="ow">in</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">()</span> <span class="p">:</span>
+          <span class="n">context</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">line</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+          
+  <span class="c1">#for line in context:</span>
+  <span class="c1">#    print line.split()[-3:]</span>
+       
+  <span class="n">dipole</span> <span class="o">=</span> <span class="p">[[</span><span class="nb">float</span><span class="p">(</span><span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="o">-</span><span class="mi">3</span><span class="p">]),</span><span class="nb">float</span><span class="p">(</span><span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="o">-</span><span class="mi">2</span><span class="p">]),</span><span class="nb">float</span><span class="p">(</span><span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="o">-</span><span class="mi">1</span><span class="p">])]</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">context</span><span class="p">]</span>
+  <span class="c1">#print context</span>
+  <span class="c1">#dipole = [(float(line.split()[-3]),float(line.split()[-2]),float(line.split()[-1])) for line in lines]</span>
+  <span class="n">timestep</span> <span class="o">=</span> <span class="n">options</span><span class="o">.</span><span class="n">tdTimeStep</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+  <span class="n">dipole</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">dipole</span><span class="p">)</span>
+  <span class="n">time</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">dipole</span><span class="p">))</span><span class="o">*</span><span class="n">timestep</span>
+  <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">time</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">dipole</span><span class="p">)</span></div>
 <span class="c1">#-------------------------------------------------------------------</span>
 <div class="viewcode-block" id="getIonicPolarization"><a class="viewcode-back" href="../../../pyramids.io.html#pyramids.io.result.getIonicPolarization">[docs]</a><span class="k">def</span> <span class="nf">getIonicPolarization</span><span class="p">():</span>
   <span class="n">lines</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">popen</span><span class="p">(</span><span class="s1">&#39;grep -n &quot;The ionic Polarization (a.u.):&quot; result&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>    
@@ -273,8 +547,28 @@
     <span class="n">eig</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">readEigFile</span><span class="p">(</span><span class="n">systemLabel</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;td.EIG&#39;</span><span class="p">,</span><span class="n">sep</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">steps</span><span class="p">])</span>
     <span class="n">np</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s1">&#39;TDEIG&#39;</span><span class="p">,</span><span class="n">eig</span><span class="p">)</span>
   
-  <span class="k">return</span> <span class="n">time</span><span class="p">,</span> <span class="n">eig</span>   </div>
+  <span class="k">return</span> <span class="n">time</span><span class="p">,</span> <span class="n">eig</span></div>
   
+<span class="c1">#------------------------------------------------------------------- </span>
+<div class="viewcode-block" id="getVASPBands"><a class="viewcode-back" href="../../../pyramids.io.html#pyramids.io.result.getVASPBands">[docs]</a><span class="k">def</span> <span class="nf">getVASPBands</span><span class="p">():</span>  
+  <span class="n">f</span><span class="o">=</span><span class="nb">open</span><span class="p">(</span><span class="s1">&#39;EIGENVAL&#39;</span><span class="p">,</span><span class="s1">&#39;r&#39;</span><span class="p">)</span>
+  <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">):</span>
+  	<span class="n">f</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span>
+  
+  <span class="n">x</span><span class="p">,</span><span class="n">nk</span><span class="p">,</span><span class="n">nb</span><span class="o">=</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">f</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">())</span>
+  <span class="nb">print</span> <span class="n">nk</span><span class="p">,</span><span class="n">nb</span>
+  <span class="n">bands</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="n">nk</span><span class="p">,</span><span class="n">nb</span><span class="p">])</span>
+  <span class="n">kpoints</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="n">nk</span><span class="p">,</span><span class="mi">3</span><span class="p">])</span>
+  <span class="n">x</span><span class="o">=</span><span class="nb">range</span><span class="p">(</span><span class="n">nk</span><span class="p">)</span>
+  <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nk</span><span class="p">):</span>
+  	<span class="n">f</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span>
+  	<span class="n">coor</span><span class="o">=</span><span class="n">f</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+  	<span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
+  		<span class="n">kpoints</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="n">k</span><span class="p">]</span><span class="o">=</span><span class="nb">float</span><span class="p">(</span><span class="n">coor</span><span class="p">[</span><span class="n">k</span><span class="p">])</span>	
+  	<span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nb</span><span class="p">):</span>
+  		<span class="n">bands</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">]</span><span class="o">=</span><span class="nb">float</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="mi">1</span><span class="p">])</span>
+  <span class="k">return</span> <span class="n">x</span><span class="p">,</span> <span class="n">bands</span></div>
+
 <span class="c1">#------------------------------------------------------------------- </span>
 <div class="viewcode-block" id="getBands"><a class="viewcode-back" href="../../../pyramids.io.html#pyramids.io.result.getBands">[docs]</a><span class="k">def</span> <span class="nf">getBands</span><span class="p">(</span><span class="n">bandType</span><span class="o">=</span><span class="s1">&#39;e&#39;</span><span class="p">):</span>
   <span class="sd">&quot;&quot;&quot;</span>
@@ -437,7 +731,7 @@
       &copy;2016, Chao Lian.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.6</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.9</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
       
     </div>

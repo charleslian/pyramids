@@ -23,6 +23,8 @@
     <script type="text/javascript" src="../../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
     <link rel="top" title="pyramids  documentation" href="../../../index.html" />
     <link rel="up" title="Module code" href="../../index.html" />
    
@@ -60,6 +62,17 @@
     
   <span class="c1"># Kick = [    0.000000000000e+00,     1.000000000000e-05,     0.000000000000e+00]</span>
 
+<div class="viewcode-block" id="writeKLines"><a class="viewcode-back" href="../../../pyramids.io.html#pyramids.io.output.writeKLines">[docs]</a><span class="k">def</span> <span class="nf">writeKLines</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">points</span><span class="p">):</span>
+  <span class="n">lines</span> <span class="o">=</span> <span class="s1">&#39;%block BandLines </span><span class="se">\n</span><span class="s1">&#39;</span>
+  <span class="n">N</span> <span class="o">=</span> <span class="mi">50</span>
+  <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">kpt</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">points</span><span class="p">):</span>
+    <span class="c1">#print kpt</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="p">(</span><span class="n">N</span><span class="o">*</span><span class="n">index</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">kpt</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">kpt</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="n">kpt</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">2</span><span class="p">],</span> <span class="n">kpt</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">lines</span> <span class="o">+=</span> <span class="s1">&#39;</span><span class="si">%i</span><span class="s1"> </span><span class="si">%3.2f</span><span class="s1"> </span><span class="si">%3.2f</span><span class="s1"> </span><span class="si">%3.2f</span><span class="s1"> </span><span class="si">%s</span><span class="s1"> </span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">%</span> <span class="n">out</span>
+  <span class="n">lines</span> <span class="o">+=</span> <span class="s1">&#39;</span><span class="si">%e</span><span class="s1">ndblock BandLines </span><span class="se">\n</span><span class="s1">&#39;</span>  
+  <span class="n">fdf</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span><span class="s1">&#39;w&#39;</span><span class="p">)</span>
+  <span class="n">fdf</span><span class="o">.</span><span class="n">writelines</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span></div>
+    
   
 <div class="viewcode-block" id="writeSiesta"><a class="viewcode-back" href="../../../pyramids.io.html#pyramids.io.output.writeSiesta">[docs]</a><span class="k">def</span> <span class="nf">writeSiesta</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span><span class="n">atoms</span><span class="p">):</span>
   <span class="n">NumberOfAtoms</span><span class="o">=</span><span class="n">atoms</span><span class="o">.</span><span class="n">get_number_of_atoms</span><span class="p">()</span>
@@ -104,6 +117,69 @@
     
   <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span>
   <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%e</span><span class="s2">ndblock AtomicCoordinatesAndAtomicSpecies</span><span class="se">\n\n</span><span class="s2">&quot;</span><span class="p">)</span></div>
+  
+<div class="viewcode-block" id="splitMDCAR"><a class="viewcode-back" href="../../../pyramids.io.html#pyramids.io.output.splitMDCAR">[docs]</a><span class="k">def</span> <span class="nf">splitMDCAR</span><span class="p">():</span>
+  <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  split the siesta.MD_CAR file to POSCAR file per step</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="kn">import</span> <span class="nn">os</span>
+  <span class="n">systemLabel</span> <span class="o">=</span> <span class="s1">&#39;siesta&#39;</span>
+  <span class="n">NumBlocks</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">popen</span><span class="p">(</span><span class="s1">&#39;grep -i &#39;</span><span class="o">+</span><span class="n">systemLabel</span><span class="o">+</span><span class="s1">&#39; &#39;</span><span class="o">+</span><span class="n">systemLabel</span><span class="o">+</span><span class="s1">&#39;.MD_CAR | wc -l&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="mi">0</span><span class="p">])</span>
+  <span class="n">position_file</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;siesta&#39;</span><span class="o">+</span><span class="s1">&#39;.MD_CAR&#39;</span><span class="p">)</span>
+  <span class="n">atomNumList</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">popen</span><span class="p">(</span><span class="s1">&#39;head -6 siesta.MD_CAR |tail -1&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">()]</span>
+  <span class="n">numAtomPositionLine</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">atomNumList</span><span class="p">)</span>
+  <span class="n">totalNumLine</span> <span class="o">=</span> <span class="n">numAtomPositionLine</span> <span class="o">+</span> <span class="mi">7</span>
+  <span class="n">context</span> <span class="o">=</span> <span class="n">position_file</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
+  <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">NumBlocks</span><span class="p">):</span>
+    <span class="n">output</span><span class="o">=</span><span class="n">context</span><span class="p">[</span><span class="n">index</span><span class="o">*</span><span class="n">totalNumLine</span><span class="p">:(</span><span class="n">index</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">totalNumLine</span><span class="p">]</span>
+    <span class="n">poscarFileName</span> <span class="o">=</span> <span class="s2">&quot;POSCAR&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">index</span><span class="p">)</span>
+    <span class="n">poscarFile</span><span class="o">=</span><span class="nb">open</span><span class="p">(</span><span class="n">poscarFileName</span><span class="p">,</span><span class="s1">&#39;w&#39;</span><span class="p">)</span>
+    <span class="n">poscarFile</span><span class="o">.</span><span class="n">writelines</span><span class="p">(</span><span class="n">output</span><span class="p">)</span></div>
+    
+<div class="viewcode-block" id="writeQE"><a class="viewcode-back" href="../../../pyramids.io.html#pyramids.io.output.writeQE">[docs]</a><span class="k">def</span> <span class="nf">writeQE</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span><span class="n">atoms</span><span class="p">):</span>
+  <span class="n">NumberOfAtoms</span><span class="o">=</span><span class="n">atoms</span><span class="o">.</span><span class="n">get_number_of_atoms</span><span class="p">()</span>
+  <span class="n">elements</span><span class="o">=</span><span class="nb">set</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">atoms</span><span class="o">.</span><span class="n">get_chemical_symbols</span><span class="p">(),</span> 
+                   <span class="n">atoms</span><span class="o">.</span><span class="n">get_atomic_numbers</span><span class="p">(),</span> <span class="n">atoms</span><span class="o">.</span><span class="n">get_masses</span><span class="p">()))</span>
+  <span class="c1">#print list(elements).sort(key=) </span>
+  <span class="n">NumberOfSpecies</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">elements</span><span class="p">)</span>
+  
+  <span class="n">cell</span><span class="o">=</span><span class="n">atoms</span><span class="o">.</span><span class="n">get_cell</span><span class="p">()</span>
+  <span class="nb">print</span> <span class="n">atoms</span><span class="o">.</span><span class="n">get_masses</span><span class="p">()</span>
+  
+  <span class="n">f</span><span class="o">=</span><span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span><span class="s1">&#39;w&#39;</span><span class="p">)</span>
+
+  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;&amp;system</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;  ibrav = 0,</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;  nat = &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">NumberOfAtoms</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;,</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;  ntyp = &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">NumberOfSpecies</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;,</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;  ecutwfc = 20.0 </span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;/</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+  
+  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;CELL_PARAMETERS angstrom</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+  <span class="n">lines</span><span class="o">=</span> <span class="s1">&#39;&#39;</span> 
+  <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">cell</span><span class="p">:</span>
+    <span class="n">lines</span> <span class="o">+=</span> <span class="s2">&quot;  </span><span class="si">%21.16f</span><span class="s2"> </span><span class="si">%21.16f</span><span class="s2"> </span><span class="si">%21.16f</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span>
+  
+  <span class="c1">#f.write(&quot;%block ChemicalSpeciesLabel\n&quot;)</span>
+  <span class="n">lines</span><span class="o">=</span> <span class="s1">&#39;ATOMIC_SPECIES</span><span class="se">\n</span><span class="s1">&#39;</span>
+  
+  <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">element</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">elements</span><span class="p">):</span>
+    <span class="n">lines</span><span class="o">+=</span> <span class="s2">&quot;</span><span class="si">%5s</span><span class="s2"> </span><span class="si">%21.16f</span><span class="s2"> </span><span class="si">%5s</span><span class="s2">.pbe-mt_fhi.UPF</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">element</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">element</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">element</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+  
+  <span class="c1">#print element_index</span>
+  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span>
+  <span class="c1">#f.write(&quot;%endblock ChemicalSpeciesLabel\n\n&quot;)</span>
+  
+  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;ATOMIC_POSITIONS angstrom</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+  <span class="n">lines</span><span class="o">=</span> <span class="s1">&#39;&#39;</span>
+  <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">atoms</span><span class="o">.</span><span class="n">get_positions</span><span class="p">(),</span><span class="n">atoms</span><span class="o">.</span><span class="n">get_chemical_symbols</span><span class="p">()):</span>
+    <span class="n">lines</span> <span class="o">+=</span>  <span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">lines</span> <span class="o">+=</span> <span class="s2">&quot; </span><span class="si">%21.16f</span><span class="s2"> </span><span class="si">%21.16f</span><span class="s2"> </span><span class="si">%21.16f</span><span class="s2"> </span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    
+  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span>
+  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n\n</span><span class="s2">&quot;</span><span class="p">)</span>  </div>
+  
 </pre></div>
 
           </div>
@@ -137,7 +213,7 @@
       &copy;2016, Chao Lian.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.6</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.9</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
       
     </div>

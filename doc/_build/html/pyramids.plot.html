@@ -23,6 +23,8 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
     <link rel="top" title="pyramids  documentation" href="index.html" />
     <link rel="up" title="pyramids package" href="pyramids.html" />
     <link rel="next" title="pyramids.process package" href="pyramids.process.html" />
@@ -51,6 +53,11 @@
 <span id="pyramids-plot-plotutility-module"></span><h2>pyramids.plot.PlotUtility module<a class="headerlink" href="#module-pyramids.plot.PlotUtility" title="Permalink to this headline">¶</a></h2>
 <p>Created on Fri Jan 22 18:16:20 2016
 The collection of the useful methods used in the TDAP results analysis</p>
+<dl class="function">
+<dt id="pyramids.plot.PlotUtility.confStructrueFigure">
+<code class="descclassname">pyramids.plot.PlotUtility.</code><code class="descname">confStructrueFigure</code><span class="sig-paren">(</span><em>ax</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyramids/plot/PlotUtility.html#confStructrueFigure"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyramids.plot.PlotUtility.confStructrueFigure" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 <dl class="function">
 <dt id="pyramids.plot.PlotUtility.drawBands">
 <code class="descclassname">pyramids.plot.PlotUtility.</code><code class="descname">drawBands</code><span class="sig-paren">(</span><em>ax</em>, <em>bandType='e'</em>, <em>label=''</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyramids/plot/PlotUtility.html#drawBands"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyramids.plot.PlotUtility.drawBands" title="Permalink to this definition">¶</a></dt>
@@ -99,6 +106,79 @@ The collection of the useful methods used in the TDAP results analysis</p>
 <dd><p>Draw the KS Energy and Total Energy in the ax</p>
 </dd></dl>
 
+<dl class="function">
+<dt id="pyramids.plot.PlotUtility.generateStructPNG">
+<code class="descclassname">pyramids.plot.PlotUtility.</code><code class="descname">generateStructPNG</code><span class="sig-paren">(</span><em>atoms=None, rotation=[0, 0, 0], camera='perspective', repeat=[1, 1, 1], cell=False, **args</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyramids/plot/PlotUtility.html#generateStructPNG"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyramids.plot.PlotUtility.generateStructPNG" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pyramids.plot.PlotUtility.insertImag">
+<code class="descclassname">pyramids.plot.PlotUtility.</code><code class="descname">insertImag</code><span class="sig-paren">(</span><em>ax</em>, <em>filename='struct.png'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyramids/plot/PlotUtility.html#insertImag"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyramids.plot.PlotUtility.insertImag" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pyramids.plot.PlotUtility.insertStruct">
+<code class="descclassname">pyramids.plot.PlotUtility.</code><code class="descname">insertStruct</code><span class="sig-paren">(</span><em>ax</em>, <em>**args</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyramids/plot/PlotUtility.html#insertStruct"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyramids.plot.PlotUtility.insertStruct" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pyramids.plot.PlotUtility.plot2DBZ">
+<code class="descclassname">pyramids.plot.PlotUtility.</code><code class="descname">plot2DBZ</code><span class="sig-paren">(</span><em>ax</em>, <em>atoms</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyramids/plot/PlotUtility.html#plot2DBZ"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyramids.plot.PlotUtility.plot2DBZ" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pyramids.plot.PlotUtility.plotAllEnergies">
+<code class="descclassname">pyramids.plot.PlotUtility.</code><code class="descname">plotAllEnergies</code><span class="sig-paren">(</span><em>ax</em>, <em>label=''</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyramids/plot/PlotUtility.html#plotAllEnergies"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyramids.plot.PlotUtility.plotAllEnergies" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pyramids.plot.PlotUtility.plotEField">
+<code class="descclassname">pyramids.plot.PlotUtility.</code><code class="descname">plotEField</code><span class="sig-paren">(</span><em>ax</em>, <em>label=''</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyramids/plot/PlotUtility.html#plotEField"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyramids.plot.PlotUtility.plotEField" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pyramids.plot.PlotUtility.plotExcitation">
+<code class="descclassname">pyramids.plot.PlotUtility.</code><code class="descname">plotExcitation</code><span class="sig-paren">(</span><em>ax</em>, <em>label=''</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyramids/plot/PlotUtility.html#plotExcitation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyramids.plot.PlotUtility.plotExcitation" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pyramids.plot.PlotUtility.plotRMSD">
+<code class="descclassname">pyramids.plot.PlotUtility.</code><code class="descname">plotRMSD</code><span class="sig-paren">(</span><em>ax</em>, <em>label=''</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyramids/plot/PlotUtility.html#plotRMSD"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyramids.plot.PlotUtility.plotRMSD" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pyramids.plot.PlotUtility.plotTemperature">
+<code class="descclassname">pyramids.plot.PlotUtility.</code><code class="descname">plotTemperature</code><span class="sig-paren">(</span><em>ax</em>, <em>label=''</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyramids/plot/PlotUtility.html#plotTemperature"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyramids.plot.PlotUtility.plotTemperature" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pyramids.plot.PlotUtility.plotTotalEnergy">
+<code class="descclassname">pyramids.plot.PlotUtility.</code><code class="descname">plotTotalEnergy</code><span class="sig-paren">(</span><em>ax</em>, <em>label=''</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyramids/plot/PlotUtility.html#plotTotalEnergy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyramids.plot.PlotUtility.plotTotalEnergy" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pyramids.plot.PlotUtility.scanFolder">
+<code class="descclassname">pyramids.plot.PlotUtility.</code><code class="descname">scanFolder</code><span class="sig-paren">(</span><em>action</em>, <em>folders=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyramids/plot/PlotUtility.html#scanFolder"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyramids.plot.PlotUtility.scanFolder" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pyramids.plot.PlotUtility.voronoi_plot_2d">
+<code class="descclassname">pyramids.plot.PlotUtility.</code><code class="descname">voronoi_plot_2d</code><span class="sig-paren">(</span><em>vor</em>, <em>ax=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyramids/plot/PlotUtility.html#voronoi_plot_2d"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyramids.plot.PlotUtility.voronoi_plot_2d" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot the given Voronoi diagram in 2-D</p>
+<dl class="docutils">
+<dt>vor</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">scipy.spatial.Voronoi instance</span><dd>Diagram to plot</dd>
+<dt>ax</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">matplotlib.axes.Axes instance, optional</span><dd>Axes to plot on</dd>
+</dl>
+<dl class="docutils">
+<dt>fig</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">matplotlib.figure.Figure instance</span><dd>Figure for the plot</dd>
+</dl>
+<p>Voronoi</p>
+<p>Requires Matplotlib.</p>
+</dd></dl>
+
 </div>
 <div class="section" id="module-pyramids.plot.setting">
 <span id="pyramids-plot-setting-module"></span><h2>pyramids.plot.setting module<a class="headerlink" href="#module-pyramids.plot.setting" title="Permalink to this headline">¶</a></h2>
@@ -111,7 +191,7 @@ The collection of the useful methods used in the TDAP results analysis</p>
 
 <dl class="function">
 <dt id="pyramids.plot.setting.getPropertyFromPosition">
-<code class="descclassname">pyramids.plot.setting.</code><code class="descname">getPropertyFromPosition</code><span class="sig-paren">(</span><em>index=None</em>, <em>xlabel=''</em>, <em>ylabel=''</em>, <em>title=''</em>, <em>grid=False</em>, <em>xticks=None</em>, <em>yticks=None</em>, <em>xticklabels=None</em>, <em>yticklabels=None</em>, <em>xlimits=None</em>, <em>ylimits=None</em>, <em>hline=None</em>, <em>vline=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyramids/plot/setting.html#getPropertyFromPosition"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyramids.plot.setting.getPropertyFromPosition" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">pyramids.plot.setting.</code><code class="descname">getPropertyFromPosition</code><span class="sig-paren">(</span><em>index=None</em>, <em>xlabel=''</em>, <em>ylabel=''</em>, <em>title=''</em>, <em>grid=False</em>, <em>minortick=True</em>, <em>legendLoc=None</em>, <em>xticks=None</em>, <em>yticks=None</em>, <em>xticklabels=None</em>, <em>yticklabels=None</em>, <em>xlimits=None</em>, <em>ylimits=None</em>, <em>hline=None</em>, <em>vline=None</em>, <em>ticksize=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyramids/plot/setting.html#getPropertyFromPosition"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyramids.plot.setting.getPropertyFromPosition" title="Permalink to this definition">¶</a></dt>
 <dd><p>a utility function to set the property of the figure axe</p>
 </dd></dl>
 
@@ -179,7 +259,7 @@ The collection of the useful methods used in the TDAP results analysis</p>
       &copy;2016, Chao Lian.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.6</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.9</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
       
       |

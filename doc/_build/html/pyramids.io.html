@@ -23,6 +23,8 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
     <link rel="top" title="pyramids  documentation" href="index.html" />
     <link rel="up" title="pyramids package" href="pyramids.html" />
     <link rel="next" title="pyramids.plot package" href="pyramids.plot.html" />
@@ -81,8 +83,24 @@ and the values are a string of the input value.</p>
 <p>Created on Wed Jul 27 00:10:57 2016</p>
 <p>&#64;author: clian</p>
 <dl class="function">
+<dt id="pyramids.io.output.splitMDCAR">
+<code class="descclassname">pyramids.io.output.</code><code class="descname">splitMDCAR</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyramids/io/output.html#splitMDCAR"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyramids.io.output.splitMDCAR" title="Permalink to this definition">¶</a></dt>
+<dd><p>split the siesta.MD_CAR file to POSCAR file per step</p>
+</dd></dl>
+
+<dl class="function">
 <dt id="pyramids.io.output.writeGPAWdipole">
 <code class="descclassname">pyramids.io.output.</code><code class="descname">writeGPAWdipole</code><span class="sig-paren">(</span><em>filename</em>, <em>efield</em>, <em>time</em>, <em>dipole</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyramids/io/output.html#writeGPAWdipole"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyramids.io.output.writeGPAWdipole" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pyramids.io.output.writeKLines">
+<code class="descclassname">pyramids.io.output.</code><code class="descname">writeKLines</code><span class="sig-paren">(</span><em>filename</em>, <em>points</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyramids/io/output.html#writeKLines"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyramids.io.output.writeKLines" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pyramids.io.output.writeQE">
+<code class="descclassname">pyramids.io.output.</code><code class="descname">writeQE</code><span class="sig-paren">(</span><em>filename</em>, <em>atoms</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyramids/io/output.html#writeQE"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyramids.io.output.writeQE" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">
@@ -96,6 +114,16 @@ and the values are a string of the input value.</p>
 <p>Created on Mon Jul 25 20:28:55 2016
 The collection of the useful methods used in the TDAP results analysis</p>
 <dl class="function">
+<dt id="pyramids.io.result.findBandPath">
+<code class="descclassname">pyramids.io.result.</code><code class="descname">findBandPath</code><span class="sig-paren">(</span><em>atoms</em>, <em>points</em>, <em>kLine</em>, <em>toleAngle=0.001</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyramids/io/result.html#findBandPath"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyramids.io.result.findBandPath" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pyramids.io.result.getAdiabaticEigenvalue">
+<code class="descclassname">pyramids.io.result.</code><code class="descname">getAdiabaticEigenvalue</code><span class="sig-paren">(</span><em>selectK=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyramids/io/result.html#getAdiabaticEigenvalue"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyramids.io.result.getAdiabaticEigenvalue" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
 <dt id="pyramids.io.result.getBands">
 <code class="descclassname">pyramids.io.result.</code><code class="descname">getBands</code><span class="sig-paren">(</span><em>bandType='e'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyramids/io/result.html#getBands"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyramids.io.result.getBands" title="Permalink to this definition">¶</a></dt>
 <dd><p>return the bands read from systemLabel.bands as the dimension numKpoint x numBand x numSpin
@@ -104,9 +132,8 @@ returns: X, Ek, xticks, xticklabels</p>
 
 <dl class="function">
 <dt id="pyramids.io.result.getBerry">
-<code class="descclassname">pyramids.io.result.</code><code class="descname">getBerry</code><span class="sig-paren">(</span><em>step=''</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyramids/io/result.html#getBerry"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyramids.io.result.getBerry" title="Permalink to this definition">¶</a></dt>
-<dd><p>return the Eigenvalues read from systemLabel.EIG</p>
-</dd></dl>
+<code class="descclassname">pyramids.io.result.</code><code class="descname">getBerry</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyramids/io/result.html#getBerry"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyramids.io.result.getBerry" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 <dl class="function">
 <dt id="pyramids.io.result.getBerrySteps">
@@ -123,6 +150,21 @@ returns: energy, up, down, total</p>
 <dl class="function">
 <dt id="pyramids.io.result.getDipole">
 <code class="descclassname">pyramids.io.result.</code><code class="descname">getDipole</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyramids/io/result.html#getDipole"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyramids.io.result.getDipole" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pyramids.io.result.getDipoleFromFile">
+<code class="descclassname">pyramids.io.result.</code><code class="descname">getDipoleFromFile</code><span class="sig-paren">(</span><em>filename</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyramids/io/result.html#getDipoleFromFile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyramids.io.result.getDipoleFromFile" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pyramids.io.result.getDipolePython">
+<code class="descclassname">pyramids.io.result.</code><code class="descname">getDipolePython</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyramids/io/result.html#getDipolePython"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyramids.io.result.getDipolePython" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pyramids.io.result.getEELS">
+<code class="descclassname">pyramids.io.result.</code><code class="descname">getEELS</code><span class="sig-paren">(</span><em>filename='q_list'</em>, <em>prefix='EELS_'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyramids/io/result.html#getEELS"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyramids.io.result.getEELS" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">
@@ -149,7 +191,7 @@ write two files EIG and PAR</p>
 
 <dl class="function">
 <dt id="pyramids.io.result.getEnergyTemperaturePressure">
-<code class="descclassname">pyramids.io.result.</code><code class="descname">getEnergyTemperaturePressure</code><span class="sig-paren">(</span><em>timeType=1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyramids/io/result.html#getEnergyTemperaturePressure"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyramids.io.result.getEnergyTemperaturePressure" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">pyramids.io.result.</code><code class="descname">getEnergyTemperaturePressure</code><span class="sig-paren">(</span><em>ave=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyramids/io/result.html#getEnergyTemperaturePressure"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyramids.io.result.getEnergyTemperaturePressure" title="Permalink to this definition">¶</a></dt>
 <dd><p>return the Temperature, KS Energy and Total Energy as the dimension of Nstep
 read from systemLabel.MDE
 returns the Temperature, KS Energy, Total Energy, Volume, Pressure</p>
@@ -157,7 +199,7 @@ returns the Temperature, KS Energy, Total Energy, Volume, Pressure</p>
 
 <dl class="function">
 <dt id="pyramids.io.result.getExcitedElectrons">
-<code class="descclassname">pyramids.io.result.</code><code class="descname">getExcitedElectrons</code><span class="sig-paren">(</span><em>selectK=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyramids/io/result.html#getExcitedElectrons"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyramids.io.result.getExcitedElectrons" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">pyramids.io.result.</code><code class="descname">getExcitedElectrons</code><span class="sig-paren">(</span><em>selectK=None</em>, <em>comp=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyramids/io/result.html#getExcitedElectrons"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyramids.io.result.getExcitedElectrons" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">
@@ -179,8 +221,28 @@ if failed, return 0 rather than raise an exception</p>
 </dd></dl>
 
 <dl class="function">
+<dt id="pyramids.io.result.getImagElectricFunction">
+<code class="descclassname">pyramids.io.result.</code><code class="descname">getImagElectricFunction</code><span class="sig-paren">(</span><em>direction</em>, <em>dumping=0.0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyramids/io/result.html#getImagElectricFunction"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyramids.io.result.getImagElectricFunction" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
 <dt id="pyramids.io.result.getIonicPolarization">
 <code class="descclassname">pyramids.io.result.</code><code class="descname">getIonicPolarization</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyramids/io/result.html#getIonicPolarization"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyramids.io.result.getIonicPolarization" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pyramids.io.result.getNumOfAtoms">
+<code class="descclassname">pyramids.io.result.</code><code class="descname">getNumOfAtoms</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyramids/io/result.html#getNumOfAtoms"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyramids.io.result.getNumOfAtoms" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pyramids.io.result.getProjectedPartition">
+<code class="descclassname">pyramids.io.result.</code><code class="descname">getProjectedPartition</code><span class="sig-paren">(</span><em>selectK=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyramids/io/result.html#getProjectedPartition"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyramids.io.result.getProjectedPartition" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pyramids.io.result.getStructrue">
+<code class="descclassname">pyramids.io.result.</code><code class="descname">getStructrue</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyramids/io/result.html#getStructrue"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyramids.io.result.getStructrue" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">
@@ -191,8 +253,18 @@ write two files EIG and PAR</p>
 </dd></dl>
 
 <dl class="function">
+<dt id="pyramids.io.result.getTime">
+<code class="descclassname">pyramids.io.result.</code><code class="descname">getTime</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyramids/io/result.html#getTime"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyramids.io.result.getTime" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
 <dt id="pyramids.io.result.getTrajactory">
 <code class="descclassname">pyramids.io.result.</code><code class="descname">getTrajactory</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyramids/io/result.html#getTrajactory"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyramids.io.result.getTrajactory" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pyramids.io.result.getVASPBands">
+<code class="descclassname">pyramids.io.result.</code><code class="descname">getVASPBands</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyramids/io/result.html#getVASPBands"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyramids.io.result.getVASPBands" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">
@@ -201,14 +273,36 @@ write two files EIG and PAR</p>
 <dd></dd></dl>
 
 <dl class="function">
-<dt id="pyramids.io.result.readEigFile">
-<code class="descclassname">pyramids.io.result.</code><code class="descname">readEigFile</code><span class="sig-paren">(</span><em>filename=''</em>, <em>sep=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyramids/io/result.html#readEigFile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyramids.io.result.readEigFile" title="Permalink to this definition">¶</a></dt>
+<dt id="pyramids.io.result.pythonGrep">
+<code class="descclassname">pyramids.io.result.</code><code class="descname">pythonGrep</code><span class="sig-paren">(</span><em>string</em>, <em>filename</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyramids/io/result.html#pythonGrep"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyramids.io.result.pythonGrep" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pyramids.io.result.readBerryFile">
+<code class="descclassname">pyramids.io.result.</code><code class="descname">readBerryFile</code><span class="sig-paren">(</span><em>step=''</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyramids/io/result.html#readBerryFile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyramids.io.result.readBerryFile" title="Permalink to this definition">¶</a></dt>
 <dd><p>return the Eigenvalues read from systemLabel.EIG</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyramids.io.result.readEigFile">
+<code class="descclassname">pyramids.io.result.</code><code class="descname">readEigFile</code><span class="sig-paren">(</span><em>filename='siesta.EIG'</em>, <em>sep=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyramids/io/result.html#readEigFile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyramids.io.result.readEigFile" title="Permalink to this definition">¶</a></dt>
+<dd><p>return the Eigenvalues read from systemLabel.EIG</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyramids.io.result.readEpsilonImaginary">
+<code class="descclassname">pyramids.io.result.</code><code class="descname">readEpsilonImaginary</code><span class="sig-paren">(</span><em>filename='siesta.EPSIMG'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyramids/io/result.html#readEpsilonImaginary"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyramids.io.result.readEpsilonImaginary" title="Permalink to this definition">¶</a></dt>
+<dd><p>return the imaginary of epsilon</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="pyramids.io.result.readKpoints">
 <code class="descclassname">pyramids.io.result.</code><code class="descname">readKpoints</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyramids/io/result.html#readKpoints"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyramids.io.result.readKpoints" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pyramids.io.result.recoverAllKPoints">
+<code class="descclassname">pyramids.io.result.</code><code class="descname">recoverAllKPoints</code><span class="sig-paren">(</span><em>kcoor, reciprocal_vectors, repeat=[1, 1, 1], flatten=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyramids/io/result.html#recoverAllKPoints"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyramids.io.result.recoverAllKPoints" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </div>
@@ -270,7 +364,7 @@ write two files EIG and PAR</p>
       &copy;2016, Chao Lian.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.6</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.9</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
       
       |
