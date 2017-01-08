@@ -12,12 +12,11 @@ exEnergy = 1
 def action(index, folder):
 #------------------------------------------------------------------------------
   timeEf, eField = dP.getEField()
-  timeEl, exe = dP.getExcitedElectrons()
-  exe  -= exe[0]
-  timeEn, T, E_ks, E_tot, Vol, P  = dP.getEnergyTemperaturePressure()
+  timeEl, exe, exe1 = dP.getExcitedElectrons( comp = True)
+  timeEn, T, E_ks, E_tot, Vol, P  = dP.getEnergyTemperaturePressure(ave=True)
   deltaE =  (E_ks[2:,] - E_ks[2])
   
-  return [(index, folder), (timeEf, eField), (timeEl, exe), (timeEn,deltaE)]
+  return [(index, folder), (timeEf, eField), (timeEl, exe, exe1), (timeEn,deltaE)]
 #------------------------------------------------------------------------------
 
 fig, axs = plt.subplots(2,1,sharex=True,sharey=False,figsize=(6,8))
@@ -33,12 +32,15 @@ maxElectrons = []
 maxEnergies = []
 minEnergies = []
 
-for [(index, folder), (timeEf, eField), (timeEl, exe), (timeEn,deltaE)] in data:
+for [(index, folder), (timeEf, eField), (timeEl, exe, exe1), (timeEn,deltaE)] in data:
   #ax = axs[efield]
   #ax.plot(timeEf,eField[:,2], c=c[index],
   #      label=folder,lw=2,alpha=0.8) 
   ax = axs[exElectron]
   ax.plot(timeEl,exe,'-',alpha=0.8,
+          label=folder,c=c[index],
+          markerfacecolor='w',lw=2)
+  ax.plot(timeEl,exe1,'.',alpha=0.8,
           label=folder,c=c[index],
           markerfacecolor='w',lw=2)
   #------------------------------------------------------------------------------

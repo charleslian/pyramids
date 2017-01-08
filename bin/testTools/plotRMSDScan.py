@@ -29,7 +29,7 @@ def action(index,folder):
   #--------------------------------------------------------------------------------------------
 
 scanFolder(action)
-plt.style.use('ggplot')
+#plt.style.use('ggplot')
 #plt.ticklabel_format(style='sci',scilimits=(-2,2))
 plt.tight_layout()
 SaveName = __file__.split('/')[-1].split('.')[0]

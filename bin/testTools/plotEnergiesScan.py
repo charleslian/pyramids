@@ -32,7 +32,7 @@ if __name__ == '__main__':
   fig, axs = plt.subplots(2,1,sharex=True,sharey=False,figsize=(10,6))
   SaveName = __file__.split('/')[-1].split('.')[0]
   c = ['b','r','g','y']
-  plt.style.use('ggplot')
+  #plt.style.use('ggplot')
   #action(1,'')
   from pyramids.plot.PlotUtility import scanFolder
   scanFolder(action)
