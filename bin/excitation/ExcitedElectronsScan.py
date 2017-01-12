@@ -52,9 +52,9 @@ for [(index, folder), (timeEf, eField), (timeEl, exe, exe1), (timeEn,deltaE)] in
       
   ax.plot(timeEn[2:], deltaE,'-', c=c[index],
           lw=2, alpha=1)
-  maxElectrons.append(exe.max())
-  maxEnergies.append(deltaE.max())
-  minEnergies.append(deltaE.min())
+  #maxElectrons.append(exe.max())
+  #maxEnergies.append(deltaE.max())
+  #minEnergies.append(deltaE.min())
   
 kargs=ma.getPropertyFromPosition(exElectron, ylabel=r'n(e)',
                                  title='Excited Electrons', 
@@ -69,4 +69,4 @@ ma.setProperty(axs[exEnergy],**kargs)
 plt.tight_layout()
 for save_type in ['.pdf','.png']:
   filename = SaveName + save_type
-  #plt.savefig(filename,dpi=800)
+  plt.savefig(filename,dpi=800)
