@@ -14,4 +14,4 @@ tdio.writeQE('structure.in',atoms)
 #write('struture.pdb',atoms,format='pdb')
 write('POSCAR',atoms)
 
-view(atoms)
+view(atoms*[2,2,2])
