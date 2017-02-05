@@ -26,6 +26,29 @@ def plot2DBZ(ax, atoms):
   vor = Voronoi(points)
   voronoi_plot_2d(vor,ax)
 
+
+  
+def plotDOS(ax, step, ylimits=[0,None], **kargs):
+  xlabel = 'Energy (eV)'
+  ylabel = 'DOS'
+  
+  eDosInterp, yDosInterp, yParInterp = dp.calculateDOS(step,**kargs)
+  ax.fill_between(eDosInterp, yParInterp, color='b')
+  ax.fill_between(eDosInterp,-yParInterp, color='r')
+  ax.fill_between(eDosInterp, yDosInterp, lw=3, color='g',alpha=0.2)
+  
+  kargs = ma.getPropertyFromPosition(xlabel=xlabel, ylabel=ylabel, ylimits=ylimits, yticklabels=[])
+  ma.setProperty(ax,**kargs)
+
+def plotDistribution(ax, step, ylimits=[0,1], **kargs):
+  xlabel = 'Energy (eV)'
+  ylabel = 'FD'
+  
+  eDosInterp, yDosInterp, yParInterp = dp.calculateDOS(step, ref=False,**kargs)
+  ax.fill_between(eDosInterp, (yParInterp+1E-10)/(yDosInterp+1E-2), color='b')
+  kargs = ma.getPropertyFromPosition(xlabel=xlabel, ylabel=ylabel, ylimits=ylimits, yticklabels=[])
+  ma.setProperty(ax,**kargs)
+  
 def voronoi_plot_2d(vor, ax=None):
     """
     Plot the given Voronoi diagram in 2-D

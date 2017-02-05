@@ -389,6 +389,56 @@ def getProjectedPartition(selectK=None):
   
   return selectTime, exe
 #-------------------------------------------------------------------
+def calculateDOS(step, xlimits=None, intepNum=1000, bins=200, ref=True):
+  kcoor, kweight = readKpoints()
+  x = np.arange(kcoor.shape[0])
+  
+  xlabel = 'Energy (eV)'
+  ylabel = 'Population'
+  
+  import pandas as pd
+  #dataFilename = xlabel+'vs'+ylabel+'.csv'
+  
+  time, exe = getProjectedPartition()
+  time, eigen = getAdiabaticEigenvalue()
+  if ref:
+    df = pd.DataFrame({xlabel:eigen[step].flatten(),
+                       ylabel:(exe[step] - exe[0]).flatten()})
+  else:
+    df = pd.DataFrame({xlabel:eigen[step].flatten(),
+                       ylabel:exe[step].flatten()})
+  
+  
+  sortedDF = df.sort_values(by=xlabel)
+  sortedDF.to_csv(xlabel+'vs'+ylabel+'.csv')
+  
+  xt = sortedDF[xlabel]
+  yt = sortedDF[ylabel]
+  
+  if xlimits != None: 
+    x = xt[xt>xlimits[0]][xt<xlimits[1]]
+    y = yt[xt>xlimits[0]][xt<xlimits[1]]
+  else:
+    x = xt
+    y = yt
+    
+  dos, bin_edges = np.histogram(x, bins=bins, range=xlimits)
+  par, bin_edges = np.histogram(x, bins=bins, range=xlimits, weights=y/2)
+  #parDn, bin_edges = np.histogram(x,bins=bins,range=xlimits,weights=-y/2)
+  
+  
+  def interp(xin,yin,xout):
+    from scipy.interpolate import interp1d
+    spline = interp1d(xin, yin, kind='cubic')
+    return spline(xout) 
+  
+  eDosInterp = np.linspace(bin_edges[0], bin_edges[-2], intepNum)
+  yDosInterp = interp(bin_edges[:-1], dos, eDosInterp)
+  yParInterp = interp(bin_edges[:-1], par, eDosInterp)
+  
+  return eDosInterp, yDosInterp, yParInterp
+
+
 def getHomo():
   """
   return the index of the highest occupied molecular orbital (HOMO)

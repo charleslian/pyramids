@@ -58,11 +58,11 @@ for [(index, folder), (timeEf, eField), (timeEl, exe, exe1), (timeEn,deltaE)] in
   
 kargs=ma.getPropertyFromPosition(exElectron, ylabel=r'n(e)',
                                  title='Excited Electrons', 
-                                 ylimits=[0,np.max(maxElectrons)],
+                                 #ylimits=[0,np.max(maxElectrons)],
                                  xlimits=None,)
 ma.setProperty(axs[exElectron],**kargs)
 kargs=ma.getPropertyFromPosition(exEnergy, ylabel=r'E(eV)',
-                                 ylimits=[np.min(minEnergies),np.max(maxEnergies)],
+                                 #ylimits=[np.min(minEnergies),np.max(maxEnergies)],
                                  title='Excitation Energy')
 ma.setProperty(axs[exEnergy],**kargs)
 
