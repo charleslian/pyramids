@@ -67,7 +67,7 @@ def susFunc(eigall,ik,iq,Ef,T):
                 for i in range(nb) for j in range(nb)])
   return sus
   
-def calculateEigenPairs(atoms, kpts=[]):
+def calculateEigenPairs(atoms, kpts=[],filename='wannier90_hr.dat'):
   """
   calculate the eigen pairs with the set of kpoints, 
   return Xs, eigenvalues, eigenvectors of all kpoints,
@@ -94,8 +94,8 @@ def calculateEigenPairs(atoms, kpts=[]):
   nk = len(kpts)
   
   print eigValueAllK.shape[1]
-  if eigValueAllK.shape[1] != nk or True:
-    Rij, Orb, Hsp, nOrb, nCell = readW90hr()
+  if eigValueAllK.shape[1] != nk:
+    Rij, Orb, Hsp, nOrb, nCell = readW90hr(filename)
     eigValueAllK = np.zeros([nOrb,len(kpts)],dtype=float)
     eigVectorAllK = np.zeros([nOrb,nOrb,len(kpts)],dtype=complex)
     xall = np.zeros([nOrb,len(kpts)])

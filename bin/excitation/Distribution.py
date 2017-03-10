@@ -11,18 +11,25 @@ from matplotlib import pyplot as plt
 import pyramids.io.result as dp
 import pyramids.plot.PlotUtility as ppu
 import pyramids.plot.setting as ma
+from pyramids.io.fdf import tdapOptions
+numStep = 5
 
-numStep = 4
+fig, axs = plt.subplots(numStep,1,sharex=True,sharey=True,figsize=(6,8))
 
-fig, axs = plt.subplots(numStep,1,sharex=True,sharey=True,figsize=(8,6))
-
+timeStep = tdapOptions().tdTimeStep
 steps = dp.getEIGSteps()
 selectedSteps = range(0,len(steps),len(steps)/numStep)
 
 print selectedSteps
 for i in range(numStep):
   ax = axs[i]
-  ppu.plotDistribution(ax, selectedSteps[i], bins=100)
+  title = '$t = %3.2f$ %s' % (i*len(steps)/numStep*timeStep[0], timeStep[1])
+  ppu.plotDistribution(ax, selectedSteps[i], yticks=[0,1], title = title)
   
   
 plt.tight_layout()
+SaveName = __file__.split('/')[-1].split('.')[0]
+if True:
+  for save_type in ['.pdf']:
+    filename = SaveName + save_type
+    plt.savefig(filename,dpi=600)

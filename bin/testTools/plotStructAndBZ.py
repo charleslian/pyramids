@@ -7,7 +7,7 @@ from pyramids.plot.PlotUtility import insertImag,generateStructPNG,confStructrue
 import matplotlib.pyplot as plt
 
 
-fig, axs = plt.subplots(2,1,figsize=(5,8))
+fig, axs = plt.subplots(1,2,figsize=(7,4))
 SaveName = __file__.split('/')[-1].split('.')[0]
 
 iStruct = 0
@@ -26,7 +26,7 @@ ax = axs[iStruct]
 
 generateStructPNG(atoms,cell=True,repeat = [5,3,1])
 insertImag(ax)
-confStructrueFigure(ax)
+#confStructrueFigure(ax)
 
 kargs = getPropertyFromPosition(iStruct,r'',"",title='Structure',)
 setProperty(ax,**kargs)     
@@ -41,7 +41,8 @@ points=np.array([(reciprocal_vectors[0,0:2]*i+
                   for j in range(-1,2)
                   for k in range(-0,1)])
 
-from scipy.spatial import Voronoi, voronoi_plot_2d
+from scipy.spatial import Voronoi
+from pyramids.plot.PlotUtility import voronoi_plot_2d
 vor = Voronoi(points)
 voronoi_plot_2d(vor,ax)
 

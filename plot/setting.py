@@ -144,7 +144,7 @@ def setProperty(ax, **kargs):
   if kargs['minortick']:
       ax.minorticks_on()
   #print ax.get_xlim(),ax.get_ylim()
-  ax.legend(fontsize='large',loc=loc,frameon=True, ncol=1, fancybox=True, framealpha=0.5)
+  ax.legend(fontsize='large',loc=loc,frameon=False, ncol=1, fancybox=True, framealpha=0.5)
 
 def getPropertyFromPosition(index=None, xlabel='',ylabel='',title='', 
                             grid = False, minortick=True, legendLoc = None,

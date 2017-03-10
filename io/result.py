@@ -26,7 +26,7 @@ def getEELS(filename='q_list',prefix='EELS_'):
   contour = np.transpose(np.array(Z))
   X, Y = np.meshgrid(Q, E)
   
-  return Q, E, Z, X, Y, contour 
+  return Q, E, X, Y, contour 
 
 #------------------------------------------------------------------------------
 def getTime():
@@ -389,7 +389,7 @@ def getProjectedPartition(selectK=None):
   
   return selectTime, exe
 #-------------------------------------------------------------------
-def calculateDOS(step, xlimits=None, intepNum=1000, bins=200, ref=True):
+def calculateDOS(step, xlimits=None, intepNum=1000, bins=200, ref=True, interp= True):
   kcoor, kweight = readKpoints()
   x = np.arange(kcoor.shape[0])
   
@@ -425,7 +425,8 @@ def calculateDOS(step, xlimits=None, intepNum=1000, bins=200, ref=True):
   dos, bin_edges = np.histogram(x, bins=bins, range=xlimits)
   par, bin_edges = np.histogram(x, bins=bins, range=xlimits, weights=y/2)
   #parDn, bin_edges = np.histogram(x,bins=bins,range=xlimits,weights=-y/2)
-  
+  if not interp:
+    return bin_edges[:-1],dos,par
   
   def interp(xin,yin,xout):
     from scipy.interpolate import interp1d

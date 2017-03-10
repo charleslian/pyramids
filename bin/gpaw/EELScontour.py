@@ -25,21 +25,11 @@ for i, q in enumerate(Q):
   extreme = [ext for ext in argrelextrema(d[:,2], np.greater, order=50)[0]]
   exY = np.array([d[ext,0] for ext in extreme])
   exX = np.array([q for ext in extreme])
-  #print extreme
-  axs[1].plot(exX, exY, 'oy', mew=0.0)
-                      #if d[ext,2] > 0.035 and 0.5 < d[ext,0] < 4])
-  #numExtreme = max(numExtreme, extreme.shape[0])
-  #extrema[i,:extreme.shape[0]] = extreme
-    
   C.append(d[:,2])
     
 Z = np.transpose(np.array(C))  
 X, Y = np.meshgrid(Q, E)
 
-print numExtreme
-
-#from mpl_toolkits.axes_grid1.inset_locator import zoomed_inset_axes
-#ax = [ax, zoomed_inset_axes(ax, 2, loc=1)]#
 mainX = None
 mainY = None
 mainV = 1.0  
@@ -64,19 +54,19 @@ x = [mainX, zoomX]
 y = [mainY, zoomY]
 
 nContour = 300#Q.shape[0] # * 5
-cmap = 'copper'
+cmap = 'hot'
 for iax in range(2):
   ax = axs[iax]
-  for f in ax.contour, ax.contour:  
-    ct = f(X, Y, np.log(Z), nContour, cmap=cmap, alpha = 1.0, )
-              #vmax=np.max(Z[2:]))
+  for f in ax.contour, ax.contourf:  
+    ct = f(X, Y, (Z), nContour, cmap=cmap, alpha = 1.0, )
+              #vmax=np.max(Z[2:]))np.log
         
   plt.colorbar(ct,ax=ax)          
   args = ma.getPropertyFromPosition(iax,ylimits=y[iax], xlimits=x[iax],
                                     grid = False,
                                     title='EELS spectra: $%s$' % label,
-                                    xlabel=r'q($\AA^{-1}$)',
-                                    ylabel='Energy(eV)')
+                                    xlabel=r'q ($\AA^{-1}$)',
+                                    ylabel='Energy (eV)')
   ma.setProperty(ax,**args)
   
 from mpl_toolkits.axes_grid1.inset_locator import mark_inset

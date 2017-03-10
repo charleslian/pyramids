@@ -3,6 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import pyramids.io.result as dP
 import pyramids.plot.setting as ma
+colors = ma.colors()
 #-----------------------------------------------------------------------------
 def action(index,folder):
   ls = ['-','-','-','-']
@@ -29,7 +30,7 @@ def action(index,folder):
   #------------------------------------------------------------------------------
 
 if __name__ == '__main__':
-  fig, axs = plt.subplots(2,1,sharex=True,sharey=False,figsize=(10,6))
+  fig, axs = plt.subplots(2,1,sharex=True,sharey=False,figsize=(6,8))
   SaveName = __file__.split('/')[-1].split('.')[0]
   c = ['b','r','g','y']
   #plt.style.use('ggplot')
@@ -39,4 +40,4 @@ if __name__ == '__main__':
   plt.tight_layout()
   for save_type in ['.pdf','.png']:
     filename = SaveName + save_type
-    plt.savefig(filename,dpi=800)
+    plt.savefig(filename,dpi=600)

@@ -16,6 +16,7 @@ import numpy as np
 import pyramids.process.struct as tdp
 import pyramids.plot.setting as ma
 import pyramids.io.result as dp
+
 def plot2DBZ(ax, atoms):
   reciprocal_vectors = 2*np.pi*atoms.get_reciprocal_cell()
   points=np.array([(reciprocal_vectors[0,0:2]*i+
@@ -28,25 +29,40 @@ def plot2DBZ(ax, atoms):
 
 
   
-def plotDOS(ax, step, ylimits=[0,None], **kargs):
+def plotDOS(ax, step, ylimits=[0,None], bins=100, **kargs):
   xlabel = 'Energy (eV)'
   ylabel = 'DOS'
   
-  eDosInterp, yDosInterp, yParInterp = dp.calculateDOS(step,**kargs)
+  eDosInterp, yDosInterp, yParInterp = dp.calculateDOS(step,bins=bins)
   ax.fill_between(eDosInterp, yParInterp, color='b')
   ax.fill_between(eDosInterp,-yParInterp, color='r')
   ax.fill_between(eDosInterp, yDosInterp, lw=3, color='g',alpha=0.2)
   
-  kargs = ma.getPropertyFromPosition(xlabel=xlabel, ylabel=ylabel, ylimits=ylimits, yticklabels=[])
+  kargs = ma.getPropertyFromPosition(xlabel=xlabel, ylabel=ylabel, 
+                                     ylimits=ylimits, yticklabels=[], 
+                                     **kargs)
   ma.setProperty(ax,**kargs)
 
-def plotDistribution(ax, step, ylimits=[0,1], **kargs):
+def plotDistribution(ax, step, bins=100, intepNum=2000, ylimits=[0,1], **kargs):
   xlabel = 'Energy (eV)'
   ylabel = 'FD'
+  yticklabels=[]
   
-  eDosInterp, yDosInterp, yParInterp = dp.calculateDOS(step, ref=False,**kargs)
-  ax.fill_between(eDosInterp, (yParInterp+1E-10)/(yDosInterp+1E-2), color='b')
-  kargs = ma.getPropertyFromPosition(xlabel=xlabel, ylabel=ylabel, ylimits=ylimits, yticklabels=[])
+  eDos, dos, par = dp.calculateDOS(step, ref=False, interp=False,bins=bins)
+  distribution = ((par))/((dos)+1E-10)
+  
+  def interp(xin,yin,xout):
+    from scipy.interpolate import interp1d
+    spline = interp1d(xin, yin, kind='cubic')
+    return spline(xout) 
+  
+  x = np.linspace(eDos[0], eDos[-1], intepNum)
+  y = interp(eDos, distribution, x)
+  
+  #print (np.abs(yDosInterp)+0.001).min()
+  ax.fill_between(x, y, color='b')
+  #print yDosInterp.min()
+  kargs = ma.getPropertyFromPosition(xlabel=xlabel, ylabel=ylabel, ylimits=ylimits, **kargs)
   ma.setProperty(ax,**kargs)
   
 def voronoi_plot_2d(vor, ax=None):

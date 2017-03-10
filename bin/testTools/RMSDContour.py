@@ -5,11 +5,12 @@ from pyramids.plot.PlotUtility import scanFolder
 import pyramids.plot.setting as ma
 import pyramids.process.struct as pps
 
-def plotContourByMatrix(x,y,z,ax):
+def plotContourByMatrix(x,y,z,ax,format=''):
   X, Y = np.meshgrid(x, y)
   Z = np.array(z) 
   cts = [f(X, Y, Z, nContour, cmap=cmap, alpha = 1.0, ) for f in ax.contour, ax.contourf]
-  plt.colorbar(cts[1],ax=ax)
+  plt.colorbar(cts[1],ax=ax,format=format)
+  
 #--------------------------------------------------------------------------------------------
 def action(index,folder):
   dataCurFolder = []
@@ -46,13 +47,13 @@ y = np.array(y)
 z = np.array(z)
 
 ax = axs[0]
-plotContourByMatrix(x,y,z,ax)
-args = ma.getPropertyFromPosition(xlabel=xlabel, ylabel=ylabel)
+plotContourByMatrix(x,y,z,ax,format='$%.2f$ $\AA$')
+args = ma.getPropertyFromPosition(xlabel=xlabel, ylabel=ylabel,title='RMSD')
 ma.setProperty(ax,**args)
  
 ax = axs[1] 
-plotContourByMatrix(x,y,T,ax)
-args = ma.getPropertyFromPosition(xlabel=xlabel, ylabel=ylabel)
+plotContourByMatrix(x,y,T,ax,format='$%4.0f$ K')
+args = ma.getPropertyFromPosition(xlabel=xlabel, ylabel=ylabel,title='Temperature')
 ma.setProperty(ax,**args)
 
 
@@ -60,6 +61,6 @@ ma.setProperty(ax,**args)
 plt.tight_layout()
 SaveName = __file__.split('/')[-1].split('.')[0]
 if True:
-  for save_type in ['.pdf','.png']:
+  for save_type in ['.png']:
     filename = SaveName + save_type
     plt.savefig(filename,dpi=600)
