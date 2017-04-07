@@ -248,6 +248,18 @@ def getFermiEnergy():
   else:
     Efermi = 0.0
   return Efermi
+#-------------------------------------------------------------------       
+def getCurrent():
+  if os.path.exists('TDEFIELD'):
+    Efield = [[float(i) for i in line.split()] for line in open('TDEFIELD')]
+    Efield = np.array(Efield)/1E5
+    options = tdapOptions()
+    timestep = options.tdTimeStep[0]
+    time = np.arange(len(Efield))*timestep
+  else:
+    time = np.zeros(2)
+    Efield = np.zeros([2,3])
+  return time, Efield 
   
 #-------------------------------------------------------------------       
 def getEField():
