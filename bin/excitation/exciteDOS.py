@@ -31,6 +31,6 @@ for i in range(numStep):
 plt.tight_layout()
 SaveName = __file__.split('/')[-1].split('.')[0]
 if True:
-  for save_type in ['.pdf']:
+  for save_type in ['.pdf','.png']:
     filename = SaveName + save_type
     plt.savefig(filename,dpi=600)
