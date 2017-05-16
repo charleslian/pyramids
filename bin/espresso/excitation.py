@@ -37,7 +37,7 @@ def readData(filename='silicon.phase.dat'):
 #phase = readData()
 
 
-fig, axs = plt.subplots(2,2,sharex=True,figsize=(10,6))
+fig, axs = plt.subplots(2,2,sharex=True,figsize=(8,5))
 axs = axs.flatten()
 norm, kweight = readData('silicon.norm.dat')
 axs[0].plot((norm[:,:,:4] - norm[0,:,:4]).sum(axis=(1,2)))
