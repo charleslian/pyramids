@@ -50,10 +50,11 @@ Efield = np.array(Efield)/1E5
 ppu.plotTotalEnergy(axs[2])
 ppu.plotEField(axs[1])
 
-f = os.popen('grep current result')
-current = np.array([[float(i) for i in line.split()[2:]] for line in f.readlines()])*13.6
-for idir in range(3):  
-    axs[3].plot(current[:,idir],label=['x','y','z'][idir])
+for tag in ["real current is "]:
+    f = os.popen('grep ' +tag +' result')
+    current = np.array([[float(i) for i in line.split()[-3:]] for line in f.readlines()])
+    for idir in range(3):  
+        axs[3].plot(current[:,idir],'-',label=['x','y','z'][idir])
 
 args = ma.getPropertyFromPosition(3,title='Current',ylabel='j (a.u.)')
 ma.setProperty(axs[3],**args)
