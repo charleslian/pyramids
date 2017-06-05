@@ -13,7 +13,8 @@ def action(index,folder):
   dataCurFolder.append(pps.calculateRMSD())
   dataCurFolder.append(dp.getEnergyTemperaturePressure())
   return dataCurFolder
-  
+
+M = 28.08
 #--------------------------------------------------------------------------------------------
 fig, axs = plt.subplots(2,1,sharex=True,sharey=False,figsize=(6,8))#
 data = scanFolder(action)
@@ -23,6 +24,8 @@ for line in data:
   index, folder = line[0]
   ax = axs[0]
   ax.plot(line[1][0], line[1][1], lw=3, label=folder, c=c[index])
+  print line[1][1][4000]/line[1][0][4000]*1E3
+  print np.sqrt(3*R*compX/(M*1E-3))*1E-2
   kargs=ma.getPropertyFromPosition(xlabel='Time (fs)', ylabel=r'$\langle u \rangle^\frac{1}{2}$ ($\AA$)', 
                                    title='RMSD')
   ma.setProperty(ax,**kargs)

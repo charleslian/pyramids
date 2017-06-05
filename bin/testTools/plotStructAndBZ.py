@@ -7,7 +7,7 @@ from pyramids.plot.PlotUtility import insertImag,generateStructPNG,confStructrue
 import matplotlib.pyplot as plt
 
 
-fig, axs = plt.subplots(1,2,figsize=(7,4))
+fig, axs = plt.subplots(2,1,figsize=(4,8))
 SaveName = __file__.split('/')[-1].split('.')[0]
 
 iStruct = 0

@@ -3,7 +3,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 import pyramids.io.result as dP
 import pyramids.plot.setting as ma
-colors = ma.colors()
 #-----------------------------------------------------------------------------
 def action(index,folder):
   ls = ['-','-','-','-']
@@ -24,7 +23,7 @@ def action(index,folder):
 #  for i in range(2,E_ks.shape[0]-1):
 #    if E_ks[i+1] - (E_ks[i] + E_ks[i-1])*0.5 > 2.0:
 #      E_ks[i+1] = (E_ks[i] + E_ks[i-1])*0.5
-  ax.plot(time[2:], E_ks[2:] - E_ks[2],'.', lw=2, alpha=0.5, label=folder)
+  ax.plot(time[2:], E_ks[2:] - E_ks[2],'-', lw=1, alpha=1, label=folder)
   kargs=ma.getPropertyFromPosition(ylabel=r'E(eV)',title='Excitation Energy')
   ma.setProperty(ax,**kargs)
   #------------------------------------------------------------------------------
