@@ -13,19 +13,33 @@ __version__ = "2.0"
 __credits__ = "Chao Lian initial and maintain the codes"
 
 import numpy as np
+import os
 class tdapOptions(object):
   def __init__(self,inputFile='input.fdf'):
-    self.inputFile  = inputFile
-    self.options    = self.readFdf(self.inputFile)
-    self.label      = self.__getString('systemlabel','siesta')
-    self.mdTimeStep = self.__getFloatWithUnit('mdlengthtimestep',(0.0,'fs'))
-    self.tdTimeStep = self.__getFloatWithUnit('tdlengthtimestep',(0.025,'fs'))
-    self.mdFinalStep = self.__getInteger('mdfinaltimestep',1)
-    self.tdFinalStep = self.__getInteger('tdfinaltimestep',self.mdFinalStep)
-    self.spinPolarized = self.__getLogical('spinpolarized',False)
-    self.eigStartStep = 3
-    self.eigLengthStep = self.__getInteger('tdwriteeigpairstep',self.mdFinalStep)
-    self.laserParam = self.__getArray('tdlightenvelope',np.zeros(5))
+    if(os.path.exists('input.fdf')):
+        self.inputFile  = inputFile
+        self.options    = self.readFdf(self.inputFile)
+        self.label      = self.__getString('systemlabel','siesta')
+        self.mdTimeStep = self.__getFloatWithUnit('mdlengthtimestep',(0.0,'fs'))
+        self.tdTimeStep = self.__getFloatWithUnit('tdlengthtimestep',(0.025,'fs'))
+        self.mdFinalStep = self.__getInteger('mdfinaltimestep',1)
+        self.tdFinalStep = self.__getInteger('tdfinaltimestep',self.mdFinalStep)
+        self.spinPolarized = self.__getLogical('spinpolarized',False)
+        self.eigStartStep = 3
+        self.eigLengthStep = self.__getInteger('tdwriteeigpairstep',self.mdFinalStep)
+        self.laserParam = self.__getArray('tdlightenvelope',np.zeros(5))
+    elif(os.path.exists('input.in')):
+        self.inputFile  = 'input.in'
+        #self.options    = #self.readFdf(self.inputFile)
+        self.label      = 'silicon'#self.__getString('systemlabel','siesta')
+        self.mdTimeStep = (1, 'fs')#self.__getFloatWithUnit('mdlengthtimestep',(0.0,'fs'))
+        self.tdTimeStep = (1, 'fs')#self.__getFloatWithUnit('tdlengthtimestep',(0.025,'fs'))
+        self.mdFinalStep = 200#self.__getInteger('mdfinaltimestep',1)
+        self.tdFinalStep = 200#self.__getInteger('tdfinaltimestep',self.mdFinalStep)
+        self.spinPolarized = False#self.__getLogical('spinpolarized',False)
+        self.eigStartStep = 2#3
+        self.eigLengthStep = 1#self.__getInteger('tdwriteeigpairstep',self.mdFinalStep)
+        #self.laserParam = #self.__getArray('tdlightenvelope',np.zeros(5))
     
   def output(self):
     """

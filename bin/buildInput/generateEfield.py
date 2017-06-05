@@ -10,18 +10,18 @@ def timeEvol(t,omega,phi,t0,delta):
 
 
 m  = 0    # Propagation direction
-N  = 800  # Total steps
-ts = 0.05 # length of time step, unit in fs 
+N  = 200  # Total steps
+ts = 0.1 # length of time step, unit in fs 
 
 # Omega of the first and second direction, unit in fs-1
-w = 0.5, 0.5, 0.5
+w = 0.25, 0.5, 0.5
 # Phi of the first direction and second direction, unit in pi
 p = 0.0, 0.5, 0.0
 # Amplitude of the first direction and second direction, unit in Ry/Bohr/e
-A = 0.02, 0.02, 0.00
+A = 1.0, 0.0, 0.00
 
-t0 = 20.0/ts
-delta = 5.0/ts
+t0 = 10/ts
+delta = 4.0/ts
 
 
 field = np.zeros([N,3])

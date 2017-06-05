@@ -250,6 +250,7 @@ def getFermiEnergy():
   return Efermi
 #-------------------------------------------------------------------       
 def getCurrent():
+#bug
   if os.path.exists('TDEFIELD'):
     Efield = [[float(i) for i in line.split()] for line in open('TDEFIELD')]
     Efield = np.array(Efield)/1E5
@@ -296,20 +297,28 @@ def getEnergyTemperaturePressure(ave=False):
   else:
     start = 0
     timestep = options.mdTimeStep[0]
-  energy_file = open(systemLabel+'.MDE')
-  data = []
-  for i in energy_file.readlines():
-    if i.split()[0]=='#': continue
-    data.append([float(j.replace('*','0')) for j in i.split()])
-
-  data=np.array(data) 
-  if ave:
-    numAtom = getNumOfAtoms()
-    #print numAtom
-    data[start:,2:3] /= numAtom
-  #print data
-  X = data[:,0]*timestep
-  return X[start:], data[start:,1], data[start:,2], data[start:,3], data[start:,4], data[start:,5]
+  if(os.path.exists(systemLabel+'.MDE')):  
+      energy_file = open(systemLabel+'.MDE')
+      data = []
+      for i in energy_file.readlines():
+        if i.split()[0]=='#': continue
+        data.append([float(j.replace('*','0')) for j in i.split()])
+    
+      data=np.array(data) 
+      if ave:
+        numAtom = getNumOfAtoms()
+        #print numAtom
+        data[start:,2:3] /= numAtom
+      #print data
+      X = data[:,0]*timestep
+      return X[start:], data[start:,1], data[start:,2], data[start:,3], data[start:,4], data[start:,5]
+  else:
+      f = os.popen('grep "Ekin + Etot (const)" result')
+      energy = np.array([float(line.split()[-2]) for line in f.readlines()])*13.6
+      X = range(energy.shape[0])
+      #data=np.array([energy,energy,energy,energy,energy]).T 
+      return X, energy, energy, energy, energy,energy
+  
 #-------------------------------------------------------------------  
 def getEIGSteps():
   options = tdapOptions()

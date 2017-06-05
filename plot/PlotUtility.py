@@ -164,12 +164,12 @@ def plotRMSD(ax, label=''):
   
 def plotEField(ax, label=''):
   time, Efield = dp.getEField()
-  #directions = ['x', 'y', 'z']
+  directions = ['x', 'y', 'z']
   for direct in range(3):
     if max(Efield[:,direct]) > 1E-10:
       ax.plot(time,Efield[:,direct],
-              label=label, lw=2, alpha=1.0) 
-  kargs=ma.getPropertyFromPosition(ylabel=r'$\varepsilon$(a.u.)',xlabel='Time(fs)',
+              label=directions[direct], lw=2, alpha=1.0) 
+  kargs=ma.getPropertyFromPosition(ylabel=r'$\varepsilon$ (a.u.)',xlabel='Time(fs)',
                                    title='Electric Field')
   ma.setProperty(ax,**kargs)
   
