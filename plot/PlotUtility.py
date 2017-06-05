@@ -279,7 +279,7 @@ def scanFolder(action,folders=None):
     folders = [folder for folder in os.listdir('.')
                 if os.path.isdir(folder)]                
 
-  folders.sort()   
+  #folders.sort()   
   collection = []   
   for index,folder in enumerate(folders):
     print "running in ",folder    

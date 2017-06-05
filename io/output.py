@@ -103,12 +103,9 @@ def writeQE(filename,atoms):
   
   f=open(filename,'w')
 
-  f.write("&system\n")
-  f.write('  ibrav = 0,\n')
-  f.write('  nat = ' + str(NumberOfAtoms) + ",\n")
+  f.write('    ibrav = 0, ')
+  f.write('  nat = ' + str(NumberOfAtoms) + ",")
   f.write('  ntyp = ' + str(NumberOfSpecies) + ",\n")
-  f.write('  ecutwfc = 20.0 \n')
-  f.write("/\n")
   
   f.write("CELL_PARAMETERS angstrom\n")
   lines= '' 

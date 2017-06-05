@@ -267,9 +267,12 @@ def getEField():
   if os.path.exists('TDEFIELD'):
     Efield = [[float(i) for i in line.split()] for line in open('TDEFIELD')]
     Efield = np.array(Efield)/1E5
-    options = tdapOptions()
-    timestep = options.tdTimeStep[0]
-    time = np.arange(len(Efield))*timestep
+    if os.path.exists('input.fdf'):  
+        options = tdapOptions()
+        timestep = options.tdTimeStep[0]
+        time = np.arange(len(Efield))*timestep
+    else:
+        time, msd = readMSD()
   else:
     time = np.zeros(2)
     Efield = np.zeros([2,3])
@@ -313,12 +316,18 @@ def getEnergyTemperaturePressure(ave=False):
       X = data[:,0]*timestep
       return X[start:], data[start:,1], data[start:,2], data[start:,3], data[start:,4], data[start:,5]
   else:
+      time, msd = readMSD()
       f = os.popen('grep "Ekin + Etot (const)" result')
       energy = np.array([float(line.split()[-2]) for line in f.readlines()])*13.6
-      X = range(energy.shape[0])
-      #data=np.array([energy,energy,energy,energy,energy]).T 
-      return X, energy, energy, energy, energy,energy
+      #data=np.array([energy,energy,energy,energy,energy]).T
+      return time, energy, energy, energy, energy,energy
   
+ #-------------------------------------------------------------------
+def readMSD(filename='pwscf.msd.dat'):
+  f = open(filename)
+  text = f.readlines()
+  data = np.array([[float(word) for word in line.split()] for line in text])
+  return data[:,0]*1E3, data[:,1] 
 #-------------------------------------------------------------------  
 def getEIGSteps():
   options = tdapOptions()

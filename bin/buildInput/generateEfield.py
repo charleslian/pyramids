@@ -4,24 +4,26 @@ import matplotlib.pyplot as plt
 import pyramids.io.result as dP
 import pyramids.plot.setting as ma
 
+
+
+import laserparam
+
+ep = laserparam.photonenergy
+A = laserparam.field
+N = laserparam.nstep
+ts = laserparam.timestep
+t0 = laserparam.peakstep
+delta = laserparam.widthstep
+p = laserparam.phase
+
+efs = 2*np.pi*0.6562
+tt = N*ts
+w = [i/efs for i in ep]
+t0 = t0*ts
+delta = delta*ts
+
 def timeEvol(t,omega,phi,t0,delta):
   return np.sin(2.0*np.pi*omega*t+phi)*np.exp(-((t-t0)/delta)**2)
-  
-
-
-m  = 0    # Propagation direction
-N  = 200  # Total steps
-ts = 0.1 # length of time step, unit in fs 
-
-# Omega of the first and second direction, unit in fs-1
-w = 0.25, 0.5, 0.5
-# Phi of the first direction and second direction, unit in pi
-p = 0.0, 0.5, 0.0
-# Amplitude of the first direction and second direction, unit in Ry/Bohr/e
-A = 1.0, 0.0, 0.00
-
-t0 = 10/ts
-delta = 4.0/ts
 
 
 field = np.zeros([N,3])
@@ -30,15 +32,12 @@ for i in range(3):
   steps = np.arange(N)*ts
   #T = 1245.0/(w[i]*300.0)
   omega = w[i]
-  field[:,direction] = A[i]*timeEvol(steps,omega,p[i]*np.pi,t0*ts,delta*ts)
-
-
+  field[:,direction] = A[i]*timeEvol(steps,omega,p[i]*np.pi,t0,delta)
 
 f = open('TDEFIELD.in','w')
 for values in field:
   line = '%6.3f  %6.3f  %6.3f'% (values[0]*1E5,  values[1]*1E5,  values[2]*1E5)
   f.write(line+'\n')
-  
 f.close()
 
 fig, ax = plt.subplots(1,1,sharex=True,sharey=True)
@@ -52,6 +51,8 @@ kargs=ma.getPropertyFromPosition(ylabel=r'E(a.u.)',xlabel='',title='',
                                xlimits=None, ylimits=None)
 
 ma.setProperty(ax,**kargs)  
+
+
 #from mpl_toolkits.mplot3d import Axes3D
 #fig = plt.figure(figsize=(10,6))
 #ax = fig.add_subplot(111, projection='3d')

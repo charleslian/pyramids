@@ -130,8 +130,8 @@ def setProperty(ax, **kargs):
     ax.set_title(kargs['title'],fontsize=labelsize) 
   
   if kargs['grid']:
-    ax.grid()
-    
+    ax.grid(linestyle='--', linewidth=1, which='major')
+     
   if('xlabel' in kargs) and len(ax.get_xticklabels()) > 0 :
     if ax.get_xticklabels()[0].get_visible():  
       ax.set_xlabel(kargs['xlabel'],fontsize=labelsize) 
