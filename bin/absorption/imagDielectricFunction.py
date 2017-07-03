@@ -71,16 +71,16 @@ for i, direct in enumerate(['x','y','z']):
 
 xlimits = [0,5]   
 peaks = []
-for j in range(1,len(absorbanceSum)-1):
-    if energyArray[j] > xlimits[0] and energyArray[j] < xlimits[1]:    
-        if absorbanceSum[j] >= absorbanceSum[j-1] and absorbanceSum[j] >= absorbanceSum[j+1]:
-
-            if absorbanceSum[j] > 100: # energyArray[j] < 22.0 and  
-
-            if absorbanceSum[j] > 10: # energyArray[j] < 22.0 and  
-
-                peaks.append(energyArray[j])
-            #print energyArray[j], absorbanceSum[j]
+#for j in range(1,len(absorbanceSum)-1):
+#    if energyArray[j] > xlimits[0] and energyArray[j] < xlimits[1]:    
+#        if absorbanceSum[j] >= absorbanceSum[j-1] and absorbanceSum[j] >= absorbanceSum[j+1]:
+#
+#            if absorbanceSum[j] > 100: # energyArray[j] < 22.0 and  
+#
+#            if absorbanceSum[j] > 10: # energyArray[j] < 22.0 and  
+#
+#                peaks.append(energyArray[j])
+#            #print energyArray[j], absorbanceSum[j]
      
 print peaks
 

@@ -15,17 +15,23 @@ def action(index,folder):
   return dataCurFolder
 
 M = 28.08
+R = 8.3144598
 #--------------------------------------------------------------------------------------------
 fig, axs = plt.subplots(2,1,sharex=True,sharey=False,figsize=(6,8))#
 data = scanFolder(action)
 c = ma.getColors(len(data))
 
+
+melt_v = []
 for line in data:
   index, folder = line[0]
   ax = axs[0]
   ax.plot(line[1][0], line[1][1], lw=3, label=folder, c=c[index])
-  print line[1][1][4000]/line[1][0][4000]*1E3
-  print np.sqrt(3*R*compX/(M*1E-3))*1E-2
+  selectedstep = 4000
+  t, v = float(folder)/2.0, line[1][1][selectedstep]/line[1][0][selectedstep]*1E3
+  #melt_v.append(t, v)
+  vt = np.sqrt(3*R*300/(M*1E-3))*1E-2
+  print t, v, vt, v > vt
   kargs=ma.getPropertyFromPosition(xlabel='Time (fs)', ylabel=r'$\langle u \rangle^\frac{1}{2}$ ($\AA$)', 
                                    title='RMSD')
   ma.setProperty(ax,**kargs)
