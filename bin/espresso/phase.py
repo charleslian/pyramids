@@ -14,14 +14,19 @@ from matplotlib import pyplot as plt
 import numpy as np
 import os
 
-def readData(filename='silicon.phase.dat'):
+def readData(filename='pwscf.phase.dat'):
   f = open(filename)
   text = f.readlines()
   nbnd, nkstot = [int(i) for i in text[0].split()]
   
   nstep = (len(text) - 1)/(nkstot+1)
   print nbnd, nkstot, nstep
+  del text[1]
   del text[::(nkstot+1)]
+  #for index, line in enumerate(text):
+  #    if '-----' in line:
+  #        print line
+  #        #del text[]
   #print text
   #data = np.zeros([nbnd,nkstot,nstep])
   #data = 
@@ -33,10 +38,10 @@ def readData(filename='silicon.phase.dat'):
 
     
 phase = readData()
-norm = readData('silicon.norm.dat')
+norm = readData('pwscf.norm.dat')
 print norm.sum()
 
 #plt.plot(norm[:,:,:].sum(axis=2),'.')
 for ik in range(phase.shape[1]):
     fig, axs = plt.subplots(1)
-    axs.plot(phase[:,ik,:],'-')
+    axs.plot(phase[:,ik,0],'-')
