@@ -28,6 +28,26 @@ def getEELS(filename='q_list',prefix='EELS_'):
   
   return Q, E, X, Y, contour 
 
+def getDielectric(filename='q_list',prefix='epsilon_'):
+  Q = np.loadtxt(filename) 
+  R = []
+  I = []
+  for i, q in enumerate(Q):
+    filename = prefix + str(i+1) 
+    d = np.loadtxt(filename, delimiter=',')
+    E = d[:, 0]
+    real = d[:, -2]
+    imag = d[:, -1]
+    R.append(real)
+    I.append(imag)
+  # to plot contour, transpose Z is needed (exchange x and y)
+  contourI = np.transpose(np.array(I))
+  contourR = np.transpose(np.array(R))
+  
+  X, Y = np.meshgrid(Q, E)
+  
+  return Q, E, X, Y, contourR, contourI
+
 #------------------------------------------------------------------------------
 def getTime():
   context = open('siesta.times','r').readlines()
