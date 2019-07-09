@@ -1,3 +1,4 @@
+#! /usr/bin/env python
 # -*- coding: utf-8 -*-
 """
 Created on Mon Jul 25 20:28:55 2016
@@ -13,8 +14,110 @@ import numpy as np
 import os
 from pyramids.io.fdf import tdapOptions
 
+def getElectronStepLength(filename='input.in'):
+  for line in open(filename).readlines():
+      if 'edt' in line.split():
+          return float(line.split()[-1].replace(',',''))*0.04838
+
+def read_espresso_out(fileobj='result'):
+  from ase.atoms import Atoms, Atom
+  from ase import units
+  from ase.calculators.singlepoint import SinglePointCalculator
+  
+  """Reads quantum espresso output text files."""
+  if isinstance(fileobj, basestring):
+      fileobj = open(fileobj, 'rU')
+  lines = fileobj.readlines()
+  #print lines
+  images = []
+  
+  for number, line in enumerate(lines):
+    if 'number of atoms/cell' in line:
+      numAtom = int(line.split()[-1])
+    if 'number of atomic types' in line:
+      numElement = int(line.split()[-1])
+    
+    if "atomic species   valence    mass" in line:
+      elementLines = lines[number+1:number+1+numElement]
+      elementsInfo = [[(i) for i in l.split()] for l in elementLines]
+      #print line
+    
+    
+
+      #print numAtom
+    if 'lattice parameter (alat)' in line:
+      line = line.strip().split('=')[1].strip().split()[0]
+      lattice_parameter = float(line) * units.Bohr
+    
+    if "crystal axes: (cart. coord. in units of alat)" in line:
+      ca_line_no = number
+      cell = np.zeros((3, 3))
+      for number, line in enumerate(lines[ca_line_no + 1: ca_line_no + 4]):
+          line = line.split('=')[1].strip()[1:-1]
+          values = [float(value) for value in line.split()]
+          cell[number, 0] = values[0]
+          cell[number, 1] = values[1]
+          cell[number, 2] = values[2]
+      cell *= lattice_parameter
+    if "site n.     atom                  positions (alat units)" in line:
+      initPositionLines = lines[number+1:number+1+numAtom]
+      elements = np.array([l.split()[1] for l in initPositionLines])
+      scaledPositions = np.array([[float(i) for i in l.split()[6:9]] 
+                            for l in initPositionLines])
+      #print elements, scaledPositions
+      atom = Atoms(symbols=elements, scaled_positions=scaledPositions, cell=cell, pbc=True)
+      #print atom
+      images.append(atom)                       
+           
+                   
+    cellkey = 'CELL_PARAMETERS (angstrom)'
+    posikey = 'ATOMIC_POSITIONS (angstrom)' 
+    if posikey in line:
+      #print number
+#      cellLines = lines[number+1:number+4]
+#      cell = np.array([[float(i) for i in l.split()] 
+#                        for l in cellLines])
+      #print cell
+      
+      positionLines = lines[number+1:number+1+numAtom]
+      elements = np.array([l.split()[0]
+                        for l in positionLines])
+      #print elements
+      
+      positions = np.array([[float(i) for i in l.split()[1:]] 
+                        for l in positionLines])
+
+      atom = Atoms(symbols=elements, positions=positions, cell=cell, pbc=True)
+      images.append(atom)
+      
+    if "Forces acting on atoms (cartesian axes, Ry/au):" in line:
+      #print number
+      atom = images[-1]
+      forceLines = lines[number+2:number+2+numAtom]
+      forces = np.array([[float(i) for i in l.split()[-3:]] 
+                        for l in forceLines])
+      forces *= units.Ry / units.Bohr
+      calc = SinglePointCalculator(atom, forces=forces)
+      atom.set_calculator(calc)
+  return elementsInfo, images[1:-1]
+
+def readData(filename='pwscf.phase.dat'):
+  f = open(filename)
+  text = f.readlines()
+  nbnd, nkstot = [int(i) for i in text[0].split()]
+  kweight = [float(i) for i in text[1].split()]
+  
+  nstep = (len(text) - 2)/(nkstot+1)
+  del text[1]
+  del text[::(nkstot+1)]
+  data = np.array([[float(i) for i in line.split()] for line in text])
+  data = data[:nstep*nkstot].reshape([nstep, nkstot, nbnd])
+  return data, np.array(kweight)
+
+
 def getEELS(filename='q_list',prefix='EELS_'):
-  Q = np.loadtxt(filename) 
+  Q = np.loadtxt(filename)
+  #print(Q)
   Z = []
   for i, q in enumerate(Q):
     filename = prefix + str(i+1) 
@@ -27,26 +130,6 @@ def getEELS(filename='q_list',prefix='EELS_'):
   X, Y = np.meshgrid(Q, E)
   
   return Q, E, X, Y, contour 
-
-def getDielectric(filename='q_list',prefix='epsilon_'):
-  Q = np.loadtxt(filename) 
-  R = []
-  I = []
-  for i, q in enumerate(Q):
-    filename = prefix + str(i+1) 
-    d = np.loadtxt(filename, delimiter=',')
-    E = d[:, 0]
-    real = d[:, -2]
-    imag = d[:, -1]
-    R.append(real)
-    I.append(imag)
-  # to plot contour, transpose Z is needed (exchange x and y)
-  contourI = np.transpose(np.array(I))
-  contourR = np.transpose(np.array(R))
-  
-  X, Y = np.meshgrid(Q, E)
-  
-  return Q, E, X, Y, contourR, contourI
 
 #------------------------------------------------------------------------------
 def getTime():
@@ -219,6 +302,32 @@ def findBandPath(atoms, points, kLine, toleAngle = 0.001):
 #  fig, ax = plt.subplots(1,1,figsize=(5,8))
 #  ax.plot(kall[kpts,0], kall[kpts,1],'-o',label=str(i))
 
+def readExcitationFile(filename='pwscf.norm.dat'):
+  f = open(filename)
+  text = f.readlines()
+  nbnd, nkstot = [int(i) for i in text[0].split()]
+  kweight = [float(i) for i in text[1].split()]
+  
+  nstep = (len(text) - 2)/(nkstot+1)
+  #print nbnd, nkstot, nstep
+  del text[1]
+  del text[::(nkstot+1)]
+  #print text
+  #data = np.zeros([nbnd,nkstot,nstep])
+  #data = 
+  data = np.array([[float(i) for i in line.split()] for line in text])
+  data = data[:nstep*nkstot].reshape([nstep, nkstot, nbnd])
+  #print data[0,0,:]
+  #[ for k in range(nkstot) for step in range(nstep)]
+  nocc = int(float(os.popen('grep "number of electrons" result').readline().split()[-1])/2.0)
+  
+  return data, np.array(kweight), nocc
+  
+def readTotalEnergy():
+  f = os.popen('grep "!    total energy" result')
+  energy = np.array([float(line.split()[-2]) for line in f.readlines()])*13.6
+  return energy
+  
 #-------------------------------------------------------------------    
 def readEigFile(filename = 'siesta.EIG', sep = False):
   """
@@ -331,7 +440,7 @@ def getEnergyTemperaturePressure(ave=False):
       if ave:
         numAtom = getNumOfAtoms()
         #print numAtom
-        data[start:,2:3] /= numAtom
+        data[start:,2:4] /= numAtom
       #print data
       X = data[:,0]*timestep
       return X[start:], data[start:,1], data[start:,2], data[start:,3], data[start:,4], data[start:,5]
@@ -361,7 +470,7 @@ def getEIGSteps():
   return a
 
 #-------------------------------------------------------------------
-def getExcitedElectrons(selectK=None, comp = False):
+def getExcitedElectrons(selectK=None, comp = False, ave=False):
   """
   """
   homo = getHomo()
@@ -390,9 +499,13 @@ def getExcitedElectrons(selectK=None, comp = False):
         exe1[index] = np.sum(partition[:,homo:])
     np.save(SaveName,exe)
     np.save(SaveName1,exe1)
-
-  if comp:
-    return selectTime, exe, exe1
+    
+  numAtom = getNumOfAtoms()
+  if ave:
+    exe /= numAtom
+    exe1 /= numAtom
+  if comp: 
+      return selectTime, exe, exe1
   else:
     return selectTime, exe
 #-------------------------------------------------------------------
@@ -439,6 +552,30 @@ def getProjectedPartition(selectK=None):
   
   return selectTime, exe
 #-------------------------------------------------------------------
+def generatePopulationFile(step, ref=True):
+  xlabel = 'Energy (eV)'
+  ylabel = 'Population'
+  
+  import pandas as pd
+  #dataFilename = xlabel+'vs'+ylabel+'.csv'
+  filename = xlabel+'vs'+ylabel+str(step)+'.csv'
+  if os.path.exists(filename) and False:
+    sortedDF =  pd.read_csv(filename)
+  else:
+    time, exe = getProjectedPartition()
+    time, eigen = getAdiabaticEigenvalue()
+    if ref:
+      df = pd.DataFrame({xlabel:eigen[step].flatten(),
+                         ylabel:(exe[step] - exe[0]).flatten()})
+    else:
+      df = pd.DataFrame({xlabel:eigen[step].flatten(),
+                         ylabel:exe[step].flatten()})
+    
+    
+    sortedDF = df.sort_values(by=xlabel)
+    sortedDF.to_csv(filename)
+  return sortedDF
+  
 def calculateDOS(step, xlimits=None, intepNum=1000, bins=200, ref=True, interp= True):
   kcoor, kweight = readKpoints()
   x = np.arange(kcoor.shape[0])
@@ -446,25 +583,12 @@ def calculateDOS(step, xlimits=None, intepNum=1000, bins=200, ref=True, interp= 
   xlabel = 'Energy (eV)'
   ylabel = 'Population'
   
-  import pandas as pd
-  #dataFilename = xlabel+'vs'+ylabel+'.csv'
-  
-  time, exe = getProjectedPartition()
-  time, eigen = getAdiabaticEigenvalue()
-  if ref:
-    df = pd.DataFrame({xlabel:eigen[step].flatten(),
-                       ylabel:(exe[step] - exe[0]).flatten()})
-  else:
-    df = pd.DataFrame({xlabel:eigen[step].flatten(),
-                       ylabel:exe[step].flatten()})
-  
-  
-  sortedDF = df.sort_values(by=xlabel)
-  sortedDF.to_csv(xlabel+'vs'+ylabel+'.csv')
+  sortedDF = generatePopulationFile(step,ref)
   
   xt = sortedDF[xlabel]
   yt = sortedDF[ylabel]
   
+  #print 'yt is',yt  
   if xlimits != None: 
     x = xt[xt>xlimits[0]][xt<xlimits[1]]
     y = yt[xt>xlimits[0]][xt<xlimits[1]]
@@ -503,7 +627,7 @@ def getHomo():
     nspin = 2
   else:
     nspin = 1
-  homo = int(NumElectron) / nspin
+  homo = int(NumElectron) // nspin
   return homo
 #-------------------------------------------------------------------
 def getDipoleFromFile(filename):
@@ -612,7 +736,7 @@ def getVASPBands():
   	f.readline()
   
   x,nk,nb=(int(i) for i in f.readline().split())
-  print nk,nb
+  #print nk,nb
   bands=np.zeros([nk,nb])
   kpoints=np.zeros([nk,3])
   x=range(nk)
@@ -697,12 +821,54 @@ def getDOS(filename = 'siesta.dos'):
   total = np.array(data[:,3])
   
   return energy, up, down, total
+
+def xv_to_atoms(filename):
+    """Create atoms object from xv file.
+
+    Parameters:
+        -filename : str. The filename of the '.XV' file.
+
+    return : An Atoms object
+    """
+    from ase.units import Bohr
+    from ase.atoms import Atoms
+    if not os.path.exists(filename):
+        filename += '.gz'
+
+    with open(filename, 'r') as f:
+        # Read cell vectors (lines 1-3)
+        vectors = []
+        for i in range(3):
+            data = f.readline().split()
+            vectors.append([float(data[j]) * Bohr for j in range(3)])
+
+        # Read number of atoms (line 4)
+        int(f.readline().split()[0])
+
+        # Read remaining lines
+        speciesnumber, atomnumbers, xyz, V = [], [], [], []
+        for line in f.readlines():
+            if len(line) > 5:  # Ignore blank lines
+                data = line.split()
+                speciesnumber.append(int(data[0]))
+                atomnumbers.append(int(data[1]))
+                xyz.append([float(data[2 + j]) * Bohr for j in range(3)])
+                V.append([float(data[5 + j]) * Bohr for j in range(3)])
+
+    vectors = np.array(vectors)
+    atomnumbers = np.array(atomnumbers)
+    xyz = np.array(xyz)
+    atoms = Atoms(numbers=atomnumbers, positions=xyz, cell=vectors)
+
+    return atoms
+
   
 #-------------------------------------------------------------------
 def getTrajactory():
   options = tdapOptions()
+  #print(options.laserParam)
   systemLabel = options.label
-  NumBlocks=int(os.popen('grep -i '+systemLabel+' '+systemLabel+'.MD_CAR | wc -l').readline().split()[0])
+  NumBlocks=int(os.popen('grep -i %s %s.MD_CAR | wc -l'%(systemLabel, systemLabel)).readline().split()[0])
   position_file = open(systemLabel+'.MD_CAR')
   atomNumList = [int(i) for i in os.popen('head -6 siesta.MD_CAR |tail -1').readline().split()]
   
@@ -710,7 +876,6 @@ def getTrajactory():
   totalNumLine = numAtomPositionLine + 7
   
   context = position_file.readlines()
-  from ase.calculators.siesta.import_functions import xv_to_atoms
   #import ase.calculators.vasp as vinter
   #from ase.visualize import view
   

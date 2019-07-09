@@ -14,7 +14,7 @@ __credits__ = "Chao Lian initial and maintain the codes"
 
 import numpy as np
 import os
-class tdapOptions(object):
+class Options(object):
   def __init__(self,inputFile='input.fdf'):
     if(os.path.exists('input.fdf')):
         self.inputFile  = inputFile
@@ -40,24 +40,23 @@ class tdapOptions(object):
         self.eigStartStep = 2#3
         self.eigLengthStep = 1#self.__getInteger('tdwriteeigpairstep',self.mdFinalStep)
         #self.laserParam = #self.__getArray('tdlightenvelope',np.zeros(5))
-    else:
-        raise Exception('no input file')
+    
   def output(self):
     """
     Print the obtained values for check and test
     """
-    print("The system label is ",self.label) 
-    print( "The lenght of MD time step ",self.mdTimeStep[0],self.mdTimeStep[1])
-    print( "The lenght of TD time step ",self.tdTimeStep[0],self.tdTimeStep[1])
+    print "The system label is ",self.label    
+    print "The lenght of MD time step ",self.mdTimeStep[0],self.mdTimeStep[1]
+    print "The lenght of TD time step ",self.tdTimeStep[0],self.tdTimeStep[1]
     
-    print( "The final MD time step ", self.mdFinalStep)
-    print( "The final TD time step ", self.tdFinalStep)
+    print "The final MD time step ", self.mdFinalStep
+    print "The final TD time step ", self.tdFinalStep
     
-    print ("The system is spin")
+    print "The system is spin",
     if self.spinPolarized:
-      print ("polarized")
+      print "polarized"
     else:
-      print ("unpolarized")
+      print "unpolarized"
     
   def readFdf(self,inputFile='input.fdf'):
     """

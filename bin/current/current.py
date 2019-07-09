@@ -23,7 +23,7 @@ def readCurrent():
     #print line.split()
     data.append([float(i) for i in line.split()[4:7]])
   data = np.array(data)
-  return data
+  return data - data[0,:]
 
 data = readCurrent()
 
@@ -31,18 +31,19 @@ from pyramids.io.fdf import tdapOptions
 options = tdapOptions()
 timestep = options.tdTimeStep[0]
 
-fig, axs = plt.subplots(2,1,sharex=True,sharey=False)#,figsize=(10,6)
+fig, axs = plt.subplots(3,1,sharex=True,sharey=False)#,figsize=(10,6)
 ax = axs[0]
 for i in range(3):
-  ax.plot(np.arange(data.shape[0])*timestep,data[:,i],
+  ax = axs[i]
+  ax.plot(np.arange(data.shape[0])*timestep,data[:,i], '-o',
           label=['x','y','z'][i],lw=2, alpha=1.0)
 
 
-args = ma.getPropertyFromPosition()
-ma.setProperty(ax,**args)
+  args = ma.getPropertyFromPosition()
+  ma.setProperty(ax,**args)
 
-ax = axs[1]
-ppu.plotEField(ax,label='efield')
+#ax = axs[1]
+#ppu.plotEField(ax,label='efield')
 
 plt.tight_layout()
 for save_type in ['.png']:

@@ -91,7 +91,7 @@ def splitMDCAR():
     poscarFile=open(poscarFileName,'w')
     poscarFile.writelines(output)
     
-def writeQE(filename,atoms):
+def writeQE(filename,atoms,pp='pbe-mt_fhi'):
   NumberOfAtoms=atoms.get_number_of_atoms()
   elements=set(zip(atoms.get_chemical_symbols(), 
                    atoms.get_atomic_numbers(), atoms.get_masses()))
@@ -99,36 +99,41 @@ def writeQE(filename,atoms):
   NumberOfSpecies=len(elements)
   
   cell=atoms.get_cell()
-  print atoms.get_masses()
+  #print atoms.get_masses()
   
   f=open(filename,'w')
-
-  f.write('    ibrav = 0, ')
-  f.write('  nat = ' + str(NumberOfAtoms) + ",")
-  f.write('  ntyp = ' + str(NumberOfSpecies) + ",\n")
+  lines= ''
   
-  f.write("CELL_PARAMETERS angstrom\n")
-  lines= '' 
+  lines+='    ibrav = 0, '
+  lines+='  nat = ' + str(NumberOfAtoms) + ","
+  lines+='  ntyp = ' + str(NumberOfSpecies) + ",\n"
+  
+  lines+="CELL_PARAMETERS angstrom\n"
+   
   for a in cell:
     lines += "  %21.16f %21.16f %21.16f\n" % tuple(a)
-  f.write(lines)
+  #f.write(lines)
   
   #f.write("%block ChemicalSpeciesLabel\n")
-  lines= 'ATOMIC_SPECIES\n'
-  
-  for i,element in enumerate(elements):
-    lines+= "%5s %21.16f %5s.pbe-mt_fhi.UPF\n" % (element[0], element[2], element[0])
-  
+
   #print element_index
-  f.write(lines)
+  
   #f.write("%endblock ChemicalSpeciesLabel\n\n")
   
-  f.write("ATOMIC_POSITIONS angstrom\n")
-  lines= ''
+  
+  lines+= 'ATOMIC_SPECIES\n'
+  for i,element in enumerate(elements):
+    lines+= "%5s %21.16f %5s.%s.UPF\n" % (element[0], element[2], element[0], pp)
+  #f.write(lines)
+  lines+="ATOMIC_POSITIONS angstrom\n"
+  
+  #f.write("ATOMIC_POSITIONS angstrom\n")
+  #lines= ''
   for a in zip(atoms.get_positions(),atoms.get_chemical_symbols()):
     lines +=  a[1]
-    lines += " %21.16f %21.16f %21.16f \n" % tuple(a[0])
-    
-  f.write(lines)
-  f.write("\n\n")  
+    lines += " %21.16f %21.16f %21.16f \n" % tuple(a[0])  
+  #lines+="\n"
+  f.write(lines[:-1])
+  
+  return lines
   

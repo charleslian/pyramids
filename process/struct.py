@@ -21,7 +21,7 @@ def calculateRMSD(selectedStep=None,atomsOrigin=None,init=0, selectedAtoms=None)
   
   timestep = options.mdTimeStep[0]
   if atomsOrigin is None:
-    atomsOrigin = traj[0]
+    atomsOrigin = traj[init]
     #print 'no'
   if selectedStep == None:
     selectedStep = range(len(traj))
@@ -69,7 +69,6 @@ def calculateRDF(step, b = 98, lb = 0.1, hb = 5.0):
   bin_edges = loadSaved(SaveName+'bin_edges')
   if len(hist) == 0 or os.path.getmtime(SaveName+'hist.npy') < os.path.getmtime('Trajectory'):
     bondLength = atoms.get_all_distances(mic=True).flatten()
-    print bondLength
     hist,bin_edges = np.histogram(bondLength,bins=b,range=(lb,hb))
     np.save(SaveName+'hist',hist)
     np.save(SaveName+'bin_edges',bin_edges)
@@ -84,5 +83,4 @@ if __name__ == '__main__':
   ax[0].plot(time,distance,linewidth=3.0,label='RMSD')
   
   hist,bin_edges = calculateRDF(500,b=3000, hb=2.0,lb=0.8)
-  print hist,bin_edges
   ax[1].plot(bin_edges[:-1],hist)

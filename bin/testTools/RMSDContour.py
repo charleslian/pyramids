@@ -4,6 +4,7 @@ import pyramids.io.result as dp
 from pyramids.plot.PlotUtility import scanFolder
 import pyramids.plot.setting as ma
 import pyramids.process.struct as pps
+from ase.units import Rydberg, Bohr
 
 def plotContourByMatrix(x,y,z,ax,format=''):
   X, Y = np.meshgrid(x, y)
@@ -32,7 +33,7 @@ z = []
 T = []
 for line in data:
   index, folder = line[0]
-  x = line[1][0]
+  x = line[1][0] 
   y.append(float(folder))
   z.append(line[1][1])
   T.append(line[2][1])
@@ -42,7 +43,7 @@ cmap = 'jet'
 xlabel=r'Time (fs)'
 ylabel=r'$\varepsilon$ (Ry/Bohr/e)'
 
-x = np.array(x)
+x = np.array(x) * Rydberg/Bohr
 y = np.array(y)
 z = np.array(z)
 

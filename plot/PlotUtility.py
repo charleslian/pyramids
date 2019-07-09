@@ -49,7 +49,7 @@ def plotDistribution(ax, step, bins=100, intepNum=2000, ylimits=[0,1], **kargs):
   yticklabels=[]
   
   eDos, dos, par = dp.calculateDOS(step, ref=False, interp=False,bins=bins)
-  distribution = ((par))/((dos)+1E-10)
+  distribution = (np.abs(par))/((dos)+1E-10)
   
   def interp(xin,yin,xout):
     from scipy.interpolate import interp1d
@@ -130,7 +130,7 @@ def plotExcitation(ax, label=''):
   kargs=ma.getPropertyFromPosition(ylabel=r'n(e)', xlabel='Time (fs)',
                                    title='Excited Electrons')
 
-  print exe[-1] - exe[0]
+  #print exe[-1] - exe[0]
   ma.setProperty(ax,**kargs)
 
 def plotTotalEnergy(ax, label=''):
@@ -279,13 +279,14 @@ def scanFolder(action,folders=None):
     folders = [folder for folder in os.listdir('.')
                 if os.path.isdir(folder)]                
 
-  #folders.sort()   
-  collection = []   
+    folders.sort()   
+  collection = []
+  curdir = os.path.abspath('.')
   for index,folder in enumerate(folders):
-    print "running in ",folder    
+    print("running in ",folder, curdir)
     os.chdir(folder)
     collection.append(action(index,folder))
-    os.chdir('..')
+    os.chdir(curdir)
   return collection
 
 #-------------------------------------------------------------------
@@ -471,36 +472,36 @@ if __name__ == '__main__':
   saveTypes=['pdf','png','eps']
   fig=plt.figure(figsize=ma.A4_LANDSCAPE)#_LANDSCAPE
   plt.subplots_adjust(left=0.1, bottom=0.10, right=0.95, top=0.95, wspace=0.3, hspace=0.05)
-  print "-----------------------------draw Energy------------------------------------"
+  print("-----------------------------draw Energy------------------------------------")
   drawEnergy(plt.subplot(111))
   for save_type in saveTypes:
     plt.savefig('Energy.'+save_type,transparent=True,dpi=600)
   
-  print "-----------------------------draw Temperature--------------------------------"
+  print("-----------------------------draw Temperature--------------------------------")
   fig=plt.figure(figsize=ma.A4_LANDSCAPE)
   drawTemperature(plt.subplot(111))
   for save_type in saveTypes:
     plt.savefig('Temperature.'+save_type,transparent=True,dpi=600)
     
-  print "-----------------------------draw Pressure----------------------------------"
+  print("-----------------------------draw Pressure----------------------------------")
   fig=plt.figure(figsize=ma.A4_LANDSCAPE)
   drawPressure(plt.subplot(111))
   for save_type in saveTypes:
     plt.savefig('Pressure.'+save_type,transparent=True,dpi=600)    
     
-  print "-----------------------------draw Eigenvalues----------------------------------"
+  print("-----------------------------draw Eigenvalues----------------------------------")
   fig=plt.figure(figsize=ma.A4_LANDSCAPE)
   drawEigenvalue(plt.subplot(111))
   for save_type in saveTypes:
     plt.savefig('Eigenvalues.'+save_type,transparent=True,dpi=600)
     
-  print "-----------------------------draw RMSD----------------------------------"
+  print("-----------------------------draw RMSD----------------------------------")
   fig=plt.figure(figsize=ma.A4_LANDSCAPE)
   drawRMSD(plt.subplot(111))
   for save_type in saveTypes:
     plt.savefig('RMSD.'+save_type,transparent=True,dpi=600)       
 
-  print "-----------------------------draw RDF----------------------------------"
+  print("-----------------------------draw RDF----------------------------------")
   fig=plt.figure(figsize=ma.A4_LANDSCAPE)
   drawRDF(plt.subplot(111),step=1)
   drawRDF(plt.subplot(111))

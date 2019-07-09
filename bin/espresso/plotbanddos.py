@@ -45,7 +45,6 @@ for line in os.popen('grep "high-symmetry point:" result').readlines():
     skpt.append(float(line.split()[-1]))
 
 
-
 data = readData()
 dos, efermi = readDOS()
 
@@ -78,12 +77,12 @@ ma.setProperty(ax,**args)
 
 
 ax = axs[0]
-ax.plot(data[:,0],data[:,1:],'-', mfc='w',ms=3.0)
+ax.plot(data[:,0],data[:,1:],'-b', mfc='w',ms=3.0)
 args = ma.getPropertyFromPosition(0, 
                                   title = 'Band', 
-                                  ylabel = 'E (eV)', 
+                                  ylabel = 'Energy (eV)', 
                                   xlimits=[data[:,0].min(),data[:,0].max()], 
-                                  ylimits=[-6,dos[:,0].max()], 
+                                  ylimits=[-4,2], 
                                   xticklabels=[],
                                   hline=[0.0],
                                   vline=skpt[:-1]

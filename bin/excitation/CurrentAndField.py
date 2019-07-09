@@ -1,10 +1,11 @@
 #!/usr/bin/env python2
 # -*- coding: utf-8 -*-
 """
-Created on Sun May 14 14:57:18 2017
+Created on Sat May 13 07:43:17 2017
 
 @author: clian
 """
+
 import pyramids.io.result as dp
 import pyramids.plot.setting as ma
 import pyramids.plot.PlotUtility as ppu
@@ -12,20 +13,6 @@ from pyramids.io.fdf import tdapOptions
 from matplotlib import pyplot as plt
 import numpy as np
 import os
-
-Ry = 13.6
-f = os.popen('grep "!    total energy" result')
-energy = np.array([float(line.split()[-2]) for line in f.readlines()])
-print energy.shape
-fig, axs = plt.subplots(3,1,sharex=True,figsize=(6,8))
-axs[0].plot((energy[3:]-energy[0])*Ry)
-
-Efield = [[float(i) for i in line.split()] for line in open('TDAFIELD')]
-Efield = np.array(Efield)/1E5
-print Efield.shape
-axs[1].plot(Efield)
-
-
 
 def readData(filename='pwscf.phase.dat'):
   f = open(filename)
@@ -49,8 +36,9 @@ def readData(filename='pwscf.phase.dat'):
 
 #time, msd = dp.readMSD()
 nocc = int(float(os.popen('grep "number of electrons" result').readline().split()[-1])/2.0)
-print nocc
 
+fig, axs = plt.subplots(2,2,sharex=True,figsize=(8,5))
+axs = axs.flatten()
 norm, kweight = readData('pwscf.norm.dat')
 excite = (norm - norm[0,:,:])
 for ib in range(excite.shape[2]):
@@ -58,5 +46,28 @@ for ib in range(excite.shape[2]):
     #pass
 time = np.array(range(excite.shape[0]+1))
 step = min(time.shape[0]-1, excite.shape[0])
-axs[2].plot(time[1:step+1], (excite[:step,:,:nocc]).sum(axis=(1,2)))
-axs[2].plot(time[1:step+1], (excite[:step,:,nocc:]).sum(axis=(1,2)))
+axs[0].plot(time[1:step+1], (excite[:step,:,:nocc]).sum(axis=(1,2)))
+axs[0].plot(time[1:step+1], (excite[:step,:,nocc:]).sum(axis=(1,2)))
+args = ma.getPropertyFromPosition(0,title='Excited electrons',ylabel='n (e)')
+ma.setProperty(axs[0],**args)
+Efield = [[float(i) for i in line.split()] for line in open('TDEFIELD')]
+Efield = np.array(Efield)/1E5
+
+ppu.plotTotalEnergy(axs[2])
+ppu.plotEField(axs[1])
+
+
+f = os.popen('grep "current is " result')
+current = np.array([[float(i) for i in line.split()[-3:]] for line in f.readlines()])
+for idir in range(3):  
+    axs[3].plot(time[1:], current[:,idir],'-',label=['x','y','z'][idir])
+
+args = ma.getPropertyFromPosition(3,title='Current',ylabel='j (a.u.)')
+ma.setProperty(axs[3],**args)
+
+plt.tight_layout()
+
+SaveName = __file__.split('/')[-1].split('.')[0]
+for save_type in ['.png']:
+  filename = SaveName + save_type
+  plt.savefig(filename,orientation='portrait',dpi=600)

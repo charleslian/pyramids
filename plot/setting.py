@@ -29,7 +29,11 @@ def getColors(colorList,cmap='jet'):
   colors = sc.to_rgba(np.linspace(0.0,1.0,colorList))
   #colors = sc.to_rgba(np.linspace(0.1,0.9,colorList))
   return colors
-  
+#-------------------------------------------------------------------
+def add_label(index, ax, labelx = -0.00, labely = 1.02, fontsize='x-large'):
+  label = ALPHABET[index]
+  ax.text(labelx, labely, label, transform=ax.transAxes, 
+          fontsize=fontsize,color='k')  
 #------------------------------------------------------------------- 
 def setProperty(ax, **kargs):
   """
@@ -68,11 +72,11 @@ def setProperty(ax, **kargs):
   
   if('vline' in kargs):
     for x in kargs['vline']:
-      ax.axvline(x, color='k',linestyle='-.')
+      ax.axvline(x, color='k',linestyle='--')
     
   if('hline' in kargs):
     for y in kargs['hline']:
-      ax.axhline(y, color='k',linestyle='-.')
+      ax.axhline(y, color='k',linestyle='--')
 
   if('xticks' in kargs):
     ax.set_xticks(kargs['xticks'])
@@ -130,8 +134,10 @@ def setProperty(ax, **kargs):
     ax.set_title(kargs['title'],fontsize=labelsize) 
   
   if kargs['grid']:
-    ax.grid(linestyle='--', linewidth=1, which='major')
-     
+    ax.grid(linestyle='--', linewidth=0.5, which='major')
+    if kargs['minorgrid'] or True:
+      ax.grid(linestyle='--', linewidth=0.3, which='minor')
+    #ax.grid(linestyle='--', linewidth=1, which='both')
   if('xlabel' in kargs) and len(ax.get_xticklabels()) > 0 :
     if ax.get_xticklabels()[0].get_visible():  
       ax.set_xlabel(kargs['xlabel'],fontsize=labelsize) 
@@ -144,11 +150,12 @@ def setProperty(ax, **kargs):
   if kargs['minortick']:
       ax.minorticks_on()
   #print ax.get_xlim(),ax.get_ylim()
-  ax.legend(fontsize='large',loc=loc,frameon=False, ncol=1, fancybox=True, framealpha=0.5)
-
+  ax.legend(fontsize='large', loc=loc, frameon=False, 
+            ncol=kargs['legendNcol'], fancybox=True, framealpha=0.5)
+#
 def getPropertyFromPosition(index=None, xlabel='',ylabel='',title='', 
-                            grid = False, minortick=True, legendLoc = None,
-                            xticks=None, yticks=None, 
+                            grid = False, minorgrid=False, minortick=True, legendLoc = None,
+                            xticks=None, yticks=None, legendNcol = 1, 
                             xticklabels=None, yticklabels=None,
                             xlimits=None, ylimits=None,
                             hline = None, vline = None,
@@ -172,6 +179,8 @@ def getPropertyFromPosition(index=None, xlabel='',ylabel='',title='',
   args['xlabel'] = xlabel
   args['grid'] = grid
   args['minortick'] = minortick
+  args['minorgrid'] = minorgrid
+  args['legendNcol'] = legendNcol
 
   if xticks is not None:
     args['xticks'] = xticks

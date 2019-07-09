@@ -76,16 +76,16 @@ def getcurrentfft(direction, dumping=0.00):
   return  current,energyArray[10:],current_fft_mode[10:]#current,energyArray[76:],current_fft_mode[76:]#to ensure that the nth order is the maximum
   
 #-------------------------------------------------------------------   
-guassFieldEnergy =0.329973
+#guassFieldEnergy =0.329973
 fig1, axs = plt.subplots(2,1,sharey=False,sharex=False,figsize=(8,10))
 colors = ['r','g','b']
-for i, direct in enumerate(['x','0.00056','z']):
-    if not os.path.exists(direct):
-        continue
-    os.chdir(direct)
-    current,energyArray,current_fft_mode = getcurrentfft(i,0.001)
-    print energyArray
-    #energyArray=energyArray/2.5
+#for i, direct in enumerate(['x','0.00056','z']):
+#  if not os.path.exists(direct):
+#      continue
+#  os.chdir(direct)
+current,energyArray,current_fft_mode = getcurrentfft(i,0.001)
+print energyArray
+  #energyArray=energyArray/2.5
 axs[0].semilogy(energyArray/guassFieldEnergy,current_fft_mode,'-',linewidth=2.,color='black',label='y',alpha=0.5)
 axs[1].plot(energyArray/guassFieldEnergy,current_fft_mode,'-',linewidth=2.,color='red',label='y')
 xlimits=[0.5,25]

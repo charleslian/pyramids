@@ -18,7 +18,7 @@ M = 28.08
 R = 8.3144598
 #--------------------------------------------------------------------------------------------
 fig, axs = plt.subplots(2,1,sharex=True,sharey=False,figsize=(6,8))#
-data = scanFolder(action)
+data = scanFolder(action,folders=['0.0025','0.0035','0.0045','0.0055','0.0065'])
 c = ma.getColors(len(data))
 
 
@@ -27,11 +27,14 @@ for line in data:
   index, folder = line[0]
   ax = axs[0]
   ax.plot(line[1][0], line[1][1], lw=3, label=folder, c=c[index])
-  selectedstep = 4000
+  selectedstep = 5000
   t, v = float(folder)/2.0, line[1][1][selectedstep]/line[1][0][selectedstep]*1E3
   #melt_v.append(t, v)
-  vt = np.sqrt(3*R*300/(M*1E-3))*1E-2
-  print t, v, vt, v > vt
+  if index == 0:
+      
+      vt = np.sqrt(3*R*300/(M*1E-3))*1E-2
+      ax.plot(line[1][0],line[1][0]*vt/1E3)
+      print t, line[1][0][selectedstep], v, vt, v - vt
   kargs=ma.getPropertyFromPosition(xlabel='Time (fs)', ylabel=r'$\langle u \rangle^\frac{1}{2}$ ($\AA$)', 
                                    title='RMSD')
   ma.setProperty(ax,**kargs)

@@ -33,7 +33,7 @@ bandin = control[:]
 scfin.insert(ncon+insetline,'    calculation = "scf",\n    restart_mode = "from_scratch",\n')
 scfin.extend(scfkpt)
 
-bandin.insert(ncon+insetline,'    calculation = "bands",\n')
+bandin.insert(ncon+insetline,'    calculation = "bands",\n     restart_mode = "restart",\n ')
 bandin.extend(bandkpt)
 
 
